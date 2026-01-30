@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oxford Master (Fixed)</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    
+    <style>
+        /* --- STYLE PREMIUM --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; display: flex; justify-content: center; align-items: center; }
+        .container { width: 100%; max-width: 900px; background: white; border-radius: 25px; box-shadow: 0 25px 60px rgba(0,0,0,0.4); overflow: hidden; min-height: 85vh; display: flex; flex-direction: column; position: relative; }
+        
+        .header { background: linear-gradient(to right, #667eea, #764ba2); color: white; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 8px 16px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 0.9em; display: flex; align-items: center; gap: 8px; }
+        .nav-btn:hover { background: rgba(255,255,255,0.4); transform: translateY(-2px); }
+
+        .content { padding: 30px; flex-grow: 1; overflow-y: auto; position: relative; }
+        .hidden { display: none !important; }
+        
+        .action-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; font-size: 1em; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 20px; box-shadow: 0 10px 20px rgba(118, 75, 162, 0.3); }
+        .action-btn:hover { transform: translateY(-3px); }
+
+        /* UPLOAD ZONE FIX */
+        .upload-zone { 
+            border: 3px dashed #667eea; border-radius: 20px; padding: 50px; text-align: center; 
+            cursor: pointer; background: #f8faff; transition: 0.3s; display: block; width: 100%;
+        }
+        .upload-zone:hover { background: #eef2ff; border-color: #4f46e5; }
+        .upload-zone:active { transform: scale(0.98); }
+
+        /* UI ELEMENTS */
+        .level-container { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 20px; justify-content: center; }
+        .level-card { min-width: 100px; background: white; border: 2px solid #f0f0f0; border-radius: 20px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; position: relative; }
+        .level-card.active { background: #667eea; color: white; border-color: #667eea; box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3); }
+        .level-card.locked { opacity: 0.6; background: #f9f9f9; cursor: not-allowed; }
+        .level-card.completed { border-color: #4caf50; background: #e8f5e9; color: #2e7d32; }
+        .progress-bar { height: 6px; background: #eee; border-radius: 3px; margin-top: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #4caf50; width: 0%; transition: 0.5s; }
+
+        .question-card { text-align: center; max-width: 600px; margin: 0 auto; animation: fadeUp 0.5s ease; }
+        .word-title { font-size: 3em; font-weight: 800; color: #667eea; margin: 20px 0; text-transform: capitalize; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
+        .option-btn { width: 100%; padding: 18px; background: white; border: 2px solid #f0f0f0; border-radius: 15px; font-size: 1.1em; font-weight: 600; color: #555; cursor: pointer; transition: 0.2s; }
+        .option-btn:hover { border-color: #667eea; background: #f8faff; color: #667eea; }
+        .option-btn.correct { background: #4caf50; border-color: #4caf50; color: white; }
+        .option-btn.wrong { background: #f44336; border-color: #f44336; color: white; }
+        .input-box { width: 100%; padding: 18px; border: 2px solid #e0e0e0; border-radius: 15px; font-size: 1.2em; text-align: center; outline: none; }
+        .feedback-box { margin-top: 20px; padding: 20px; border-radius: 15px; font-weight: bold; display: none; }
+        .feedback-box.correct { background: #e8f5e9; color: #2e7d32; }
+        .feedback-box.wrong { background: #ffebee; color: #c62828; }
+
+        .chapter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .chapter-btn { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s; border: none; text-align: left; border-left: 6px solid #667eea; position: relative; overflow: hidden; }
+        .chapter-btn:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .chapter-btn i { position: absolute; right: 15px; bottom: 15px; font-size: 3em; opacity: 0.1; color: #764ba2; }
+
+        .admin-modal { position: absolute; inset: 0; background: white; z-index: 50; padding: 40px; display: flex; flex-direction: column; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="main-header" class="header hidden">
+            <div class="user-info"><h4 id="user-name">User</h4><small id="stats-info">Lvl: A1 | Words: 0</small></div>
+            <div style="display:flex; gap:10px;">
+                <button onclick="window.toggleAdmin()" class="nav-btn"><i class="fas fa-file-word"></i> Upload Word</button>
+                <button onclick="window.handleLogout()" class="nav-btn" style="background:rgba(255,0,0,0.2); border:none;"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </div>
+
+        <div id="game-header" class="header hidden" style="background: #f8f9fa; color: #333; box-shadow: none; border-bottom: 1px solid #eee;">
+            <div style="display:flex; align-items:center; gap:15px;">
+                <button onclick="window.goHome()" class="nav-btn" style="color:#666; background:none; border:1px solid #ddd; padding:8px;"><i class="fas fa-times"></i></button>
+                <h4 id="chapter-title" style="margin:0;">Quiz</h4>
+            </div>
+            <div style="font-weight:bold; color:#764ba2;">
+                <span id="score-display">0/10</span> <span id="mistakes-display" style="color:#f44336; margin-left:10px; display:none;">Salah: 0</span>
+            </div>
+        </div>
+
+        <div id="login-screen" class="content" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; height:100%;">
+            <div style="background:#e0e7ff; padding:40px; border-radius:50%; margin-bottom:30px;"><i class="fas fa-book" style="font-size:5em; color:#667eea;"></i></div>
+            <h1 style="color:#333; margin-bottom:10px;">Oxford Master Pro</h1><p style="color:#666;">Versi Word Fixed</p>
+            <button onclick="window.handleLogin()" class="action-btn" style="max-width:300px;">Masuk dengan Google</button>
+        </div>
+
+        <div id="dashboard-screen" class="content hidden">
+            <h3 style="color:#555; margin-bottom:20px; text-align:center;">Pilih Level</h3>
+            <div class="level-container" id="level-container"></div>
+            
+            <div id="chapter-container">
+                <h3 style="color:#555; margin:30px 0 20px;">Mode Belajar</h3>
+                <div class="chapter-grid">
+                    <button class="chapter-btn" onclick="window.startChapter(1)"><h3>1. Translation</h3><small>Ketik Arti (Indo)</small><i class="fas fa-keyboard"></i></button>
+                    <button class="chapter-btn" onclick="window.startChapter(2)"><h3>2. Sentence</h3><small>Buat Kalimat</small><i class="fas fa-pen-nib"></i></button>
+                    <button class="chapter-btn" onclick="window.startChapter(3)"><h3>3. Multiple Choice</h3><small>Pilihan Ganda</small><i class="fas fa-list-ul"></i></button>
+                    <button class="chapter-btn" onclick="window.startChapter(4)" style="border-left-color: #2196F3;"><h3>4. Listening</h3><small>Dengar & Ketik</small><i class="fas fa-headphones" style="color:#2196F3;"></i></button>
+                    <button class="chapter-btn" onclick="window.startChapter(5)" style="border-left-color: #9C27B0;"><h3>5. Speaking</h3><small>Ucapkan Kata</small><i class="fas fa-microphone" style="color:#9C27B0;"></i></button>
+                    <button class="chapter-btn" onclick="window.startChapter(7)" style="border-left-color: #ff9800;"><h3>7. Speed Challenge</h3><small>5 Detik</small><i class="fas fa-bolt" style="color:#ff9800;"></i></button>
+                    <button id="btn-final" class="chapter-btn" onclick="window.startChapter(10)" style="grid-column: 1/-1; border-left-color: #f44336; background: #fff5f5;">
+                        <h3 style="color:#d32f2f;">🔥 FINAL TEST</h3><small id="final-status">Terkunci</small><i class="fas fa-flag-checkered" style="color:#d32f2f;"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="locked-msg" class="hidden" style="text-align:center; padding:50px; color:#888;"><i class="fas fa-lock" style="font-size:4em; opacity:0.3;"></i><p>Selesaikan level sebelumnya.</p></div>
+        </div>
+
+        <div id="game-screen" class="content hidden" style="display: flex; align-items: center; justify-content: center;"></div>
+
+        <div id="admin-panel" class="admin-modal hidden">
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px;"><h2>Upload Database</h2><button onclick="window.toggleAdmin()" style="border:none;background:none;font-size:2em;cursor:pointer;">&times;</button></div>
+            
+            <label for="docx-input" class="upload-zone">
+                <i class="fas fa-file-word" style="font-size:4em; color:#2b5797; margin-bottom:15px;"></i>
+                <h3>Pilih File Word (.docx)</h3>
+                <p style="color:#888;">(Oxford A1 Part A-C.docx)</p>
+            </label>
+            <input type="file" id="docx-input" accept=".docx" style="display:none;" onchange="window.handleDOCX(this)">
+
+            <div id="status-box" style="display:none; text-align:center; padding:20px;"><i class="fas fa-spinner fa-spin" style="font-size:2em; color:#667eea;"></i><p id="status-text" style="margin-top:10px;">Membaca...</p></div>
+            <div id="log-area" style="background:#f5f5f5; padding:15px; height:200px; overflow-y:auto; border-radius:10px; font-family:monospace; font-size:0.8em; margin-bottom:20px;">Log Aktivitas...</div>
+            <button onclick="window.clearData()" class="action-btn" style="background:#ef5350;">Reset Semua Data</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // ==========================================
+        // 1. CONFIG FIREBASE
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAS6S_Mv8LzX4bYhIp-lIbDN4OCAOQux6M",
+            authDomain: "oxfordvocabapp-a0719.firebaseapp.com",
+            projectId: "oxfordvocabapp-a0719",
+            storageBucket: "oxfordvocabapp-a0719.firebasestorage.app",
+            messagingSenderId: "135746599162",
+            appId: "1:135746599162:web:df9b550a2cb586b099f143"
+        };
+
+        // Init Firebase
+        let app, auth, db, provider;
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            provider = new GoogleAuthProvider();
+            console.log("✅ Firebase initialized successfully");
+        } catch (e) {
+            console.error("❌ Firebase Error:", e);
+            alert("Error Konfigurasi Firebase. Cek Console.");
+        }
+
+        let currentUser = null, userData = { vocabulary: [], completedLevels: [] }, activeLevel = 'A1';
+        let currentQueue = [], sessionMastered = [], qIndex = 0, score = 0, mistakes = 0, timerInterval;
+        let activeChapId = 1; // TAMBAHKAN INI - variabel yang hilang!
+        const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
+
+        // --- GLOBAL FUNCTIONS ---
+        window.handleLogin = () => {
+            console.log("Login clicked");
+            signInWithPopup(auth, provider).catch(e => {
+                console.error("Login error:", e);
+                alert(e.message);
+            });
+        };
+        
+        window.handleLogout = () => {
+            console.log("Logout clicked");
+            signOut(auth).then(() => location.reload());
+        };
+
+        onAuthStateChanged(auth, async (user) => {
+            console.log("Auth state changed:", user ? user.email : "Not logged in");
+            if (user) {
+                currentUser = user;
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('main-header').classList.remove('hidden');
+                document.getElementById('main-header').style.display = 'flex';
+                document.getElementById('user-name').innerText = user.displayName.split(' ')[0];
+                await loadData();
+            }
+        });
+
+        // --- DATA ---
+        async function loadData() {
+            console.log("Loading data...");
+            const ref = doc(db, "users_v13_docx", currentUser.uid);
+            const snap = await getDoc(ref);
+            if (snap.exists()) {
+                userData = snap.data();
+                if(!userData.completedLevels) userData.completedLevels = [];
+                console.log("Data loaded:", userData.vocabulary.length, "words");
+            } else {
+                userData = { vocabulary: [], completedLevels: [] };
+                await setDoc(ref, userData);
+                console.log("New user, opening admin panel");
+                toggleAdmin();
+            }
+            renderLevels();
+            goHome();
+        }
+
+        async function saveData() { 
+            await updateDoc(doc(db, "users_v13_docx", currentUser.uid), userData); 
+            renderLevels(); 
+        }
+
+        // --- WORD PARSER ---
+        window.handleDOCX = async (input) => {
+            console.log("File selected");
+            if (input.files.length === 0) return;
+            document.getElementById('status-box').style.display = 'block';
+            const log = document.getElementById('log-area');
+            log.innerHTML = "Membaca file...<br>";
+
+            try {
+                const arrayBuffer = await input.files[0].arrayBuffer();
+                const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+                const lines = result.value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+                let count = 0;
+                let currentLevel = "A1"; 
+                const newVocab = [];
+                const existingKeys = new Set(userData.vocabulary.map(v => v.english + "|" + v.pos));
+
+                const regexItem = /^[\u2022\-\*]?\s*(.+?)\s+\((.+?)\)\s*:\s*(.+)$/;
+                const regexLevel = /^Level\s+([A-C][1-2])$/i;
+
+                for (let i = 0; i < lines.length; i++) {
+                    let line = lines[i];
+                    let matchLevel = regexLevel.exec(line);
+                    if (matchLevel) { currentLevel = matchLevel[1].toUpperCase(); continue; }
+
+                    let matchItem = regexItem.exec(line);
+                    if (matchItem) {
+                        const word = matchItem[1].trim();
+                        const pos = matchItem[2].trim();
+                        const meaning = matchItem[3].trim();
+                        
+                        let example = `Example: The word '${word}' is useful.`;
+                        if (i + 1 < lines.length && lines[i+1].toLowerCase().startsWith("example:")) {
+                            example = lines[i+1].replace(/^Example:\s*/i, "").trim();
+                            i++; 
+                        }
+
+                        const uniqueKey = word + "|" + pos;
+
+                        if (!existingKeys.has(uniqueKey)) {
+                            newVocab.push({
+                                english: word,
+                                pos: pos,
+                                indonesian: meaning,
+                                level: currentLevel,
+                                example: example,
+                                mastered: false
+                            });
+                            existingKeys.add(uniqueKey);
+                            count++;
+                        }
+                    }
+                }
+
+                if (count > 0) {
+                    userData.vocabulary = [...userData.vocabulary, ...newVocab];
+                    await saveData();
+                    log.innerHTML += `<b style="color:green">SUKSES! ${count} kata ditambahkan. Total: ${userData.vocabulary.length}</b>`;
+                    alert(`Berhasil! ${count} kata ditambahkan.`);
+                } else {
+                    log.innerHTML += `<b style="color:red">Gagal. Pastikan format: kata (jenis) : arti</b>`;
+                }
+
+            } catch (err) {
+                console.error(err);
+                log.innerHTML += `<b style="color:red">Error: ${err.message}</b>`;
+                alert("Gagal membaca file.");
+            } finally {
+                document.getElementById('status-box').style.display = 'none';
+                input.value = "";
+            }
+        };
+
+        // --- LEVEL & GAME LOGIC ---
+        function renderLevels() {
+            const container = document.getElementById('level-container');
+            container.innerHTML = '';
+            LEVELS.forEach((lvl, idx) => {
+                const words = userData.vocabulary.filter(v => v.level === lvl);
+                const mastered = words.filter(v => v.mastered).length;
+                const total = words.length;
+                const percent = total > 0 ? Math.round((mastered / total) * 100) : 0;
+                
+                let locked = idx > 0 && !userData.completedLevels.includes(LEVELS[idx-1]);
+                if(total===0) locked = false;
+                const isDone = userData.completedLevels.includes(lvl);
+
+                const div = document.createElement('div');
+                div.className = `level-card ${activeLevel === lvl ? 'active' : ''} ${locked ? 'locked' : ''} ${isDone ? 'completed' : ''}`;
+                div.onclick = () => !locked && selectLevel(lvl);
+                div.innerHTML = `<div><b>${lvl}</b></div><small>${mastered}/${total}</small><div class="progress-bar"><div class="progress-fill" style="width:${percent}%"></div></div>`;
+                container.appendChild(div);
+            });
+            updateUI();
+        }
+
+        window.selectLevel = (lvl) => { 
+            console.log("Level selected:", lvl);
+            activeLevel = lvl; 
+            renderLevels(); 
+            updateUI(); 
+        }
+
+        function updateUI() {
+            const words = userData.vocabulary.filter(v => v.level === activeLevel);
+            const mastered = words.filter(v => v.mastered).length;
+            const idx = LEVELS.indexOf(activeLevel);
+            let locked = idx > 0 && !userData.completedLevels.includes(LEVELS[idx-1]) && words.length > 0;
+
+            if (locked) {
+                document.getElementById('chapter-container').classList.add('hidden');
+                document.getElementById('locked-msg').classList.remove('hidden');
+            } else {
+                document.getElementById('chapter-container').classList.remove('hidden');
+                document.getElementById('locked-msg').classList.add('hidden');
+                const btn = document.getElementById('btn-final');
+                const txt = document.getElementById('final-status');
+                if (words.length > 0 && mastered === words.length) {
+                    btn.style.opacity = 1; txt.innerText = "SIAP UJIAN"; txt.style.color="green";
+                } else {
+                    btn.style.opacity = 0.6; txt.innerText = `Kurang ${words.length - mastered} kata`;
+                }
+            }
+            document.getElementById('stats-info').innerText = `Lvl: ${activeLevel} | Total: ${words.length}`;
+        }
+
+        // --- GAMEPLAY ---
+        function shuffle(a) { return a.sort(() => Math.random() - 0.5); }
+
+        window.startChapter = (ch) => {
+            console.log("Starting chapter:", ch);
+            activeChapId = ch;
+            let pool = [];
+            if (ch === 10) {
+                const all = userData.vocabulary.filter(v => v.level === activeLevel);
+                if (all.filter(v=>v.mastered).length < all.length) return alert("Selesaikan level ini dulu!");
+                pool = shuffle(all).slice(0, 20);
+                document.getElementById('mistakes-display').style.display = 'inline';
+            } else {
+                pool = userData.vocabulary.filter(v => v.level === activeLevel && !v.mastered);
+                if (pool.length < 5) return alert("Kata habis/kosong. Upload Word dulu!");
+                pool = shuffle(pool).slice(0, 10);
+                document.getElementById('mistakes-display').style.display = 'none';
+            }
+            currentQueue = pool; sessionMastered = []; qIndex = 0; score = 0; mistakes = 0;
+            document.getElementById('dashboard-screen').classList.add('hidden');
+            document.getElementById('main-header').classList.add('hidden');
+            document.getElementById('game-screen').classList.remove('hidden');
+            document.getElementById('game-header').classList.remove('hidden');
+            renderQ();
+        };
+
+        function renderQ() {
+            if (qIndex >= currentQueue.length || (activeChapId === 10 && mistakes > 3)) return showResult();
+            const w = currentQueue[qIndex];
+            const ch = activeChapId === 10 ? 3 : activeChapId;
+            const dist = shuffle(userData.vocabulary.filter(x => x.english !== w.english)).slice(0, 3);
+            const opts = shuffle([w, ...dist]);
+            const container = document.getElementById('game-screen');
+            const timer = ch === 7 ? `<h1 id="timer" style="color:#f44336;font-size:4em;margin:0;">5</h1>` : '';
+
+            let html = '';
+            if (ch === 1) html = `<div class="question-card"><div class="word-title">${w.english}</div><div class="word-meta">${w.pos}</div><input id="inp" class="input-box" placeholder="Arti..." autocomplete="off" onkeypress="if(event.key==='Enter') window.checkType('${w.indonesian.replace(/'/g, "\\'")}')"><button onclick="window.checkType('${w.indonesian.replace(/'/g, "\\'")}')" class="action-btn">Cek</button><div id="fb" class="feedback-box"></div></div>`;
+            else if (ch === 2) {
+                const masked = w.example.replace(new RegExp(w.english, 'gi'), '_____');
+                html = `<div class="question-card"><div class="word-title">${w.english}</div><p>${w.indonesian}</p><p style="font-style:italic;color:#666;margin:10px 0;">"${masked}"</p><input id="inp" class="input-box" placeholder="Tulis kalimat..." autocomplete="off" onkeypress="if(event.key==='Enter') window.checkSent('${w.english}')"><button onclick="window.checkSent('${w.english}')" class="action-btn">Cek</button><div id="fb" class="feedback-box"></div></div>`;
+            } else if (ch === 3 || ch === 7) {
+                html = `<div class="question-card">${timer}<div class="word-title">${w.english}</div><div class="options-grid">${opts.map(o => `<button class="option-btn" onclick="window.checkBtn(this, '${o.indonesian.replace(/'/g, "\\'")}', '${w.indonesian.replace(/'/g, "\\'")}')">${o.indonesian}</button>`).join('')}</div><div id="fb" class="feedback-box"></div></div>`;
+                if(ch===7) startTimer(5);
+            } else if (ch === 4) {
+                // LISTENING MODE
+                html = `<div class="question-card">
+                    <button onclick="window.playAudio('${w.english}')" class="action-btn" style="width:150px; height:150px; border-radius:50%; font-size:3em; margin:20px auto;">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <p style="color:#888; margin:10px 0;">Dengarkan dan ketik kata yang kamu dengar</p>
+                    <input id="inp" class="input-box" placeholder="Ketik kata yang kamu dengar..." autocomplete="off" onkeypress="if(event.key==='Enter') window.checkListening('${w.english.replace(/'/g, "\\'")}')">
+                    <button onclick="window.checkListening('${w.english.replace(/'/g, "\\'")}')" class="action-btn">Cek</button>
+                    <div id="fb" class="feedback-box"></div>
+                </div>`;
+            } else if (ch === 5) {
+                // SPEAKING MODE
+                html = `<div class="question-card">
+                    <div class="word-title">${w.indonesian}</div>
+                    <p style="color:#888; margin:10px 0;">Ucapkan kata dalam bahasa Inggris</p>
+                    <button id="mic-btn" onclick="window.startSpeaking('${w.english.replace(/'/g, "\\'")}', '${w.indonesian.replace(/'/g, "\\'")}' )" class="action-btn" style="width:150px; height:150px; border-radius:50%; font-size:3em; margin:20px auto; background:#9C27B0;">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <p id="transcript" style="color:#666; min-height:30px; font-style:italic;"></p>
+                    <div id="fb" class="feedback-box"></div>
+                </div>`;
+            }
+            container.innerHTML = html;
+            if(ch<3 || ch===4) setTimeout(() => {
+                const inp = document.getElementById('inp');
+                if(inp) inp.focus();
+            }, 100);
+            if(ch===4) setTimeout(() => window.playAudio(w.english), 300); // Auto play saat pertama kali
+            document.getElementById('score-display').innerText = `${score}/${currentQueue.length}`;
+            if(activeChapId === 10) document.getElementById('mistakes-display').innerText = `Salah: ${mistakes}/3`;
+        }
+
+        window.checkType = (c) => { 
+            const v = document.getElementById('inp').value.toLowerCase(); 
+            showFb(v.length>2&&(c.toLowerCase().includes(v)||v.includes(c.toLowerCase())), c); 
+        }
+        
+        window.checkBtn = (b, s, c) => { 
+            showFb(s===c, c, b); 
+        }
+        
+        window.checkSent = (w) => { 
+            const v = document.getElementById('inp').value.toLowerCase(); 
+            showFb(v.includes(w.toLowerCase())&&v.length>8, "Min 8 huruf & ada kata kunci"); 
+        }
+
+        // LISTENING MODE
+        window.playAudio = (word) => {
+            const utterance = new SpeechSynthesisUtterance(word);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.8; // Slower for better understanding
+            window.speechSynthesis.cancel(); // Stop previous
+            window.speechSynthesis.speak(utterance);
+        }
+
+        window.checkListening = (correctWord) => {
+            const userInput = document.getElementById('inp').value.toLowerCase().trim();
+            const isCorrect = userInput === correctWord.toLowerCase();
+            showFb(isCorrect, correctWord);
+        }
+
+        // SPEAKING MODE
+        let recognition = null;
+        window.startSpeaking = (correctWord, meaning) => {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert('Browser kamu tidak support Speech Recognition. Coba pakai Chrome.');
+                return;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            const micBtn = document.getElementById('mic-btn');
+            const transcript = document.getElementById('transcript');
+            
+            micBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            micBtn.style.background = '#f44336';
+            transcript.innerText = 'Mendengarkan...';
+
+            recognition.onresult = (event) => {
+                const spokenWord = event.results[0][0].transcript.toLowerCase().trim();
+                transcript.innerText = `Kamu bilang: "${spokenWord}"`;
+                
+                setTimeout(() => {
+                    const isCorrect = spokenWord === correctWord.toLowerCase() || 
+                                    spokenWord.includes(correctWord.toLowerCase());
+                    showFb(isCorrect, correctWord);
+                }, 500);
+            };
+
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error:', event.error);
+                micBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+                micBtn.style.background = '#9C27B0';
+                transcript.innerText = 'Error: ' + event.error + '. Coba lagi!';
+            };
+
+            recognition.onend = () => {
+                micBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+                micBtn.style.background = '#9C27B0';
+            };
+
+            recognition.start();
+        }
+
+        function showFb(ok, cor, btn) {
+            clearInterval(timerInterval);
+            const fb = document.getElementById('fb'); fb.style.display='block';
+            if(ok) { 
+                if(btn) btn.classList.add('correct'); 
+                fb.className="feedback-box correct"; 
+                fb.innerText="Benar!"; 
+                score++; 
+                if(activeChapId!==10) sessionMastered.push(currentQueue[qIndex]); 
+            } else { 
+                if(btn) btn.classList.add('wrong'); 
+                if(activeChapId===10) mistakes++; 
+                fb.className="feedback-box wrong"; 
+                fb.innerText=`Salah. Jawabannya: ${cor}`; 
+            }
+            setTimeout(() => { qIndex++; renderQ(); }, 1500);
+        }
+
+        function startTimer(s) { 
+            clearInterval(timerInterval); 
+            let t=s; 
+            timerInterval=setInterval(()=>{
+                t--; 
+                document.getElementById('timer').innerText=t; 
+                if(t<=0) showFb(false, "Waktu Habis");
+            }, 1000); 
+        }
+
+        async function showResult() {
+            let msg="Selesai", col="#667eea";
+            if(activeChapId===10) { 
+                if(mistakes>3) { msg="Gagal ❌"; col="#f44336"; } 
+                else { msg="Lulus! 🎉"; col="#4caf50"; if(!userData.completedLevels.includes(activeLevel)) userData.completedLevels.push(activeLevel); }
+            } else { 
+                if(sessionMastered.length>0) {
+                    sessionMastered.forEach(mWord => {
+                        const target = userData.vocabulary.find(v => v.english === mWord.english && v.pos === mWord.pos);
+                        if(target) target.mastered = true;
+                    });
+                }
+            }
+            await saveData();
+            document.getElementById('game-screen').innerHTML = `<div class="question-card"><h1 style="color:${col}">${msg}</h1><h2>${score} Benar</h2><button onclick="window.goHome()" class="action-btn">Menu</button></div>`;
+            document.getElementById('game-header').classList.add('hidden');
+        }
+
+        window.toggleAdmin = () => {
+            console.log("Toggle admin");
+            document.querySelector('.admin-modal').classList.toggle('hidden');
+        }
+        
+        window.goHome = () => { 
+            console.log("Go home");
+            document.getElementById('dashboard-screen').classList.remove('hidden'); 
+            document.getElementById('game-screen').classList.add('hidden'); 
+            document.getElementById('main-header').classList.remove('hidden'); 
+            document.getElementById('game-header').classList.add('hidden'); 
+            clearInterval(timerInterval); 
+            renderLevels(); 
+        };
+        
+        window.clearData = async () => { 
+            if(confirm("Hapus semua data?")) { 
+                userData.vocabulary=[]; 
+                userData.completedLevels=[]; 
+                await saveData(); 
+                location.reload(); 
+            } 
+        };
+    </script>
+</body>
+</html>
