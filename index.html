@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Oxford Vocab</title>
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2702/2702154.png">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2702/2702154.png">
+    <!-- Favicon - Logo Kamu -->
+    <link rel="icon" type="image/png" href="/logo.png">
+   <link rel="apple-touch-icon" href="/logo.png">
+    <!-- Google Fonts untuk menghindari kotak -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
@@ -15,7 +19,15 @@
     <style>
         /* --- STYLE PREMIUM --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; display: flex; justify-content: center; align-items: center; }
+        body { 
+            font-family: 'Inter', 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            min-height: 100vh; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
         .container { width: 100%; max-width: 900px; background: white; border-radius: 25px; box-shadow: 0 25px 60px rgba(0,0,0,0.4); overflow: hidden; min-height: 85vh; display: flex; flex-direction: column; position: relative; }
         
         .header { background: linear-gradient(to right, #667eea, #764ba2); color: white; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; }
@@ -47,6 +59,7 @@
 
         .question-card { text-align: center; max-width: 600px; margin: 0 auto; animation: fadeUp 0.5s ease; }
         .word-title { font-size: 3em; font-weight: 800; color: #667eea; margin: 20px 0; text-transform: capitalize; }
+        .word-meta { font-size: 0.9em; color: #888; font-style: italic; margin-top: -15px; margin-bottom: 20px; }
         .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
         .option-btn { width: 100%; padding: 18px; background: white; border: 2px solid #f0f0f0; border-radius: 15px; font-size: 1.1em; font-weight: 600; color: #555; cursor: pointer; transition: 0.2s; }
         .option-btn:hover { border-color: #667eea; background: #f8faff; color: #667eea; }
@@ -171,7 +184,7 @@
         // ==========================================
         // ADMIN AUTHORIZATION - HANYA EMAIL INI YANG BISA EDIT
         // ==========================================
-        const ADMIN_EMAIL = "silvianurr32@gmail.com"; // GANTI DENGAN EMAIL KAMU!
+        const ADMIN_EMAIL = "silvianur@students.amikom.ac.id"; // GANTI DENGAN EMAIL KAMU!
         
         function isAdmin() {
             return currentUser && currentUser.email === ADMIN_EMAIL;
@@ -317,24 +330,43 @@
                 const newVocab = [];
                 const existingKeys = new Set(userData.vocabulary.map(v => v.english + "|" + v.pos));
 
-                const regexItem = /^[\u2022\-\*]?\s*(.+?)\s+\((.+?)\)\s*:\s*(.+)$/;
+                // Fungsi untuk membersihkan text dari bullet points dan karakter khusus
+                const cleanText = (text) => {
+                    return text
+                        .replace(/^[\u2022\u2023\u25E6\u2043\u2219\-\*•●○◦▪▫■□▸▹►▻⦿⦾]+\s*/g, '') // Hapus bullet points
+                        .replace(/^[\d]+[\.\)]\s*/g, '') // Hapus numbering (1. 2. 1) 2))
+                        .replace(/[\u200B-\u200D\uFEFF]/g, '') // Hapus zero-width characters
+                        .trim();
+                };
+
+                const regexItem = /^(.+?)\s+\((.+?)\)\s*:\s*(.+)$/;
                 const regexLevel = /^Level\s+([A-C][1-2])$/i;
 
                 for (let i = 0; i < lines.length; i++) {
-                    let line = lines[i];
+                    let line = cleanText(lines[i]);
+                    
+                    // Skip empty lines after cleaning
+                    if (line.length === 0) continue;
+                    
                     let matchLevel = regexLevel.exec(line);
-                    if (matchLevel) { currentLevel = matchLevel[1].toUpperCase(); continue; }
+                    if (matchLevel) { 
+                        currentLevel = matchLevel[1].toUpperCase(); 
+                        continue; 
+                    }
 
                     let matchItem = regexItem.exec(line);
                     if (matchItem) {
-                        const word = matchItem[1].trim();
-                        const pos = matchItem[2].trim();
-                        const meaning = matchItem[3].trim();
+                        const word = cleanText(matchItem[1]);
+                        const pos = cleanText(matchItem[2]);
+                        const meaning = cleanText(matchItem[3]);
                         
                         let example = `Example: The word '${word}' is useful.`;
-                        if (i + 1 < lines.length && lines[i+1].toLowerCase().startsWith("example:")) {
-                            example = lines[i+1].replace(/^Example:\s*/i, "").trim();
-                            i++; 
+                        if (i + 1 < lines.length) {
+                            const nextLine = cleanText(lines[i+1]);
+                            if (nextLine.toLowerCase().startsWith("example:")) {
+                                example = nextLine.replace(/^Example:\s*/i, "").trim();
+                                i++; 
+                            }
                         }
 
                         const uniqueKey = word + "|" + pos;
