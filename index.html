@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oxford Master (Fixed)</title>
+    <title>The Oxford Vocab</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/public/favicon.ico">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2702/2702154.png">
+    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     
@@ -68,7 +73,7 @@
         <div id="main-header" class="header hidden">
             <div class="user-info"><h4 id="user-name">User</h4><small id="stats-info">Lvl: A1 | Words: 0</small></div>
             <div style="display:flex; gap:10px;">
-                <button onclick="window.toggleAdmin()" class="nav-btn"><i class="fas fa-file-word"></i> Upload Word</button>
+                <button id="upload-btn" onclick="window.toggleAdmin()" class="nav-btn" style="display:none;"><i class="fas fa-file-word"></i> Upload Word</button>
                 <button onclick="window.handleLogout()" class="nav-btn" style="background:rgba(255,0,0,0.2); border:none;"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </div>
@@ -85,7 +90,7 @@
 
         <div id="login-screen" class="content" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; height:100%;">
             <div style="background:#e0e7ff; padding:40px; border-radius:50%; margin-bottom:30px;"><i class="fas fa-book" style="font-size:5em; color:#667eea;"></i></div>
-            <h1 style="color:#333; margin-bottom:10px;">Oxford Master Pro</h1><p style="color:#666;">Versi Word Fixed</p>
+            <h1 style="color:#333; margin-bottom:10px;">The Oxford Vocab</h1><p style="color:#666;">Master Your Vocabulary</p>
             <button onclick="window.handleLogin()" class="action-btn" style="max-width:300px;">Masuk dengan Google</button>
         </div>
 
@@ -163,6 +168,15 @@
         let activeChapId = 1; // TAMBAHKAN INI - variabel yang hilang!
         const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
+        // ==========================================
+        // ADMIN AUTHORIZATION - HANYA EMAIL INI YANG BISA EDIT
+        // ==========================================
+        const ADMIN_EMAIL = "silvianurr32@gmail.com"; // GANTI DENGAN EMAIL KAMU!
+        
+        function isAdmin() {
+            return currentUser && currentUser.email === ADMIN_EMAIL;
+        }
+
         // --- GLOBAL FUNCTIONS ---
         window.handleLogin = () => {
             console.log("Login clicked");
@@ -185,6 +199,16 @@
                 document.getElementById('main-header').classList.remove('hidden');
                 document.getElementById('main-header').style.display = 'flex';
                 document.getElementById('user-name').innerText = user.displayName.split(' ')[0];
+                
+                // Show upload button only for admin
+                if (isAdmin()) {
+                    document.getElementById('upload-btn').style.display = 'flex';
+                    console.log("✅ Admin access granted");
+                } else {
+                    document.getElementById('upload-btn').style.display = 'none';
+                    console.log("👤 Regular user (read-only)");
+                }
+                
                 await loadData();
             }
         });
@@ -201,8 +225,13 @@
             } else {
                 userData = { vocabulary: [], completedLevels: [] };
                 await setDoc(ref, userData);
-                console.log("New user, opening admin panel");
-                toggleAdmin();
+                console.log("New user created");
+                
+                // Only open admin panel for admin users
+                if (isAdmin()) {
+                    console.log("Opening admin panel for new admin user");
+                    toggleAdmin();
+                }
             }
             renderLevels();
             goHome();
@@ -215,6 +244,12 @@
 
         // --- WORD PARSER ---
         window.handleDOCX = async (input) => {
+            if (!isAdmin()) {
+                alert("⛔ Akses ditolak! Hanya admin yang bisa upload data.");
+                input.value = "";
+                return;
+            }
+            
             console.log("File selected");
             if (input.files.length === 0) return;
             document.getElementById('status-box').style.display = 'block';
@@ -540,6 +575,10 @@
 
         window.toggleAdmin = () => {
             console.log("Toggle admin");
+            if (!isAdmin()) {
+                alert("⛔ Akses ditolak! Hanya admin yang bisa mengubah data vocabulary.");
+                return;
+            }
             document.querySelector('.admin-modal').classList.toggle('hidden');
         }
         
@@ -553,7 +592,11 @@
             renderLevels(); 
         };
         
-        window.clearData = async () => { 
+        window.clearData = async () => {
+            if (!isAdmin()) {
+                alert("⛔ Akses ditolak! Hanya admin yang bisa reset data.");
+                return;
+            }
             if(confirm("Hapus semua data?")) { 
                 userData.vocabulary=[]; 
                 userData.completedLevels=[]; 
