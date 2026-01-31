@@ -6,7 +6,7 @@
     <title>The Oxford Vocab</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/public/favicon.ico">
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2702/2702154.png">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2702/2702154.png">
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -216,30 +216,81 @@
         // --- DATA ---
         async function loadData() {
             console.log("Loading data...");
-            const ref = doc(db, "users_v13_docx", currentUser.uid);
-            const snap = await getDoc(ref);
-            if (snap.exists()) {
-                userData = snap.data();
-                if(!userData.completedLevels) userData.completedLevels = [];
-                console.log("Data loaded:", userData.vocabulary.length, "words");
+            
+            // Load SHARED VOCABULARY (public untuk semua user)
+            const vocabRef = doc(db, "shared_vocabulary", "oxford_data");
+            const vocabSnap = await getDoc(vocabRef);
+            
+            if (vocabSnap.exists()) {
+                userData.vocabulary = vocabSnap.data().words || [];
+                console.log("✅ Loaded shared vocabulary:", userData.vocabulary.length, "words");
             } else {
-                userData = { vocabulary: [], completedLevels: [] };
-                await setDoc(ref, userData);
-                console.log("New user created");
+                userData.vocabulary = [];
+                console.log("⚠️ No shared vocabulary found");
                 
-                // Only open admin panel for admin users
+                // Create empty shared vocabulary for first time (admin only)
                 if (isAdmin()) {
-                    console.log("Opening admin panel for new admin user");
+                    await setDoc(vocabRef, { words: [] });
+                    console.log("Created empty shared vocabulary");
                     toggleAdmin();
                 }
             }
+            
+            // Load USER PROGRESS (individual untuk tiap user)
+            const userRef = doc(db, "user_progress", currentUser.uid);
+            const userSnap = await getDoc(userRef);
+            
+            if (userSnap.exists()) {
+                const userProgress = userSnap.data();
+                userData.completedLevels = userProgress.completedLevels || [];
+                
+                // Merge user's mastered status with vocabulary
+                if (userProgress.masteredWords) {
+                    userProgress.masteredWords.forEach(masteredKey => {
+                        const word = userData.vocabulary.find(v => v.english + "|" + v.pos === masteredKey);
+                        if (word) word.mastered = true;
+                    });
+                }
+                console.log("✅ Loaded user progress");
+            } else {
+                userData.completedLevels = [];
+                await setDoc(userRef, { completedLevels: [], masteredWords: [] });
+                console.log("Created new user progress");
+            }
+            
             renderLevels();
             goHome();
         }
 
-        async function saveData() { 
-            await updateDoc(doc(db, "users_v13_docx", currentUser.uid), userData); 
-            renderLevels(); 
+        async function saveData() {
+            // Save VOCABULARY (hanya admin yang bisa)
+            if (isAdmin()) {
+                const vocabRef = doc(db, "shared_vocabulary", "oxford_data");
+                // Remove mastered flag before saving (itu per-user)
+                const cleanVocab = userData.vocabulary.map(v => ({
+                    english: v.english,
+                    pos: v.pos,
+                    indonesian: v.indonesian,
+                    level: v.level,
+                    example: v.example
+                }));
+                await setDoc(vocabRef, { words: cleanVocab });
+                console.log("✅ Saved shared vocabulary");
+            }
+            
+            // Save USER PROGRESS (semua user bisa)
+            const userRef = doc(db, "user_progress", currentUser.uid);
+            const masteredWords = userData.vocabulary
+                .filter(v => v.mastered)
+                .map(v => v.english + "|" + v.pos);
+            
+            await setDoc(userRef, {
+                completedLevels: userData.completedLevels,
+                masteredWords: masteredWords
+            });
+            console.log("✅ Saved user progress");
+            
+            renderLevels();
         }
 
         // --- WORD PARSER ---
@@ -597,10 +648,15 @@
                 alert("⛔ Akses ditolak! Hanya admin yang bisa reset data.");
                 return;
             }
-            if(confirm("Hapus semua data?")) { 
-                userData.vocabulary=[]; 
-                userData.completedLevels=[]; 
-                await saveData(); 
+            if(confirm("Hapus semua vocabulary? (Progress user lain tetap aman)")) { 
+                // Reset shared vocabulary
+                const vocabRef = doc(db, "shared_vocabulary", "oxford_data");
+                await setDoc(vocabRef, { words: [] });
+                
+                // Reset admin's progress
+                const userRef = doc(db, "user_progress", currentUser.uid);
+                await setDoc(userRef, { completedLevels: [], masteredWords: [] });
+                
                 location.reload(); 
             } 
         };
