@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Oxford Vocab</title>
     
-    <!-- Favicon - Logo Kamu -->
     <link rel="icon" type="image/png" href="/logo.png">
-   <link rel="apple-touch-icon" href="/logo.png">
+    <link rel="apple-touch-icon" href="/logo.png">
+    
     <!-- Google Fonts untuk menghindari kotak -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,6 +69,7 @@
         .feedback-box { margin-top: 20px; padding: 20px; border-radius: 15px; font-weight: bold; display: none; }
         .feedback-box.correct { background: #e8f5e9; color: #2e7d32; }
         .feedback-box.wrong { background: #ffebee; color: #c62828; }
+        .feedback-box.almost { background: #fff3cd; color: #856404; border: 2px solid #ffc107; }
 
         .chapter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
         .chapter-btn { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s; border: none; text-align: left; border-left: 6px solid #667eea; position: relative; overflow: hidden; }
@@ -115,7 +116,7 @@
                 <h3 style="color:#555; margin:30px 0 20px;">Mode Belajar</h3>
                 <div class="chapter-grid">
                     <button class="chapter-btn" onclick="window.startChapter(1)"><h3>1. Translation</h3><small>Ketik Arti (Indo)</small><i class="fas fa-keyboard"></i></button>
-                    <button class="chapter-btn" onclick="window.startChapter(2)"><h3>2. Sentence</h3><small>Buat Kalimat</small><i class="fas fa-pen-nib"></i></button>
+                    <button class="chapter-btn" onclick="window.startChapter(2)"><h3>2. Fill the Blank</h3><small>Lengkapi Kalimat</small><i class="fas fa-pen"></i></button>
                     <button class="chapter-btn" onclick="window.startChapter(3)"><h3>3. Multiple Choice</h3><small>Pilihan Ganda</small><i class="fas fa-list-ul"></i></button>
                     <button class="chapter-btn" onclick="window.startChapter(4)" style="border-left-color: #2196F3;"><h3>4. Listening</h3><small>Dengar & Ketik</small><i class="fas fa-headphones" style="color:#2196F3;"></i></button>
                     <button class="chapter-btn" onclick="window.startChapter(5)" style="border-left-color: #9C27B0;"><h3>5. Speaking</h3><small>Ucapkan Kata</small><i class="fas fa-microphone" style="color:#9C27B0;"></i></button>
@@ -494,10 +495,24 @@
             const timer = ch === 7 ? `<h1 id="timer" style="color:#f44336;font-size:4em;margin:0;">5</h1>` : '';
 
             let html = '';
-            if (ch === 1) html = `<div class="question-card"><div class="word-title">${w.english}</div><div class="word-meta">${w.pos}</div><input id="inp" class="input-box" placeholder="Arti..." autocomplete="off" onkeypress="if(event.key==='Enter') window.checkType('${w.indonesian.replace(/'/g, "\\'")}')"><button onclick="window.checkType('${w.indonesian.replace(/'/g, "\\'")}')" class="action-btn">Cek</button><div id="fb" class="feedback-box"></div></div>`;
+            if (ch === 1) html = `<div class="question-card"><div class="word-title">${w.english}</div><input id="inp" class="input-box" placeholder="Arti..." autocomplete="off" onkeypress="if(event.key==='Enter') window.checkType('${w.indonesian.replace(/'/g, "\\'")}')"><button onclick="window.checkType('${w.indonesian.replace(/'/g, "\\'")}')" class="action-btn">Cek</button><div id="fb" class="feedback-box"></div></div>`;
             else if (ch === 2) {
+                // FILL IN THE BLANK - Kata hilang, user harus isi
                 const masked = w.example.replace(new RegExp(w.english, 'gi'), '_____');
-                html = `<div class="question-card"><div class="word-title">${w.english}</div><p>${w.indonesian}</p><p style="font-style:italic;color:#666;margin:10px 0;">"${masked}"</p><input id="inp" class="input-box" placeholder="Tulis kalimat..." autocomplete="off" onkeypress="if(event.key==='Enter') window.checkSent('${w.english}')"><button onclick="window.checkSent('${w.english}')" class="action-btn">Cek</button><div id="fb" class="feedback-box"></div></div>`;
+                html = `<div class="question-card">
+                    <h3 style="color:#555; margin-bottom:10px;">Lengkapi kalimat dengan kata yang tepat:</h3>
+                    <div style="background:#f5f5f5; padding:20px; border-radius:15px; margin:20px 0; font-size:1.2em; line-height:1.6; color:#333;">
+                        "${masked}"
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center; justify-content:center; margin:15px 0;">
+                        <span style="background:#e3f2fd; padding:8px 15px; border-radius:10px; font-size:0.9em; color:#1976d2;">
+                            <i class="fas fa-lightbulb"></i> Hint: <b>${w.pos}</b> - ${w.indonesian}
+                        </span>
+                    </div>
+                    <input id="inp" class="input-box" placeholder="Ketik kata yang tepat..." autocomplete="off" onkeypress="if(event.key==='Enter') window.checkFillBlank('${w.english.replace(/'/g, "\\'")}')">
+                    <button onclick="window.checkFillBlank('${w.english.replace(/'/g, "\\'")}')" class="action-btn">Cek Jawaban</button>
+                    <div id="fb" class="feedback-box"></div>
+                </div>`;
             } else if (ch === 3 || ch === 7) {
                 html = `<div class="question-card">${timer}<div class="word-title">${w.english}</div><div class="options-grid">${opts.map(o => `<button class="option-btn" onclick="window.checkBtn(this, '${o.indonesian.replace(/'/g, "\\'")}', '${w.indonesian.replace(/'/g, "\\'")}')">${o.indonesian}</button>`).join('')}</div><div id="fb" class="feedback-box"></div></div>`;
                 if(ch===7) startTimer(5);
@@ -535,8 +550,49 @@
         }
 
         window.checkType = (c) => { 
-            const v = document.getElementById('inp').value.toLowerCase(); 
-            showFb(v.length>2&&(c.toLowerCase().includes(v)||v.includes(c.toLowerCase())), c); 
+            const userInput = document.getElementById('inp').value.trim();
+            const userLower = userInput.toLowerCase();
+            const correctLower = c.toLowerCase();
+            
+            // Check if answer is contained or contains the correct answer
+            if (userLower.length > 2 && (correctLower.includes(userLower) || userLower.includes(correctLower))) {
+                showFb(true, c);
+                return;
+            }
+            
+            // Normalize: remove hyphens
+            const normalizeWord = (word) => word.toLowerCase().replace(/[-\s]/g, '');
+            const normalizedUser = normalizeWord(userInput);
+            const normalizedCorrect = normalizeWord(c);
+            
+            // Check with normalization
+            if (normalizedUser.length > 2 && (normalizedCorrect.includes(normalizedUser) || normalizedUser.includes(normalizedCorrect))) {
+                showFb(true, c);
+                return;
+            }
+            
+            // Typo detection for longer words
+            if (normalizedUser.length >= 3) {
+                const distance = getLevenshteinDistance(normalizedUser, normalizedCorrect);
+                const threshold = Math.ceil(normalizedCorrect.length * 0.25); // 25% tolerance for translation
+                
+                if (distance > 0 && distance <= threshold) {
+                    const fb = document.getElementById('fb');
+                    fb.style.display = 'block';
+                    fb.className = "feedback-box";
+                    fb.style.background = "#fff3cd";
+                    fb.style.color = "#856404";
+                    fb.innerHTML = `⚠️ Hampir benar! Cek lagi penulisannya.<br><small>Jawabannya: <b>${c}</b></small>`;
+                    
+                    setTimeout(() => { 
+                        qIndex++; 
+                        renderQ(); 
+                    }, 2500);
+                    return;
+                }
+            }
+            
+            showFb(false, c);
         }
         
         window.checkBtn = (b, s, c) => { 
@@ -546,6 +602,78 @@
         window.checkSent = (w) => { 
             const v = document.getElementById('inp').value.toLowerCase(); 
             showFb(v.includes(w.toLowerCase())&&v.length>8, "Min 8 huruf & ada kata kunci"); 
+        }
+
+        // FILL IN THE BLANK - Check if user typed the correct word
+        window.checkFillBlank = (correctWord) => {
+            const userInput = document.getElementById('inp').value.trim();
+            
+            // Normalize: remove hyphens and convert to lowercase
+            const normalizeWord = (word) => word.toLowerCase().replace(/[-\s]/g, '');
+            
+            const normalizedUser = normalizeWord(userInput);
+            const normalizedCorrect = normalizeWord(correctWord);
+            
+            // Check exact match (with normalization)
+            if (normalizedUser === normalizedCorrect) {
+                showFb(true, `Benar! "${correctWord}"`);
+                return;
+            }
+            
+            // Check if almost correct (typo detection using Levenshtein distance)
+            const distance = getLevenshteinDistance(normalizedUser, normalizedCorrect);
+            const threshold = Math.ceil(normalizedCorrect.length * 0.2); // 20% tolerance
+            
+            if (distance > 0 && distance <= threshold && normalizedUser.length >= 3) {
+                // Almost correct - give partial credit
+                const fb = document.getElementById('fb');
+                fb.style.display = 'block';
+                fb.className = "feedback-box";
+                fb.style.background = "#fff3cd";
+                fb.style.color = "#856404";
+                fb.innerHTML = `⚠️ Hampir benar! Cek lagi penulisannya.<br><small>Jawabannya: <b>${correctWord}</b></small>`;
+                
+                setTimeout(() => { 
+                    qIndex++; 
+                    renderQ(); 
+                }, 2500);
+                return;
+            }
+            
+            // Wrong answer
+            showFb(false, `Kata yang tepat: "${correctWord}"`);
+        }
+        
+        // Levenshtein Distance - detect typo similarity
+        function getLevenshteinDistance(a, b) {
+            if (a.length === 0) return b.length;
+            if (b.length === 0) return a.length;
+            
+            const matrix = [];
+            
+            for (let i = 0; i <= b.length; i++) {
+                matrix[i] = [i];
+            }
+            
+            for (let j = 0; j <= a.length; j++) {
+                matrix[0][j] = j;
+            }
+            
+            for (let i = 1; i <= b.length; i++) {
+                for (let j = 1; j <= a.length; j++) {
+                    if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1, // substitution
+                            matrix[i][j - 1] + 1,     // insertion
+                            matrix[i - 1][j] + 1      // deletion
+                        );
+                    }
+                }
+            }
+            
+            return matrix[b.length][a.length];
         }
 
         // LISTENING MODE
@@ -558,9 +686,41 @@
         }
 
         window.checkListening = (correctWord) => {
-            const userInput = document.getElementById('inp').value.toLowerCase().trim();
-            const isCorrect = userInput === correctWord.toLowerCase();
-            showFb(isCorrect, correctWord);
+            const userInput = document.getElementById('inp').value.trim();
+            
+            // Normalize: remove hyphens and convert to lowercase
+            const normalizeWord = (word) => word.toLowerCase().replace(/[-\s]/g, '');
+            
+            const normalizedUser = normalizeWord(userInput);
+            const normalizedCorrect = normalizeWord(correctWord);
+            
+            // Check exact match (with normalization)
+            if (normalizedUser === normalizedCorrect) {
+                showFb(true, correctWord);
+                return;
+            }
+            
+            // Check if almost correct (typo detection)
+            const distance = getLevenshteinDistance(normalizedUser, normalizedCorrect);
+            const threshold = Math.ceil(normalizedCorrect.length * 0.2); // 20% tolerance
+            
+            if (distance > 0 && distance <= threshold && normalizedUser.length >= 3) {
+                // Almost correct
+                const fb = document.getElementById('fb');
+                fb.style.display = 'block';
+                fb.className = "feedback-box";
+                fb.style.background = "#fff3cd";
+                fb.style.color = "#856404";
+                fb.innerHTML = `⚠️ Hampir benar! Cek lagi penulisannya.<br><small>Jawabannya: <b>${correctWord}</b></small>`;
+                
+                setTimeout(() => { 
+                    qIndex++; 
+                    renderQ(); 
+                }, 2500);
+                return;
+            }
+            
+            showFb(false, correctWord);
         }
 
         // SPEAKING MODE
