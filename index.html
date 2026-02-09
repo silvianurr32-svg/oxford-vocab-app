@@ -1,193 +1,894 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CEFRix - English Mastery Platform</title>
     
-    
-    <!-- Favicon - Logo CEFRix -->
+    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/logo.jpg">
     <link rel="apple-touch-icon" href="/logo.jpg">
     
-    <!-- Google Fonts untuk menghindari kotak -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Mammoth for DOCX parsing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     
     <style>
-        /* --- STYLE PREMIUM --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Inter', 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif; 
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%); 
-            min-height: 100vh; 
-            padding: 20px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .container { width: 100%; max-width: 900px; background: white; border-radius: 25px; box-shadow: 0 25px 60px rgba(0,0,0,0.4); overflow: hidden; min-height: 85vh; display: flex; flex-direction: column; position: relative; }
         
-        .header { background: linear-gradient(to right, #2563eb, #3b82f6); color: white; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; }
-        .nav-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 8px 16px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 0.9em; display: flex; align-items: center; gap: 8px; }
-        .nav-btn:hover { background: rgba(255,255,255,0.4); transform: translateY(-2px); }
-
-        .content { padding: 30px; flex-grow: 1; overflow-y: auto; position: relative; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #ffffff;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        /* Utility Classes */
         .hidden { display: none !important; }
         
-        .action-btn { 
-            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%); 
-            color: white; 
-            border: none; 
-            padding: 16px 32px; 
-            border-radius: 12px; 
-            font-weight: 600; 
-            font-size: 1em; 
-            cursor: pointer; 
-            transition: all 0.3s ease; 
-            width: 100%; 
-            margin-top: 20px; 
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
-            letter-spacing: 0.01em;
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
-        .action-btn:hover { 
-            transform: translateY(-2px); 
+        
+        /* Landing Page */
+        .landing-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .hero-section {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        .logo-container {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2);
+        }
+        
+        .logo-container img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+        }
+        
+        .brand-name {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 2px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .brand-name .cefr {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #1e293b;
+            letter-spacing: -0.03em;
+        }
+        
+        .brand-name .ix {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #2563eb;
+            letter-spacing: -0.03em;
+        }
+        
+        .tagline {
+            color: #64748b;
+            font-size: 0.875rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 3rem;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
             box-shadow: 0 15px 35px rgba(37, 99, 235, 0.4);
         }
-
-        /* UPLOAD ZONE FIX */
-        .upload-zone { 
-            border: 3px dashed #667eea; border-radius: 20px; padding: 50px; text-align: center; 
-            cursor: pointer; background: #f8faff; transition: 0.3s; display: block; width: 100%;
+        
+        /* Dashboard */
+        .dashboard {
+            min-height: 100vh;
+            background: #f8fafc;
+            padding: 2rem 0;
         }
-        .upload-zone:hover { background: #eef2ff; border-color: #4f46e5; }
-        .upload-zone:active { transform: scale(0.98); }
-
-        /* UI ELEMENTS */
-        .level-container { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 20px; justify-content: center; }
-        .level-card { min-width: 100px; background: white; border: 2px solid #f0f0f0; border-radius: 20px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; position: relative; }
-        .level-card.active { background: #2563eb; color: white; border-color: #2563eb; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); }
-        .level-card.locked { opacity: 0.6; background: #f9f9f9; cursor: not-allowed; }
-        .level-card.completed { border-color: #4caf50; background: #e8f5e9; color: #2e7d32; }
-        .progress-bar { height: 6px; background: #eee; border-radius: 3px; margin-top: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; background: #4caf50; width: 0%; transition: 0.5s; }
-
-        .question-card { text-align: center; max-width: 600px; margin: 0 auto; animation: fadeUp 0.5s ease; }
-        .word-title { font-size: 3em; font-weight: 800; color: #2563eb; margin: 20px 0; text-transform: capitalize; letter-spacing: -0.02em; }
-        .word-meta { font-size: 0.9em; color: #888; font-style: italic; margin-top: -15px; margin-bottom: 20px; }
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
-        .option-btn { width: 100%; padding: 18px; background: white; border: 2px solid #f0f0f0; border-radius: 15px; font-size: 1.1em; font-weight: 600; color: #555; cursor: pointer; transition: 0.2s; }
-        .option-btn:hover { border-color: #2563eb; background: #eff6ff; color: #2563eb; }
-        .option-btn.correct { background: #4caf50; border-color: #4caf50; color: white; }
-        .option-btn.wrong { background: #f44336; border-color: #f44336; color: white; }
-        .input-box { width: 100%; padding: 18px; border: 2px solid #e0e0e0; border-radius: 15px; font-size: 1.2em; text-align: center; outline: none; }
-        .feedback-box { margin-top: 20px; padding: 20px; border-radius: 15px; font-weight: bold; display: none; }
-        .feedback-box.correct { background: #e8f5e9; color: #2e7d32; }
-        .feedback-box.wrong { background: #ffebee; color: #c62828; }
-        .feedback-box.almost { background: #fff3cd; color: #856404; border: 2px solid #ffc107; }
-
-        .chapter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .chapter-btn { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); cursor: pointer; transition: all 0.3s ease; border: none; text-align: left; border-left: 6px solid #2563eb; position: relative; overflow: hidden; }
-        .chapter-btn:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.12); }
-        .chapter-btn i { position: absolute; right: 15px; bottom: 15px; font-size: 3em; opacity: 0.1; color: #3b82f6; }
-
-        .admin-modal { position: absolute; inset: 0; background: white; z-index: 50; padding: 40px; display: flex; flex-direction: column; }
-
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .dashboard-header {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.5rem 0;
+            margin-bottom: 3rem;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-brand {
+            display: flex;
+            align-items: baseline;
+            gap: 2px;
+        }
+        
+        .header-brand .cefr {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #1e293b;
+            letter-spacing: -0.03em;
+        }
+        
+        .header-brand .ix {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #2563eb;
+            letter-spacing: -0.03em;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        
+        .btn-icon {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #475569;
+        }
+        
+        .btn-icon:hover {
+            border-color: #cbd5e1;
+            background: #f8fafc;
+        }
+        
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+        
+        /* Level Cards */
+        .levels-section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .levels-grid {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+        
+        .level-card {
+            background: white;
+            border: 2px solid #f1f5f9;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            min-width: 140px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .level-card:hover {
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .level-card.active {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: white;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
+        }
+        
+        .level-card.completed {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+        
+        .level-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .level-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .level-progress {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 0.75rem;
+        }
+        
+        .level-card.active .level-progress {
+            color: #e0e7ff;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: #f1f5f9;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .level-card.active .progress-bar {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #10b981;
+            transition: width 0.5s ease;
+        }
+        
+        .level-card.active .progress-fill {
+            background: white;
+        }
+        
+        /* Learning Modes */
+        .modes-section {
+            margin-bottom: 3rem;
+        }
+        
+        .modes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .mode-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            border-left: 6px solid #2563eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+        
+        .mode-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+        
+        .mode-card small {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        
+        .mode-card i {
+            position: absolute;
+            right: 1.5rem;
+            bottom: 1.5rem;
+            font-size: 3rem;
+            opacity: 0.08;
+            color: #2563eb;
+        }
+        
+        .mode-card.listening { border-left-color: #2563eb; }
+        .mode-card.speaking { border-left-color: #7c3aed; }
+        .mode-card.speed { border-left-color: #f59e0b; }
+        .mode-card.final { 
+            border-left-color: #ef4444; 
+            background: #fef2f2;
+            grid-column: 1 / -1;
+        }
+        
+        .mode-card.final h3 {
+            color: #dc2626;
+        }
+        
+        /* Game Screen */
+        .game-screen {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .game-header {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .game-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .btn-back {
+            background: none;
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            color: #64748b;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .btn-back:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+        
+        .game-score {
+            font-weight: 700;
+            color: #2563eb;
+            font-size: 1.125rem;
+        }
+        
+        .question-card {
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        .word-display {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #2563eb;
+            margin: 2rem 0;
+            letter-spacing: -0.02em;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.75rem;
+            font-size: 1.125rem;
+            text-align: center;
+            outline: none;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .input-field:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .option-btn {
+            padding: 1.25rem 1.5rem;
+            background: white;
+            border: 2px solid #f1f5f9;
+            border-radius: 0.75rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option-btn:hover {
+            border-color: #2563eb;
+            background: #eff6ff;
+            color: #2563eb;
+        }
+        
+        .option-btn.correct {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+        
+        .option-btn.wrong {
+            background: #ef4444;
+            border-color: #ef4444;
+            color: white;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            width: 100%;
+            max-width: 300px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+        }
+        
+        .feedback-box {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .feedback-box.correct {
+            background: #ecfdf5;
+            color: #059669;
+            border: 2px solid #10b981;
+        }
+        
+        .feedback-box.wrong {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 2px solid #ef4444;
+        }
+        
+        .feedback-box.almost {
+            background: #fffbeb;
+            color: #d97706;
+            border: 2px solid #f59e0b;
+        }
+        
+        /* Admin Panel */
+        .admin-modal {
+            position: fixed;
+            inset: 0;
+            background: white;
+            z-index: 1000;
+            padding: 3rem;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .modal-header h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1e293b;
+        }
+        
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #94a3b8;
+            transition: color 0.2s;
+        }
+        
+        .btn-close:hover {
+            color: #64748b;
+        }
+        
+        .upload-zone {
+            border: 3px dashed #cbd5e1;
+            border-radius: 1rem;
+            padding: 4rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            background: #f8fafc;
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+        }
+        
+        .upload-zone:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+        }
+        
+        .upload-zone i {
+            font-size: 4rem;
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+        
+        .log-area {
+            background: #f1f5f9;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            height: 200px;
+            overflow-y: auto;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        
+        /* Hint Box */
+        .hint-box {
+            background: #eff6ff;
+            border: 2px solid #bfdbfe;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            margin: 1.5rem 0;
+            display: inline-block;
+        }
+        
+        .hint-box i {
+            color: #2563eb;
+            margin-right: 0.5rem;
+        }
+        
+        .sentence-display {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 1rem;
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: #334155;
+            margin: 2rem 0;
+            font-style: italic;
+        }
+        
+        /* Audio Button */
+        .audio-btn {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            border: none;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            margin: 2rem auto;
+            display: block;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .audio-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(37, 99, 235, 0.4);
+        }
+        
+        /* Mic Button */
+        .mic-btn {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+            border: none;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            margin: 2rem auto;
+            display: block;
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .mic-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(124, 58, 237, 0.4);
+        }
+        
+        .mic-btn.recording {
+            background: #ef4444;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .transcript {
+            color: #64748b;
+            min-height: 30px;
+            font-style: italic;
+            margin-top: 1rem;
+        }
+        
+        /* Timer */
+        .timer-display {
+            font-size: 5rem;
+            font-weight: 800;
+            color: #ef4444;
+            margin: 1rem 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .brand-name .cefr,
+            .brand-name .ix {
+                font-size: 3rem;
+            }
+            
+            .modes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .word-display {
+                font-size: 2.5rem;
+            }
+        }
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <div id="main-header" class="header hidden">
-            <div class="user-info"><h4 id="user-name">User</h4><small id="stats-info">Lvl: A1 | Words: 0</small></div>
-            <div style="display:flex; gap:10px;">
-                <button id="upload-btn" onclick="window.toggleAdmin()" class="nav-btn" style="display:none;"><i class="fas fa-file-word"></i> Upload Word</button>
-                <button onclick="window.handleLogout()" class="nav-btn" style="background:rgba(255,0,0,0.2); border:none;"><i class="fas fa-sign-out-alt"></i></button>
+    <!-- Landing Page -->
+    <div id="landing-page" class="landing-page">
+        <div class="hero-section">
+            <div class="logo-container">
+                <img src="/logo.jpg" alt="CEFRix Logo" id="landing-logo">
             </div>
+            <div class="brand-name">
+                <span class="cefr">CEFR</span>
+                <span class="ix">ix</span>
+            </div>
+            <p class="tagline">English Mastery Platform</p>
+            <button class="cta-button" onclick="handleLogin()">
+                <i class="fab fa-google"></i>
+                Sign in with Google
+            </button>
         </div>
+    </div>
 
-        <div id="game-header" class="header hidden" style="background: #f8f9fa; color: #333; box-shadow: none; border-bottom: 1px solid #eee;">
-            <div style="display:flex; align-items:center; gap:15px;">
-                <button onclick="window.goHome()" class="nav-btn" style="color:#666; background:none; border:1px solid #ddd; padding:8px;"><i class="fas fa-times"></i></button>
-                <h4 id="chapter-title" style="margin:0;">Quiz</h4>
-            </div>
-            <div style="font-weight:bold; color:#764ba2;">
-                <span id="score-display">0/10</span> <span id="mistakes-display" style="color:#f44336; margin-left:10px; display:none;">Salah: 0</span>
-            </div>
-        </div>
-
-        <div id="login-screen" class="content" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; height:100%;">
-            <div style="background:linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); padding:50px; border-radius:50%; margin-bottom:40px; box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15);">
-                <img src="/logo.jpg" alt="CEFRix Logo" style="width:100px; height:100px; object-fit:contain;">
-            </div>
-            <div class="flex flex-col items-center">
-                <div style="display:flex; align-items:baseline; gap:2px; margin-bottom:12px;">
-                    <span style="font-size:3.5em; font-weight:800; color:#1e293b; letter-spacing:-0.03em;">CEFR</span>
-                    <span style="font-size:3.5em; font-weight:800; color:#2563eb; letter-spacing:-0.03em;">ix</span>
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard hidden">
+        <div class="dashboard-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="header-brand">
+                        <span class="cefr">CEFR</span>
+                        <span class="ix">ix</span>
+                    </div>
+                    <div class="header-actions">
+                        <div class="user-info">
+                            <div class="user-avatar" id="user-avatar">U</div>
+                            <span id="user-name-header"></span>
+                        </div>
+                        <button class="btn-icon btn-primary" onclick="toggleAdmin()" id="upload-btn" style="display:none;">
+                            <i class="fas fa-upload"></i> Upload
+                        </button>
+                        <button class="btn-icon" onclick="handleLogout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
                 </div>
-                <p style="color:#64748b; font-size:0.9em; letter-spacing:0.1em; text-transform:uppercase; font-weight:500;">English Mastery Platform</p>
             </div>
-            <button onclick="window.handleLogin()" class="action-btn" style="max-width:320px; margin-top:40px;">Masuk dengan Google</button>
         </div>
 
-        <div id="dashboard-screen" class="content hidden">
-            <div style="text-align:center; margin-bottom:30px;">
-                <div style="display:flex; align-items:baseline; gap:2px; justify-content:center; margin-bottom:8px;">
-                    <span style="font-size:2em; font-weight:800; color:#1e293b; letter-spacing:-0.03em;">CEFR</span>
-                    <span style="font-size:2em; font-weight:800; color:#2563eb; letter-spacing:-0.03em;">ix</span>
-                </div>
-                <p style="color:#64748b; font-size:0.85em; letter-spacing:0.05em; text-transform:uppercase;">Choose Your Level</p>
+        <div class="container">
+            <!-- Levels Section -->
+            <div class="levels-section">
+                <h2 class="section-title">Choose Your Level</h2>
+                <div class="levels-grid" id="levels-grid"></div>
             </div>
-            <div class="level-container" id="level-container"></div>
-            
-            <div id="chapter-container">
-                <h3 style="color:#1e293b; margin:40px 0 24px; font-size:1.3em; font-weight:700;">Learning Modes</h3>
-                <div class="chapter-grid">
-                    <button class="chapter-btn" onclick="window.startChapter(1)"><h3>1. Translation</h3><small>Ketik Arti (Indo)</small><i class="fas fa-keyboard"></i></button>
-                    <button class="chapter-btn" onclick="window.startChapter(2)"><h3>2. Fill the Blank</h3><small>Lengkapi Kalimat</small><i class="fas fa-pen"></i></button>
-                    <button class="chapter-btn" onclick="window.startChapter(3)"><h3>3. Multiple Choice</h3><small>Pilihan Ganda</small><i class="fas fa-list-ul"></i></button>
-                    <button class="chapter-btn" onclick="window.startChapter(4)" style="border-left-color: #2563eb;"><h3>4. Listening</h3><small>Dengar & Ketik</small><i class="fas fa-headphones" style="color:#2563eb;"></i></button>
-                    <button class="chapter-btn" onclick="window.startChapter(5)" style="border-left-color: #7c3aed;"><h3>5. Speaking</h3><small>Ucapkan Kata</small><i class="fas fa-microphone" style="color:#7c3aed;"></i></button>
-                    <button class="chapter-btn" onclick="window.startChapter(7)" style="border-left-color: #f59e0b;"><h3>7. Speed Challenge</h3><small>5 Detik</small><i class="fas fa-bolt" style="color:#f59e0b;"></i></button>
-                    <button id="btn-final" class="chapter-btn" onclick="window.startChapter(10)" style="grid-column: 1/-1; border-left-color: #ef4444; background: #fef2f2;">
-                        <h3 style="color:#dc2626;">🔥 FINAL TEST</h3><small id="final-status">Terkunci</small><i class="fas fa-flag-checkered" style="color:#dc2626;"></i>
+
+            <!-- Learning Modes -->
+            <div class="modes-section" id="modes-section">
+                <h2 class="section-title">Learning Modes</h2>
+                <div class="modes-grid">
+                    <div class="mode-card" onclick="startChapter(1)">
+                        <h3>1. Translation</h3>
+                        <small>Type the Indonesian meaning</small>
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div class="mode-card" onclick="startChapter(2)">
+                        <h3>2. Fill the Blank</h3>
+                        <small>Complete the sentence</small>
+                        <i class="fas fa-pen"></i>
+                    </div>
+                    <div class="mode-card" onclick="startChapter(3)">
+                        <h3>3. Multiple Choice</h3>
+                        <small>Choose the correct answer</small>
+                        <i class="fas fa-list-check"></i>
+                    </div>
+                    <div class="mode-card listening" onclick="startChapter(4)">
+                        <h3>4. Listening</h3>
+                        <small>Listen and type</small>
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <div class="mode-card speaking" onclick="startChapter(5)">
+                        <h3>5. Speaking</h3>
+                        <small>Speak the word</small>
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <div class="mode-card speed" onclick="startChapter(7)">
+                        <h3>7. Speed Challenge</h3>
+                        <small>5 seconds per question</small>
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="mode-card final" onclick="startChapter(10)">
+                        <h3>🔥 Final Test</h3>
+                        <small id="final-status">Complete all words to unlock</small>
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Locked Message -->
+            <div id="locked-msg" class="hidden" style="text-align:center; padding:4rem;">
+                <i class="fas fa-lock" style="font-size:5rem; color:#cbd5e1; margin-bottom:1rem;"></i>
+                <p style="color:#64748b; font-size:1.125rem;">Complete the previous level to unlock</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-container" class="hidden">
+        <div class="dashboard-header game-header">
+            <div class="container">
+                <div class="game-header-content">
+                    <button class="btn-back" onclick="goHome()">
+                        <i class="fas fa-arrow-left"></i> Back
                     </button>
+                    <div class="game-score">
+                        <span id="score-display">0/10</span>
+                        <span id="mistakes-display" style="display:none; margin-left:1rem; color:#ef4444;"></span>
+                    </div>
                 </div>
             </div>
-            <div id="locked-msg" class="hidden" style="text-align:center; padding:50px; color:#94a3b8;"><i class="fas fa-lock" style="font-size:4em; opacity:0.3;"></i><p>Selesaikan level sebelumnya.</p></div>
         </div>
+        
+        <div class="container">
+            <div class="game-screen" id="game-screen"></div>
+        </div>
+    </div>
 
-        <div id="game-screen" class="content hidden" style="display: flex; align-items: center; justify-content: center;"></div>
-
-        <div id="admin-panel" class="admin-modal hidden">
-            <div style="display:flex; justify-content:space-between; margin-bottom:20px;"><h2>Upload Database</h2><button onclick="window.toggleAdmin()" style="border:none;background:none;font-size:2em;cursor:pointer;">&times;</button></div>
+    <!-- Admin Panel -->
+    <div id="admin-panel" class="admin-modal hidden">
+        <div class="container">
+            <div class="modal-header">
+                <h2>Upload Vocabulary Database</h2>
+                <button class="btn-close" onclick="toggleAdmin()">&times;</button>
+            </div>
             
             <label for="docx-input" class="upload-zone">
-                <i class="fas fa-file-word" style="font-size:4em; color:#2b5797; margin-bottom:15px;"></i>
-                <h3>Pilih File Word (.docx)</h3>
-                <p style="color:#888;">(Oxford A1 Part A-C.docx)</p>
+                <i class="fas fa-file-word"></i>
+                <h3>Select Word Document (.docx)</h3>
+                <p style="color:#64748b;">Click or drag file here</p>
             </label>
-            <input type="file" id="docx-input" accept=".docx" style="display:none;" onchange="window.handleDOCX(this)">
+            <input type="file" id="docx-input" accept=".docx" style="display:none;" onchange="handleDOCX(this)">
 
-            <div id="status-box" style="display:none; text-align:center; padding:20px;"><i class="fas fa-spinner fa-spin" style="font-size:2em; color:#667eea;"></i><p id="status-text" style="margin-top:10px;">Membaca...</p></div>
-            <div id="log-area" style="background:#f5f5f5; padding:15px; height:200px; overflow-y:auto; border-radius:10px; font-family:monospace; font-size:0.8em; margin-bottom:20px;">Log Aktivitas...</div>
-            <button onclick="window.clearData()" class="action-btn" style="background:#ef5350;">Reset Semua Data</button>
+            <div id="status-box" style="display:none; text-align:center; padding:2rem;">
+                <i class="fas fa-spinner fa-spin" style="font-size:3rem; color:#2563eb;"></i>
+                <p style="margin-top:1rem; color:#64748b;">Processing file...</p>
+            </div>
+            
+            <div class="log-area" id="log-area">Ready to upload...</div>
+            
+            <button onclick="clearData()" class="btn-danger" style="width:100%;">
+                <i class="fas fa-trash"></i> Reset All Data
+            </button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // ==========================================
-        // 1. CONFIG FIREBASE
-        // ==========================================
+        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyAS6S_Mv8LzX4bYhIp-lIbDN4OCAOQux6M",
             authDomain: "oxfordvocabapp-a0719.firebaseapp.com",
@@ -197,93 +898,68 @@
             appId: "1:135746599162:web:df9b550a2cb586b099f143"
         };
 
-        // Init Firebase
-        let app, auth, db, provider;
-        try {
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
-            provider = new GoogleAuthProvider();
-            console.log("✅ Firebase initialized successfully");
-        } catch (e) {
-            console.error("❌ Firebase Error:", e);
-            alert("Error Konfigurasi Firebase. Cek Console.");
-        }
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
 
-        let currentUser = null, userData = { vocabulary: [], completedLevels: [] }, activeLevel = 'A1';
+        // State
+        let currentUser = null;
+        let userData = { vocabulary: [], completedLevels: [] };
+        let activeLevel = 'A1';
         let currentQueue = [], sessionMastered = [], qIndex = 0, score = 0, mistakes = 0, timerInterval;
-        let activeChapId = 1; // TAMBAHKAN INI - variabel yang hilang!
+        let activeChapId = 1;
         const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
+        const ADMIN_EMAIL = "silvianur@students.amikom.ac.id";
 
-        // ==========================================
-        // ADMIN AUTHORIZATION - HANYA EMAIL INI YANG BISA EDIT
-        // ==========================================
-        const ADMIN_EMAIL = "silvianur@students.amikom.ac.id"; // GANTI DENGAN EMAIL KAMU!
-        
         function isAdmin() {
             return currentUser && currentUser.email === ADMIN_EMAIL;
         }
 
-        // --- GLOBAL FUNCTIONS ---
+        // Auth
         window.handleLogin = () => {
-            console.log("Login clicked");
-            signInWithPopup(auth, provider).catch(e => {
-                console.error("Login error:", e);
-                alert(e.message);
-            });
+            signInWithPopup(auth, provider).catch(e => alert(e.message));
         };
-        
+
         window.handleLogout = () => {
-            console.log("Logout clicked");
             signOut(auth).then(() => location.reload());
         };
 
         onAuthStateChanged(auth, async (user) => {
-            console.log("Auth state changed:", user ? user.email : "Not logged in");
             if (user) {
                 currentUser = user;
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('main-header').classList.remove('hidden');
-                document.getElementById('main-header').style.display = 'flex';
-                document.getElementById('user-name').innerText = user.displayName.split(' ')[0];
+                document.getElementById('landing-page').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
                 
-                // Show upload button only for admin
+                const initials = user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U';
+                document.getElementById('user-avatar').textContent = initials;
+                document.getElementById('user-name-header').textContent = user.displayName?.split(' ')[0] || 'User';
+                
                 if (isAdmin()) {
-                    document.getElementById('upload-btn').style.display = 'flex';
-                    console.log("✅ Admin access granted");
-                } else {
-                    document.getElementById('upload-btn').style.display = 'none';
-                    console.log("👤 Regular user (read-only)");
+                    document.getElementById('upload-btn').style.display = 'inline-block';
                 }
                 
                 await loadData();
             }
         });
 
-        // --- DATA ---
+        // Data Management
         async function loadData() {
-            console.log("Loading data...");
-            
-            // Load SHARED VOCABULARY (public untuk semua user)
-            const vocabRef = doc(db, "shared_vocabulary", "oxford_data");
+            // Load shared vocabulary
+            const vocabRef = doc(db, "shared_vocabulary", "cefrix_data");
             const vocabSnap = await getDoc(vocabRef);
             
             if (vocabSnap.exists()) {
                 userData.vocabulary = vocabSnap.data().words || [];
-                console.log("✅ Loaded shared vocabulary:", userData.vocabulary.length, "words");
             } else {
                 userData.vocabulary = [];
-                console.log("⚠️ No shared vocabulary found");
-                
-                // Create empty shared vocabulary for first time (admin only)
                 if (isAdmin()) {
                     await setDoc(vocabRef, { words: [] });
-                    console.log("Created empty shared vocabulary");
                     toggleAdmin();
                 }
             }
             
-            // Load USER PROGRESS (individual untuk tiap user)
+            // Load user progress
             const userRef = doc(db, "user_progress", currentUser.uid);
             const userSnap = await getDoc(userRef);
             
@@ -291,29 +967,24 @@
                 const userProgress = userSnap.data();
                 userData.completedLevels = userProgress.completedLevels || [];
                 
-                // Merge user's mastered status with vocabulary
                 if (userProgress.masteredWords) {
                     userProgress.masteredWords.forEach(masteredKey => {
                         const word = userData.vocabulary.find(v => v.english + "|" + v.pos === masteredKey);
                         if (word) word.mastered = true;
                     });
                 }
-                console.log("✅ Loaded user progress");
             } else {
                 userData.completedLevels = [];
                 await setDoc(userRef, { completedLevels: [], masteredWords: [] });
-                console.log("Created new user progress");
             }
             
             renderLevels();
-            goHome();
         }
 
         async function saveData() {
-            // Save VOCABULARY (hanya admin yang bisa)
+            // Save vocabulary (admin only)
             if (isAdmin()) {
-                const vocabRef = doc(db, "shared_vocabulary", "oxford_data");
-                // Remove mastered flag before saving (itu per-user)
+                const vocabRef = doc(db, "shared_vocabulary", "cefrix_data");
                 const cleanVocab = userData.vocabulary.map(v => ({
                     english: v.english,
                     pos: v.pos,
@@ -322,10 +993,9 @@
                     example: v.example
                 }));
                 await setDoc(vocabRef, { words: cleanVocab });
-                console.log("✅ Saved shared vocabulary");
             }
             
-            // Save USER PROGRESS (semua user bisa)
+            // Save user progress
             const userRef = doc(db, "user_progress", currentUser.uid);
             const masteredWords = userData.vocabulary
                 .filter(v => v.mastered)
@@ -335,24 +1005,22 @@
                 completedLevels: userData.completedLevels,
                 masteredWords: masteredWords
             });
-            console.log("✅ Saved user progress");
             
             renderLevels();
         }
 
-        // --- WORD PARSER ---
+        // DOCX Parser
         window.handleDOCX = async (input) => {
             if (!isAdmin()) {
-                alert("⛔ Akses ditolak! Hanya admin yang bisa upload data.");
+                alert("⛔ Admin access required");
                 input.value = "";
                 return;
             }
             
-            console.log("File selected");
             if (input.files.length === 0) return;
             document.getElementById('status-box').style.display = 'block';
             const log = document.getElementById('log-area');
-            log.innerHTML = "Membaca file...<br>";
+            log.innerHTML = "Reading file...<br>";
 
             try {
                 const arrayBuffer = await input.files[0].arrayBuffer();
@@ -360,16 +1028,15 @@
                 const lines = result.value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
                 let count = 0;
-                let currentLevel = "A1"; 
+                let currentLevel = "A1";
                 const newVocab = [];
                 const existingKeys = new Set(userData.vocabulary.map(v => v.english + "|" + v.pos));
 
-                // Fungsi untuk membersihkan text dari bullet points dan karakter khusus
                 const cleanText = (text) => {
                     return text
-                        .replace(/^[\u2022\u2023\u25E6\u2043\u2219\-\*•●○◦▪▫■□▸▹►▻⦿⦾]+\s*/g, '') // Hapus bullet points
-                        .replace(/^[\d]+[\.\)]\s*/g, '') // Hapus numbering (1. 2. 1) 2))
-                        .replace(/[\u200B-\u200D\uFEFF]/g, '') // Hapus zero-width characters
+                        .replace(/^[\u2022\u2023\u25E6\u2043\u2219\-\*•●○◦▪▫■□▸▹►▻⦿⦾]+\s*/g, '')
+                        .replace(/^[\d]+[\.\)]\s*/g, '')
+                        .replace(/[\u200B-\u200D\uFEFF]/g, '')
                         .trim();
                 };
 
@@ -378,14 +1045,12 @@
 
                 for (let i = 0; i < lines.length; i++) {
                     let line = cleanText(lines[i]);
-                    
-                    // Skip empty lines after cleaning
                     if (line.length === 0) continue;
                     
                     let matchLevel = regexLevel.exec(line);
-                    if (matchLevel) { 
-                        currentLevel = matchLevel[1].toUpperCase(); 
-                        continue; 
+                    if (matchLevel) {
+                        currentLevel = matchLevel[1].toUpperCase();
+                        continue;
                     }
 
                     let matchItem = regexItem.exec(line);
@@ -399,7 +1064,7 @@
                             const nextLine = cleanText(lines[i+1]);
                             if (nextLine.toLowerCase().startsWith("example:")) {
                                 example = nextLine.replace(/^Example:\s*/i, "").trim();
-                                i++; 
+                                i++;
                             }
                         }
 
@@ -423,26 +1088,27 @@
                 if (count > 0) {
                     userData.vocabulary = [...userData.vocabulary, ...newVocab];
                     await saveData();
-                    log.innerHTML += `<b style="color:green">SUKSES! ${count} kata ditambahkan. Total: ${userData.vocabulary.length}</b>`;
-                    alert(`Berhasil! ${count} kata ditambahkan.`);
+                    log.innerHTML += `<b style="color:#10b981">SUCCESS! ${count} words added. Total: ${userData.vocabulary.length}</b>`;
+                    alert(`Success! ${count} words added.`);
                 } else {
-                    log.innerHTML += `<b style="color:red">Gagal. Pastikan format: kata (jenis) : arti</b>`;
+                    log.innerHTML += `<b style="color:#ef4444">Failed. Check format: word (type) : meaning</b>`;
                 }
 
             } catch (err) {
                 console.error(err);
-                log.innerHTML += `<b style="color:red">Error: ${err.message}</b>`;
-                alert("Gagal membaca file.");
+                log.innerHTML += `<b style="color:#ef4444">Error: ${err.message}</b>`;
+                alert("Failed to read file.");
             } finally {
                 document.getElementById('status-box').style.display = 'none';
                 input.value = "";
             }
         };
 
-        // --- LEVEL & GAME LOGIC ---
+        // Render Levels
         function renderLevels() {
-            const container = document.getElementById('level-container');
+            const container = document.getElementById('levels-grid');
             container.innerHTML = '';
+            
             LEVELS.forEach((lvl, idx) => {
                 const words = userData.vocabulary.filter(v => v.level === lvl);
                 const mastered = words.filter(v => v.mastered).length;
@@ -450,23 +1116,29 @@
                 const percent = total > 0 ? Math.round((mastered / total) * 100) : 0;
                 
                 let locked = idx > 0 && !userData.completedLevels.includes(LEVELS[idx-1]);
-                if(total===0) locked = false;
+                if (total === 0) locked = false;
                 const isDone = userData.completedLevels.includes(lvl);
 
                 const div = document.createElement('div');
                 div.className = `level-card ${activeLevel === lvl ? 'active' : ''} ${locked ? 'locked' : ''} ${isDone ? 'completed' : ''}`;
                 div.onclick = () => !locked && selectLevel(lvl);
-                div.innerHTML = `<div><b>${lvl}</b></div><small>${mastered}/${total}</small><div class="progress-bar"><div class="progress-fill" style="width:${percent}%"></div></div>`;
+                div.innerHTML = `
+                    <div class="level-name">${lvl}</div>
+                    <div class="level-progress">${mastered}/${total}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:${percent}%"></div>
+                    </div>
+                `;
                 container.appendChild(div);
             });
+            
             updateUI();
         }
 
-        window.selectLevel = (lvl) => { 
-            console.log("Level selected:", lvl);
-            activeLevel = lvl; 
-            renderLevels(); 
-            updateUI(); 
+        window.selectLevel = (lvl) => {
+            activeLevel = lvl;
+            renderLevels();
+            updateUI();
         }
 
         function updateUI() {
@@ -476,208 +1148,181 @@
             let locked = idx > 0 && !userData.completedLevels.includes(LEVELS[idx-1]) && words.length > 0;
 
             if (locked) {
-                document.getElementById('chapter-container').classList.add('hidden');
+                document.getElementById('modes-section').classList.add('hidden');
                 document.getElementById('locked-msg').classList.remove('hidden');
             } else {
-                document.getElementById('chapter-container').classList.remove('hidden');
+                document.getElementById('modes-section').classList.remove('hidden');
                 document.getElementById('locked-msg').classList.add('hidden');
-                const btn = document.getElementById('btn-final');
-                const txt = document.getElementById('final-status');
+                
+                const finalStatus = document.getElementById('final-status');
                 if (words.length > 0 && mastered === words.length) {
-                    btn.style.opacity = 1; txt.innerText = "SIAP UJIAN"; txt.style.color="green";
+                    finalStatus.textContent = "Ready for final test!";
+                    finalStatus.style.color = "#10b981";
                 } else {
-                    btn.style.opacity = 0.6; txt.innerText = `Kurang ${words.length - mastered} kata`;
+                    finalStatus.textContent = `${words.length - mastered} words remaining`;
                 }
             }
-            document.getElementById('stats-info').innerText = `Lvl: ${activeLevel} | Total: ${words.length}`;
         }
 
-        // --- GAMEPLAY ---
+        // Game Logic
         function shuffle(a) { return a.sort(() => Math.random() - 0.5); }
 
         window.startChapter = (ch) => {
-            console.log("Starting chapter:", ch);
             activeChapId = ch;
             let pool = [];
+            
             if (ch === 10) {
                 const all = userData.vocabulary.filter(v => v.level === activeLevel);
-                if (all.filter(v=>v.mastered).length < all.length) return alert("Selesaikan level ini dulu!");
+                if (all.filter(v=>v.mastered).length < all.length) return alert("Complete all words first!");
                 pool = shuffle(all).slice(0, 20);
                 document.getElementById('mistakes-display').style.display = 'inline';
             } else {
                 pool = userData.vocabulary.filter(v => v.level === activeLevel && !v.mastered);
-                if (pool.length < 5) return alert("Kata habis/kosong. Upload Word dulu!");
+                if (pool.length < 5) return alert("Not enough words. Upload vocabulary first!");
                 pool = shuffle(pool).slice(0, 10);
                 document.getElementById('mistakes-display').style.display = 'none';
             }
-            currentQueue = pool; sessionMastered = []; qIndex = 0; score = 0; mistakes = 0;
-            document.getElementById('dashboard-screen').classList.add('hidden');
-            document.getElementById('main-header').classList.add('hidden');
-            document.getElementById('game-screen').classList.remove('hidden');
-            document.getElementById('game-header').classList.remove('hidden');
+            
+            currentQueue = pool;
+            sessionMastered = [];
+            qIndex = 0;
+            score = 0;
+            mistakes = 0;
+            
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('game-container').classList.remove('hidden');
             renderQ();
         };
 
         function renderQ() {
             if (qIndex >= currentQueue.length || (activeChapId === 10 && mistakes > 3)) return showResult();
+            
             const w = currentQueue[qIndex];
             const ch = activeChapId === 10 ? 3 : activeChapId;
             const dist = shuffle(userData.vocabulary.filter(x => x.english !== w.english)).slice(0, 3);
             const opts = shuffle([w, ...dist]);
             const container = document.getElementById('game-screen');
-            const timer = ch === 7 ? `<h1 id="timer" style="color:#f44336;font-size:4em;margin:0;">5</h1>` : '';
+            const timer = ch === 7 ? `<div class="timer-display" id="timer">5</div>` : '';
 
             let html = '';
-            if (ch === 1) html = `<div class="question-card"><div class="word-title">${w.english}</div><input id="inp" class="input-box" placeholder="Arti..." autocomplete="off" onkeypress="if(event.key==='Enter') window.checkType('${w.indonesian.replace(/'/g, "\\'")}')"><button onclick="window.checkType('${w.indonesian.replace(/'/g, "\\'")}')" class="action-btn">Cek</button><div id="fb" class="feedback-box"></div></div>`;
-            else if (ch === 2) {
-                // FILL IN THE BLANK - Kata hilang, user harus isi
-                const masked = w.example.replace(new RegExp(w.english, 'gi'), '_____');
-                html = `<div class="question-card">
-                    <h3 style="color:#555; margin-bottom:10px;">Lengkapi kalimat dengan kata yang tepat:</h3>
-                    <div style="background:#f5f5f5; padding:20px; border-radius:15px; margin:20px 0; font-size:1.2em; line-height:1.6; color:#333;">
-                        "${masked}"
+            
+            // Chapter 1: Translation
+            if (ch === 1) {
+                html = `
+                    <div class="question-card">
+                        <div class="word-display">${w.english}</div>
+                        <input id="inp" class="input-field" placeholder="Type the meaning..." autocomplete="off" onkeypress="if(event.key==='Enter') checkType('${w.indonesian.replace(/'/g, "\\'")}')">
+                        <button onclick="checkType('${w.indonesian.replace(/'/g, "\\'" )}')" class="submit-btn">Check Answer</button>
+                        <div id="fb" class="feedback-box"></div>
                     </div>
-                    <div style="display:flex; gap:10px; align-items:center; justify-content:center; margin:15px 0;">
-                        <span style="background:#e3f2fd; padding:8px 15px; border-radius:10px; font-size:0.9em; color:#1976d2;">
-                            <i class="fas fa-lightbulb"></i> Hint: <b>${w.pos}</b> - ${w.indonesian}
-                        </span>
-                    </div>
-                    <input id="inp" class="input-box" placeholder="Ketik kata yang tepat..." autocomplete="off" onkeypress="if(event.key==='Enter') window.checkFillBlank('${w.english.replace(/'/g, "\\'")}')">
-                    <button onclick="window.checkFillBlank('${w.english.replace(/'/g, "\\'")}')" class="action-btn">Cek Jawaban</button>
-                    <div id="fb" class="feedback-box"></div>
-                </div>`;
-            } else if (ch === 3 || ch === 7) {
-                html = `<div class="question-card">${timer}<div class="word-title">${w.english}</div><div class="options-grid">${opts.map(o => `<button class="option-btn" onclick="window.checkBtn(this, '${o.indonesian.replace(/'/g, "\\'")}', '${w.indonesian.replace(/'/g, "\\'")}')">${o.indonesian}</button>`).join('')}</div><div id="fb" class="feedback-box"></div></div>`;
-                if(ch===7) startTimer(5);
-            } else if (ch === 4) {
-                // LISTENING MODE
-                html = `<div class="question-card">
-                    <button onclick="window.playAudio('${w.english}')" class="action-btn" style="width:150px; height:150px; border-radius:50%; font-size:3em; margin:20px auto;">
-                        <i class="fas fa-volume-up"></i>
-                    </button>
-                    <p style="color:#888; margin:10px 0;">Dengarkan dan ketik kata yang kamu dengar</p>
-                    <input id="inp" class="input-box" placeholder="Ketik kata yang kamu dengar..." autocomplete="off" onkeypress="if(event.key==='Enter') window.checkListening('${w.english.replace(/'/g, "\\'")}')">
-                    <button onclick="window.checkListening('${w.english.replace(/'/g, "\\'")}')" class="action-btn">Cek</button>
-                    <div id="fb" class="feedback-box"></div>
-                </div>`;
-            } else if (ch === 5) {
-                // SPEAKING MODE
-                html = `<div class="question-card">
-                    <div class="word-title">${w.indonesian}</div>
-                    <p style="color:#888; margin:10px 0;">Ucapkan kata dalam bahasa Inggris</p>
-                    <button id="mic-btn" onclick="window.startSpeaking('${w.english.replace(/'/g, "\\'")}', '${w.indonesian.replace(/'/g, "\\'")}' )" class="action-btn" style="width:150px; height:150px; border-radius:50%; font-size:3em; margin:20px auto; background:#9C27B0;">
-                        <i class="fas fa-microphone"></i>
-                    </button>
-                    <p id="transcript" style="color:#666; min-height:30px; font-style:italic;"></p>
-                    <div id="fb" class="feedback-box"></div>
-                </div>`;
+                `;
             }
+            // Chapter 2: Fill the Blank
+            else if (ch === 2) {
+                const masked = w.example.replace(new RegExp(w.english, 'gi'), '_____');
+                html = `
+                    <div class="question-card">
+                        <h3 style="color:#64748b; margin-bottom:1.5rem; font-weight:600;">Complete the sentence:</h3>
+                        <div class="sentence-display">"${masked}"</div>
+                        <div class="hint-box">
+                            <i class="fas fa-lightbulb"></i>
+                            <b>${w.pos}</b> - ${w.indonesian}
+                        </div>
+                        <input id="inp" class="input-field" placeholder="Type the missing word..." autocomplete="off" onkeypress="if(event.key==='Enter') checkFillBlank('${w.english.replace(/'/g, "\\'")}')">
+                        <button onclick="checkFillBlank('${w.english.replace(/'/g, "\\'" )}')" class="submit-btn">Check Answer</button>
+                        <div id="fb" class="feedback-box"></div>
+                    </div>
+                `;
+            }
+            // Chapter 3: Multiple Choice
+            else if (ch === 3 || ch === 7) {
+                html = `
+                    <div class="question-card">
+                        ${timer}
+                        <div class="word-display">${w.english}</div>
+                        <div class="options-grid">
+                            ${opts.map(o => `<button class="option-btn" onclick="checkBtn(this, '${o.indonesian.replace(/'/g, "\\'")}', '${w.indonesian.replace(/'/g, "\\'")}')">${o.indonesian}</button>`).join('')}
+                        </div>
+                        <div id="fb" class="feedback-box"></div>
+                    </div>
+                `;
+                if(ch===7) startTimer(5);
+            }
+            // Chapter 4: Listening
+            else if (ch === 4) {
+                html = `
+                    <div class="question-card">
+                        <button onclick="playAudio('${w.english}')" class="audio-btn">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <p style="color:#64748b; margin-bottom:1.5rem;">Listen and type what you hear</p>
+                        <input id="inp" class="input-field" placeholder="Type the word..." autocomplete="off" onkeypress="if(event.key==='Enter') checkListening('${w.english.replace(/'/g, "\\'")}')">
+                        <button onclick="checkListening('${w.english.replace(/'/g, "\\'" )}')" class="submit-btn">Check Answer</button>
+                        <div id="fb" class="feedback-box"></div>
+                    </div>
+                `;
+                setTimeout(() => window.playAudio(w.english), 300);
+            }
+            // Chapter 5: Speaking
+            else if (ch === 5) {
+                html = `
+                    <div class="question-card">
+                        <div class="word-display">${w.indonesian}</div>
+                        <p style="color:#64748b; margin-bottom:1.5rem;">Speak the English word</p>
+                        <button id="mic-btn" onclick="startSpeaking('${w.english.replace(/'/g, "\\'")}', '${w.indonesian.replace(/'/g, "\\'")}' )" class="mic-btn">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <p id="transcript" class="transcript"></p>
+                        <div id="fb" class="feedback-box"></div>
+                    </div>
+                `;
+            }
+            
             container.innerHTML = html;
             if(ch<3 || ch===4) setTimeout(() => {
                 const inp = document.getElementById('inp');
                 if(inp) inp.focus();
             }, 100);
-            if(ch===4) setTimeout(() => window.playAudio(w.english), 300); // Auto play saat pertama kali
+            
             document.getElementById('score-display').innerText = `${score}/${currentQueue.length}`;
-            if(activeChapId === 10) document.getElementById('mistakes-display').innerText = `Salah: ${mistakes}/3`;
+            if(activeChapId === 10) document.getElementById('mistakes-display').innerText = `Mistakes: ${mistakes}/3`;
         }
 
-        window.checkType = (c) => { 
-            const userInput = document.getElementById('inp').value.trim();
-            const userLower = userInput.toLowerCase();
-            const correctLower = c.toLowerCase();
+        // Smart Check with typo tolerance
+        function smartCheck(userInput, correctAnswer) {
+            const normalize = (str) => {
+                return str.toLowerCase()
+                    .replace(/[\s\-_]+/g, '')
+                    .trim();
+            };
             
-            // Check if answer is contained or contains the correct answer
-            if (userLower.length > 2 && (correctLower.includes(userLower) || userLower.includes(correctLower))) {
-                showFb(true, c);
-                return;
+            const userNorm = normalize(userInput);
+            const correctNorm = normalize(correctAnswer);
+            
+            if (userNorm === correctNorm) {
+                return { correct: true, isClose: false };
             }
             
-            // Normalize: remove hyphens
-            const normalizeWord = (word) => word.toLowerCase().replace(/[-\s]/g, '');
-            const normalizedUser = normalizeWord(userInput);
-            const normalizedCorrect = normalizeWord(c);
-            
-            // Check with normalization
-            if (normalizedUser.length > 2 && (normalizedCorrect.includes(normalizedUser) || normalizedUser.includes(normalizedCorrect))) {
-                showFb(true, c);
-                return;
+            if (userNorm.length < 2) {
+                return { correct: false, isClose: false };
             }
             
-            // Typo detection for longer words
-            if (normalizedUser.length >= 3) {
-                const distance = getLevenshteinDistance(normalizedUser, normalizedCorrect);
-                const threshold = Math.ceil(normalizedCorrect.length * 0.25); // 25% tolerance for translation
-                
-                if (distance > 0 && distance <= threshold) {
-                    const fb = document.getElementById('fb');
-                    fb.style.display = 'block';
-                    fb.className = "feedback-box";
-                    fb.style.background = "#fff3cd";
-                    fb.style.color = "#856404";
-                    fb.innerHTML = `⚠️ Hampir benar! Cek lagi penulisannya.<br><small>Jawabannya: <b>${c}</b></small>`;
-                    
-                    setTimeout(() => { 
-                        qIndex++; 
-                        renderQ(); 
-                    }, 2500);
-                    return;
+            const distance = getLevenshteinDistance(userNorm, correctNorm);
+            const maxDistance = Math.floor(correctNorm.length / 4);
+            
+            if (distance <= maxDistance && distance > 0) {
+                return { correct: false, isClose: true };
+            }
+            
+            if (userNorm.includes(correctNorm) || correctNorm.includes(userNorm)) {
+                if (userNorm.length >= correctNorm.length * 0.7) {
+                    return { correct: true, isClose: false };
                 }
             }
             
-            showFb(false, c);
+            return { correct: false, isClose: false };
         }
         
-        window.checkBtn = (b, s, c) => { 
-            showFb(s===c, c, b); 
-        }
-        
-        window.checkSent = (w) => { 
-            const v = document.getElementById('inp').value.toLowerCase(); 
-            showFb(v.includes(w.toLowerCase())&&v.length>8, "Min 8 huruf & ada kata kunci"); 
-        }
-
-        // FILL IN THE BLANK - Check if user typed the correct word
-        window.checkFillBlank = (correctWord) => {
-            const userInput = document.getElementById('inp').value.trim();
-            
-            // Normalize: remove hyphens and convert to lowercase
-            const normalizeWord = (word) => word.toLowerCase().replace(/[-\s]/g, '');
-            
-            const normalizedUser = normalizeWord(userInput);
-            const normalizedCorrect = normalizeWord(correctWord);
-            
-            // Check exact match (with normalization)
-            if (normalizedUser === normalizedCorrect) {
-                showFb(true, `Benar! "${correctWord}"`);
-                return;
-            }
-            
-            // Check if almost correct (typo detection using Levenshtein distance)
-            const distance = getLevenshteinDistance(normalizedUser, normalizedCorrect);
-            const threshold = Math.ceil(normalizedCorrect.length * 0.2); // 20% tolerance
-            
-            if (distance > 0 && distance <= threshold && normalizedUser.length >= 3) {
-                // Almost correct - give partial credit
-                const fb = document.getElementById('fb');
-                fb.style.display = 'block';
-                fb.className = "feedback-box";
-                fb.style.background = "#fff3cd";
-                fb.style.color = "#856404";
-                fb.innerHTML = `⚠️ Hampir benar! Cek lagi penulisannya.<br><small>Jawabannya: <b>${correctWord}</b></small>`;
-                
-                setTimeout(() => { 
-                    qIndex++; 
-                    renderQ(); 
-                }, 2500);
-                return;
-            }
-            
-            // Wrong answer
-            showFb(false, `Kata yang tepat: "${correctWord}"`);
-        }
-        
-        // Levenshtein Distance - detect typo similarity
         function getLevenshteinDistance(a, b) {
             if (a.length === 0) return b.length;
             if (b.length === 0) return a.length;
@@ -698,9 +1343,9 @@
                         matrix[i][j] = matrix[i - 1][j - 1];
                     } else {
                         matrix[i][j] = Math.min(
-                            matrix[i - 1][j - 1] + 1, // substitution
-                            matrix[i][j - 1] + 1,     // insertion
-                            matrix[i - 1][j] + 1      // deletion
+                            matrix[i - 1][j - 1] + 1,
+                            matrix[i][j - 1] + 1,
+                            matrix[i - 1][j] + 1
                         );
                     }
                 }
@@ -709,58 +1354,54 @@
             return matrix[b.length][a.length];
         }
 
-        // LISTENING MODE
+        window.checkType = (c) => {
+            const v = document.getElementById('inp').value.trim();
+            const result = smartCheck(v, c);
+            showFb(result.correct, c, null, result.isClose);
+        }
+
+        window.checkBtn = (b, s, c) => {
+            showFb(s===c, c, b);
+        }
+
+        window.checkFillBlank = (correctWord) => {
+            const userInput = document.getElementById('inp').value.trim();
+            const result = smartCheck(userInput, correctWord);
+            
+            if (result.correct) {
+                showFb(true, correctWord);
+            } else if (result.isClose) {
+                showFb(false, `Almost! Correct answer: "${correctWord}"`, null, true);
+            } else {
+                showFb(false, `Correct answer: "${correctWord}"`);
+            }
+        }
+
         window.playAudio = (word) => {
             const utterance = new SpeechSynthesisUtterance(word);
             utterance.lang = 'en-US';
-            utterance.rate = 0.8; // Slower for better understanding
-            window.speechSynthesis.cancel(); // Stop previous
+            utterance.rate = 0.8;
+            window.speechSynthesis.cancel();
             window.speechSynthesis.speak(utterance);
         }
 
         window.checkListening = (correctWord) => {
             const userInput = document.getElementById('inp').value.trim();
+            const result = smartCheck(userInput, correctWord);
             
-            // Normalize: remove hyphens and convert to lowercase
-            const normalizeWord = (word) => word.toLowerCase().replace(/[-\s]/g, '');
-            
-            const normalizedUser = normalizeWord(userInput);
-            const normalizedCorrect = normalizeWord(correctWord);
-            
-            // Check exact match (with normalization)
-            if (normalizedUser === normalizedCorrect) {
+            if (result.correct) {
                 showFb(true, correctWord);
-                return;
+            } else if (result.isClose) {
+                showFb(false, `Almost! Correct: "${correctWord}"`, null, true);
+            } else {
+                showFb(false, correctWord);
             }
-            
-            // Check if almost correct (typo detection)
-            const distance = getLevenshteinDistance(normalizedUser, normalizedCorrect);
-            const threshold = Math.ceil(normalizedCorrect.length * 0.2); // 20% tolerance
-            
-            if (distance > 0 && distance <= threshold && normalizedUser.length >= 3) {
-                // Almost correct
-                const fb = document.getElementById('fb');
-                fb.style.display = 'block';
-                fb.className = "feedback-box";
-                fb.style.background = "#fff3cd";
-                fb.style.color = "#856404";
-                fb.innerHTML = `⚠️ Hampir benar! Cek lagi penulisannya.<br><small>Jawabannya: <b>${correctWord}</b></small>`;
-                
-                setTimeout(() => { 
-                    qIndex++; 
-                    renderQ(); 
-                }, 2500);
-                return;
-            }
-            
-            showFb(false, correctWord);
         }
 
-        // SPEAKING MODE
         let recognition = null;
         window.startSpeaking = (correctWord, meaning) => {
             if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                alert('Browser kamu tidak support Speech Recognition. Coba pakai Chrome.');
+                alert('Speech Recognition not supported in this browser. Try Chrome.');
                 return;
             }
 
@@ -773,117 +1414,138 @@
             const micBtn = document.getElementById('mic-btn');
             const transcript = document.getElementById('transcript');
             
-            micBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            micBtn.style.background = '#f44336';
-            transcript.innerText = 'Mendengarkan...';
+            micBtn.classList.add('recording');
+            transcript.innerText = 'Listening...';
 
             recognition.onresult = (event) => {
                 const spokenWord = event.results[0][0].transcript.toLowerCase().trim();
-                transcript.innerText = `Kamu bilang: "${spokenWord}"`;
+                transcript.innerText = `You said: "${spokenWord}"`;
                 
                 setTimeout(() => {
-                    const isCorrect = spokenWord === correctWord.toLowerCase() || 
-                                    spokenWord.includes(correctWord.toLowerCase());
-                    showFb(isCorrect, correctWord);
+                    const result = smartCheck(spokenWord, correctWord);
+                    showFb(result.correct, correctWord, null, result.isClose);
                 }, 500);
             };
 
             recognition.onerror = (event) => {
-                console.error('Speech recognition error:', event.error);
-                micBtn.innerHTML = '<i class="fas fa-microphone"></i>';
-                micBtn.style.background = '#9C27B0';
-                transcript.innerText = 'Error: ' + event.error + '. Coba lagi!';
+                micBtn.classList.remove('recording');
+                transcript.innerText = 'Error: ' + event.error + '. Try again!';
             };
 
             recognition.onend = () => {
-                micBtn.innerHTML = '<i class="fas fa-microphone"></i>';
-                micBtn.style.background = '#9C27B0';
+                micBtn.classList.remove('recording');
             };
 
             recognition.start();
         }
 
-        function showFb(ok, cor, btn) {
+        function showFb(ok, cor, btn, isClose = false) {
             clearInterval(timerInterval);
-            const fb = document.getElementById('fb'); fb.style.display='block';
-            if(ok) { 
-                if(btn) btn.classList.add('correct'); 
-                fb.className="feedback-box correct"; 
-                fb.innerText="Benar!"; 
-                score++; 
-                if(activeChapId!==10) sessionMastered.push(currentQueue[qIndex]); 
-            } else { 
-                if(btn) btn.classList.add('wrong'); 
-                if(activeChapId===10) mistakes++; 
-                fb.className="feedback-box wrong"; 
-                fb.innerText=`Salah. Jawabannya: ${cor}`; 
+            const fb = document.getElementById('fb');
+            fb.style.display = 'block';
+            
+            if (ok) {
+                if (btn) btn.classList.add('correct');
+                fb.className = "feedback-box correct";
+                fb.innerHTML = "✅ Correct!";
+                score++;
+                if (activeChapId !== 10) sessionMastered.push(currentQueue[qIndex]);
+            } else {
+                if (btn) btn.classList.add('wrong');
+                if (activeChapId === 10) mistakes++;
+                
+                if (isClose) {
+                    fb.className = "feedback-box almost";
+                    fb.innerHTML = `⚠️ Almost correct!<br><small>Answer: <b>${cor}</b></small>`;
+                } else {
+                    fb.className = "feedback-box wrong";
+                    fb.innerHTML = `❌ Wrong!<br><small>Answer: <b>${cor}</b></small>`;
+                }
             }
-            setTimeout(() => { qIndex++; renderQ(); }, 1500);
+            
+            setTimeout(() => {
+                qIndex++;
+                renderQ();
+            }, 1500);
         }
 
-        function startTimer(s) { 
-            clearInterval(timerInterval); 
-            let t=s; 
-            timerInterval=setInterval(()=>{
-                t--; 
-                document.getElementById('timer').innerText=t; 
-                if(t<=0) showFb(false, "Waktu Habis");
-            }, 1000); 
+        function startTimer(s) {
+            clearInterval(timerInterval);
+            let t = s;
+            timerInterval = setInterval(() => {
+                t--;
+                const timer = document.getElementById('timer');
+                if (timer) timer.innerText = t;
+                if (t <= 0) showFb(false, "Time's up!");
+            }, 1000);
         }
 
         async function showResult() {
-            let msg="Selesai", col="#667eea";
-            if(activeChapId===10) { 
-                if(mistakes>3) { msg="Gagal ❌"; col="#f44336"; } 
-                else { msg="Lulus! 🎉"; col="#4caf50"; if(!userData.completedLevels.includes(activeLevel)) userData.completedLevels.push(activeLevel); }
-            } else { 
-                if(sessionMastered.length>0) {
+            let msg = "Completed", col = "#2563eb";
+            
+            if (activeChapId === 10) {
+                if (mistakes > 3) {
+                    msg = "Failed ❌";
+                    col = "#ef4444";
+                } else {
+                    msg = "Passed! 🎉";
+                    col = "#10b981";
+                    if (!userData.completedLevels.includes(activeLevel)) {
+                        userData.completedLevels.push(activeLevel);
+                    }
+                }
+            } else {
+                if (sessionMastered.length > 0) {
                     sessionMastered.forEach(mWord => {
                         const target = userData.vocabulary.find(v => v.english === mWord.english && v.pos === mWord.pos);
-                        if(target) target.mastered = true;
+                        if (target) target.mastered = true;
                     });
                 }
             }
+            
             await saveData();
-            document.getElementById('game-screen').innerHTML = `<div class="question-card"><h1 style="color:${col}">${msg}</h1><h2>${score} Benar</h2><button onclick="window.goHome()" class="action-btn">Menu</button></div>`;
-            document.getElementById('game-header').classList.add('hidden');
+            
+            document.getElementById('game-screen').innerHTML = `
+                <div class="question-card">
+                    <h1 style="color:${col}; font-size:3rem; margin-bottom:1rem;">${msg}</h1>
+                    <p style="font-size:2rem; color:#64748b; margin-bottom:2rem;">${score} / ${currentQueue.length} correct</p>
+                    <button onclick="goHome()" class="submit-btn" style="max-width:200px;">
+                        <i class="fas fa-home"></i> Home
+                    </button>
+                </div>
+            `;
         }
 
         window.toggleAdmin = () => {
-            console.log("Toggle admin");
             if (!isAdmin()) {
-                alert("⛔ Akses ditolak! Hanya admin yang bisa mengubah data vocabulary.");
+                alert("⛔ Admin access only");
                 return;
             }
-            document.querySelector('.admin-modal').classList.toggle('hidden');
+            document.getElementById('admin-panel').classList.toggle('hidden');
         }
-        
-        window.goHome = () => { 
-            console.log("Go home");
-            document.getElementById('dashboard-screen').classList.remove('hidden'); 
-            document.getElementById('game-screen').classList.add('hidden'); 
-            document.getElementById('main-header').classList.remove('hidden'); 
-            document.getElementById('game-header').classList.add('hidden'); 
-            clearInterval(timerInterval); 
-            renderLevels(); 
+
+        window.goHome = () => {
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('game-container').classList.add('hidden');
+            clearInterval(timerInterval);
+            renderLevels();
         };
-        
+
         window.clearData = async () => {
             if (!isAdmin()) {
-                alert("⛔ Akses ditolak! Hanya admin yang bisa reset data.");
+                alert("⛔ Admin access only");
                 return;
             }
-            if(confirm("Hapus semua vocabulary? (Progress user lain tetap aman)")) { 
-                // Reset shared vocabulary
-                const vocabRef = doc(db, "shared_vocabulary", "oxford_data");
+            
+            if (confirm("Delete all vocabulary data?")) {
+                const vocabRef = doc(db, "shared_vocabulary", "cefrix_data");
                 await setDoc(vocabRef, { words: [] });
                 
-                // Reset admin's progress
                 const userRef = doc(db, "user_progress", currentUser.uid);
                 await setDoc(userRef, { completedLevels: [], masteredWords: [] });
                 
-                location.reload(); 
-            } 
+                location.reload();
+            }
         };
     </script>
 </body>
