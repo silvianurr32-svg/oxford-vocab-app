@@ -3,1364 +3,495 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CEFRix - English Mastery Platform</title>
+    <title>CEFRix - Ultimate Mastery</title>
     
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/logo.jpg">
-    <link rel="apple-touch-icon" href="/logo.jpg">
     
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
-    <!-- Mammoth for DOCX parsing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
-            line-height: 1.6;
-        }
-        
+        /* --- CORE STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
         .hidden { display: none !important; }
         
-        /* Header */
-        .app-header {
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .header-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        
-        .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #2563eb, #3b82f6);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        .logo-text h1 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #1e293b;
-        }
-        
-        .logo-text p {
-            font-size: 0.75rem;
-            color: #64748b;
-        }
-        
-        .header-user {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-        
-        .stats-icon {
-            background: #f1f5f9;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .stats-icon:hover {
-            background: #e2e8f0;
-        }
-        
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        
-        .user-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #2563eb, #3b82f6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.125rem;
-        }
-        
-        .user-info h3 {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #1e293b;
-        }
-        
-        .user-info p {
-            font-size: 0.75rem;
-            color: #64748b;
-        }
-        
-        /* Container */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        /* Landing Page */
-        .landing-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-        }
-        
-        .hero-section {
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-        
-        .logo-container {
-            width: 160px;
-            height: 160px;
-            margin: 0 auto 2rem;
-            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2);
-        }
-        
-        .logo-container img {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-        }
-        
-        .brand-name {
-            display: flex;
-            align-items: baseline;
-            justify-content: center;
-            gap: 2px;
-            margin-bottom: 0.75rem;
-        }
-        
-        .brand-name .cefr {
-            font-size: 4rem;
-            font-weight: 800;
-            color: #1e293b;
-            letter-spacing: -0.03em;
-        }
-        
-        .brand-name .ix {
-            font-size: 4rem;
-            font-weight: 800;
-            color: #2563eb;
-            letter-spacing: -0.03em;
-        }
-        
-        .tagline {
-            color: #64748b;
-            font-size: 0.875rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            font-weight: 500;
-            margin-bottom: 3rem;
-        }
-        
-        .cta-button {
-            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-            color: white;
-            border: none;
-            padding: 1rem 2.5rem;
-            border-radius: 0.75rem;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.4);
-        }
-        
-        /* Dashboard Grid */
-        .dashboard-grid {
-            display: grid;
-            gap: 2rem;
-        }
-        
-        /* Welcome Section */
-        .welcome-section {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 3rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        
-        .welcome-header h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 0.5rem;
-        }
-        
-        .welcome-header p {
-            color: #64748b;
-            font-size: 1rem;
-        }
-        
-        .current-status {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .status-icon {
-            width: 48px;
-            height: 48px;
-            background: #eff6ff;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #2563eb;
-            font-size: 1.25rem;
-        }
-        
-        .status-info h4 {
-            font-size: 0.875rem;
-            color: #64748b;
-            font-weight: 500;
-        }
-        
-        .status-info p {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #1e293b;
-        }
-        
-        /* CEFR Journey */
-        .cefr-journey {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        
-        .journey-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-        
-        .journey-header h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #1e293b;
-        }
-        
-        .progress-label {
-            font-size: 0.875rem;
-            color: #64748b;
-        }
-        
-        .journey-timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        
-        .level-step {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        
-        .level-step:hover {
-            background: #f8fafc;
-        }
-        
-        .level-step.current {
-            background: #eff6ff;
-            border: 2px solid #2563eb;
-        }
-        
-        .level-step.completed .level-badge {
-            background: #2563eb;
-            color: white;
-        }
-        
-        .level-step.locked {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .level-badge {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: #f1f5f9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: #64748b;
-            flex-shrink: 0;
-        }
-        
-        .level-step.current .level-badge {
-            background: #2563eb;
-            color: white;
-        }
-        
-        .level-details {
-            flex: 1;
-        }
-        
-        .level-details h4 {
-            font-weight: 600;
-            color: #1e293b;
-        }
-        
-        .level-details p {
-            font-size: 0.875rem;
-            color: #64748b;
-        }
-        
-        .level-progress-bar {
-            height: 4px;
-            background: #f1f5f9;
-            border-radius: 2px;
-            margin-top: 0.5rem;
-            overflow: hidden;
-        }
-        
-        .level-progress-fill {
-            height: 100%;
-            background: #2563eb;
-            transition: width 0.5s ease;
-        }
-        
-        .current-badge {
-            background: #eff6ff;
-            color: #2563eb;
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        
-        .stat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1.5rem;
-        }
-        
-        .stat-title {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        
-        .stat-title i {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-        }
-        
-        .stat-title.words i {
-            background: #eff6ff;
-            color: #2563eb;
-        }
-        
-        .stat-title.streak i {
-            background: #fff7ed;
-            color: #f97316;
-        }
-        
-        .stat-title.time i {
-            background: #f0fdf4;
-            color: #10b981;
-        }
-        
-        .stat-title h4 {
-            font-size: 0.875rem;
-            color: #64748b;
-            font-weight: 500;
-        }
-        
-        .stat-badge {
-            background: #eff6ff;
-            color: #2563eb;
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        
-        .stat-badge.streak {
-            background: #fff7ed;
-            color: #f97316;
-        }
-        
-        .stat-badge.achievement {
-            background: #f0fdf4;
-            color: #10b981;
-        }
-        
-        .stat-content {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-        
-        .circular-progress {
-            position: relative;
-            width: 120px;
-            height: 120px;
-        }
-        
-        .circular-progress svg {
-            transform: rotate(-90deg);
-        }
-        
-        .circular-progress circle {
-            fill: none;
-            stroke-width: 8;
-        }
-        
-        .circular-progress .bg {
-            stroke: #f1f5f9;
-        }
-        
-        .circular-progress .progress {
-            stroke: #2563eb;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 0.5s ease;
-        }
-        
-        .circular-progress .percentage {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2rem;
-            font-weight: 800;
-            color: #1e293b;
-        }
-        
-        .stat-details h3 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #1e293b;
-            margin-bottom: 0.25rem;
-        }
-        
-        .stat-change {
-            color: #10b981;
-            font-size: 0.875rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .stat-subtitle {
-            color: #64748b;
-            font-size: 0.875rem;
-        }
-        
-        .week-calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-        
-        .day-cell {
-            text-align: center;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-        
-        .day-cell.label {
-            color: #94a3b8;
-            background: none;
-        }
-        
-        .day-cell.active {
-            background: #f97316;
-            color: white;
-        }
-        
-        .day-cell.inactive {
-            background: #f1f5f9;
-            color: #cbd5e1;
-        }
-        
-        .progress-bar-horizontal {
-            height: 8px;
-            background: #f1f5f9;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 0.75rem;
-        }
-        
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #2563eb, #3b82f6);
-            border-radius: 4px;
-            transition: width 0.5s ease;
-        }
-        
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 0.5rem;
-            font-size: 0.75rem;
-            color: #64748b;
-        }
-        
-        /* Daily Goals */
-        .goals-section {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-        }
-        
-        .goals-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .goals-header h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #1e293b;
-        }
-        
-        .goals-count {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #2563eb;
-        }
-        
-        .goals-count span {
-            font-size: 1rem;
-            color: #94a3b8;
-            font-weight: 500;
-        }
-        
-        .goals-subtitle {
-            color: #64748b;
-            font-size: 0.875rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .goal-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.25rem;
-            border-radius: 0.75rem;
-            background: #f8fafc;
-            margin-bottom: 1rem;
-            transition: all 0.2s;
-        }
-        
-        .goal-item:hover {
-            background: #f1f5f9;
-        }
-        
-        .goal-item.completed {
-            background: #f0fdf4;
-        }
-        
-        .goal-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #94a3b8;
-            flex-shrink: 0;
-        }
-        
-        .goal-item.completed .goal-icon {
-            background: #10b981;
-            color: white;
-        }
-        
-        .goal-content {
-            flex: 1;
-        }
-        
-        .goal-content h4 {
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 0.25rem;
-        }
-        
-        .goal-item.completed .goal-content h4 {
-            text-decoration: line-through;
-            color: #64748b;
-        }
-        
-        .goal-content p {
-            font-size: 0.875rem;
-            color: #64748b;
-        }
-        
-        .goal-check {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 2px solid #cbd5e1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: transparent;
-            flex-shrink: 0;
-        }
-        
-        .goal-item.completed .goal-check {
-            background: #10b981;
-            border-color: #10b981;
-            color: white;
-        }
-        
-        /* Learning Modules */
-        .modules-section {
-            margin-bottom: 2rem;
-        }
-        
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .section-header h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #1e293b;
-        }
-        
-        .view-all {
-            color: #2563eb;
-            font-weight: 600;
-            font-size: 0.875rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .module-card {
-            background: white;
-            border-radius: 1.25rem;
-            padding: 2rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            border-top: 4px solid #2563eb;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        
-        .module-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
-        }
-        
-        .module-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-        
-        .module-level {
-            background: #f1f5f9;
-            color: #64748b;
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        
-        .module-status {
-            background: #eff6ff;
-            color: #2563eb;
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        
-        .module-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 0.5rem;
-        }
-        
-        .module-description {
-            color: #64748b;
-            font-size: 0.875rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .module-meta {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-            font-size: 0.875rem;
-            color: #64748b;
-        }
-        
-        .module-meta i {
-            margin-right: 0.5rem;
-        }
-        
-        .module-progress-label {
-            font-size: 0.75rem;
-            color: #64748b;
-            margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-        }
-        
-        .module-progress-bar {
-            height: 6px;
-            background: #f1f5f9;
-            border-radius: 3px;
-            overflow: hidden;
-            margin-bottom: 1rem;
-        }
-        
-        .module-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #2563eb, #3b82f6);
-            transition: width 0.5s ease;
-        }
-        
-        .module-action {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            color: #2563eb;
-            font-weight: 600;
-            font-size: 0.875rem;
-        }
-        
-        /* Action Cards */
-        .action-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .action-card {
-            border-radius: 1.25rem;
-            padding: 2.5rem;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .action-card:hover {
-            transform: translateY(-4px);
-        }
-        
-        .action-card.primary {
-            background: linear-gradient(135deg, #2563eb, #3b82f6);
-        }
-        
-        .action-card.dark {
-            background: linear-gradient(135deg, #1e293b, #334155);
-        }
-        
-        .action-card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-        }
-        
-        .action-card p {
-            opacity: 0.9;
-            margin-bottom: 1.5rem;
-        }
-        
-        .action-button {
-            background: white;
-            color: #2563eb;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .action-card.dark .action-button {
-            color: #1e293b;
-        }
-        
-        .action-button:hover {
-            transform: scale(1.05);
-        }
-        
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .modules-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .brand-name .cefr,
-            .brand-name .ix {
-                font-size: 3rem;
-            }
-            
-            .header-content {
-                padding: 0 1rem;
-            }
-            
-            .container {
-                padding: 1rem;
-            }
-            
-            .welcome-section {
-                padding: 2rem;
-            }
-            
-            .current-status {
-                grid-template-columns: 1fr;
-            }
-        }
+        /* HEADER */
+        .app-header { background: white; border-bottom: 1px solid #e2e8f0; padding: 1rem 0; position: sticky; top: 0; z-index: 50; }
+        .header-content { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo-group { display: flex; align-items: center; gap: 0.75rem; }
+        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #2563eb, #3b82f6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; }
+        .logo-text h1 { font-size: 1.25rem; font-weight: 800; color: #1e293b; }
+        .logo-text p { font-size: 0.7rem; color: #64748b; font-weight: 500; }
+
+        .user-actions { display: flex; align-items: center; gap: 1rem; }
+        .action-btn-sm { padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: 0.2s; border: 1px solid #e2e8f0; background: white; color: #64748b; display: flex; align-items: center; gap: 0.5rem; }
+        .action-btn-sm:hover { background: #f1f5f9; color: #1e293b; }
+        .action-btn-sm.primary { background: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
+
+        /* LANDING */
+        .landing-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); }
+        .hero-box { text-align: center; padding: 3rem; }
+        .hero-title { font-size: 4rem; font-weight: 900; color: #1e293b; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+        .hero-title span { color: #2563eb; }
+        .cta-btn { background: #2563eb; color: white; padding: 1rem 2.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 1.1rem; border: none; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); display: inline-flex; align-items: center; gap: 0.5rem; }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(37, 99, 235, 0.4); }
+
+        /* DASHBOARD */
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        .welcome-card { background: white; border-radius: 1.5rem; padding: 2.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .welcome-text h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .welcome-text p { color: #64748b; }
+        
+        .stats-row { display: flex; gap: 2rem; }
+        .stat-item { display: flex; align-items: center; gap: 1rem; }
+        .stat-icon { width: 50px; height: 50px; background: #eff6ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #2563eb; font-size: 1.25rem; }
+        .stat-info h4 { font-size: 0.875rem; color: #64748b; }
+        .stat-info p { font-size: 1.25rem; font-weight: 700; }
+
+        /* MAIN GRID */
+        .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+        
+        /* MODULES (Dynamic) */
+        .section-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+        .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+        
+        .module-card { background: white; border-radius: 1.25rem; padding: 1.5rem; box-shadow: 0 2px 5px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; transition: 0.3s; cursor: pointer; position: relative; overflow: hidden; }
+        .module-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.06); border-color: #e2e8f0; }
+        .module-card.locked { opacity: 0.6; cursor: not-allowed; background: #f8fafc; }
+        
+        .tag { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 700; margin-bottom: 1rem; }
+        .tag.blue { background: #eff6ff; color: #2563eb; }
+        .tag.green { background: #f0fdf4; color: #16a34a; }
+        .tag.gray { background: #f1f5f9; color: #64748b; }
+
+        .progress-bar { height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden; margin: 1rem 0; }
+        .progress-fill { height: 100%; background: #2563eb; transition: width 0.5s; }
+
+        /* GAME OVERLAY (ENHANCED FOR MULTIMEDIA) */
+        .game-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.98); z-index: 100; display: flex; flex-direction: column; overflow-y: auto; }
+        .game-nav { padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; background: white; position: sticky; top: 0; z-index: 10; }
+        .game-container { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        
+        .quiz-card { background: white; width: 100%; max-width: 600px; padding: 2rem; border-radius: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.1); text-align: center; border: 1px solid #f1f5f9; position: relative; }
+        
+        /* MULTIMEDIA ELEMENTS */
+        .quiz-image-container {
+            width: 150px; height: 150px; margin: 0 auto 1.5rem; border-radius: 1rem; overflow: hidden; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); background: #f8fafc; display: flex; align-items: center; justify-content: center;
+        }
+        .quiz-image-container img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .word-header { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; margin-bottom: 2rem; }
+        .quiz-word { font-size: 3rem; font-weight: 800; color: #1e293b; line-height: 1; }
+        
+        .phonetic-badge { 
+            background: #f1f5f9; color: #64748b; padding: 0.25rem 0.75rem; 
+            border-radius: 1rem; font-family: 'Times New Roman', serif; font-style: italic; font-size: 1.1rem;
+        }
+        
+        .speaker-btn {
+            background: #eff6ff; color: #2563eb; border: none; width: 40px; height: 40px; border-radius: 50%;
+            cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 1.2rem;
+            transition: 0.2s; margin-top: 0.5rem;
+        }
+        .speaker-btn:hover { background: #2563eb; color: white; transform: scale(1.1); }
+
+        .quiz-type { color: #64748b; font-style: italic; margin-bottom: 2rem; }
+        
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .quiz-btn { padding: 1.25rem; border: 2px solid #e2e8f0; background: white; border-radius: 1rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.2s; color: #475569; }
+        .quiz-btn:hover { border-color: #2563eb; color: #2563eb; background: #eff6ff; }
+        .quiz-btn.correct { background: #22c55e; border-color: #22c55e; color: white; }
+        .quiz-btn.wrong { background: #ef4444; border-color: #ef4444; color: white; }
+
+        .quiz-input { width: 100%; padding: 1rem; font-size: 1.2rem; border: 2px solid #e2e8f0; border-radius: 1rem; margin-bottom: 1rem; text-align: center; outline: none; }
+        .quiz-input:focus { border-color: #2563eb; }
+
+        /* UPLOAD MODAL */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-box { background: white; padding: 2rem; border-radius: 1.5rem; width: 500px; text-align: center; }
+        .upload-area { border: 3px dashed #cbd5e1; border-radius: 1rem; padding: 3rem; margin: 1.5rem 0; cursor: pointer; transition: 0.2s; display: block; }
+        .upload-area:hover { border-color: #2563eb; background: #f8fafc; }
+
+        @media (max-width: 1024px) { .main-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <!-- Landing Page -->
+
     <div id="landing-page" class="landing-page">
-        <div class="hero-section">
-            <div class="logo-container">
-                <img src="/logo.jpg" alt="CEFRix Logo">
-            </div>
-            <div class="brand-name">
-                <span class="cefr">CEFR</span>
-                <span class="ix">ix</span>
-            </div>
-            <p class="tagline">English Mastery Platform</p>
-            <button class="cta-button" onclick="handleLogin()">
-                <i class="fab fa-google"></i>
-                Sign in with Google
+        <div class="hero-box">
+            <div style="font-size: 5rem; color: #2563eb; margin-bottom: 1rem;"><i class="fas fa-layer-group"></i></div>
+            <h1 class="hero-title">CEFR<span>ix</span></h1>
+            <p style="color: #64748b; font-size: 1.2rem; margin-bottom: 3rem; letter-spacing: 1px;">Multimedia Vocabulary Engine</p>
+            <button class="cta-btn" onclick="handleLogin()">
+                <i class="fas fa-play"></i> Start Learning (Offline Mode)
             </button>
         </div>
     </div>
 
-    <!-- App Header -->
     <div id="app-header" class="app-header hidden">
         <div class="header-content">
-            <div class="header-logo">
-                <div class="logo-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <div class="logo-text">
-                    <h1>CEFRix</h1>
-                    <p>Vocabulary Mastery</p>
-                </div>
+            <div class="logo-group">
+                <div class="logo-icon"><i class="fas fa-cube"></i></div>
+                <div class="logo-text"><h1>CEFRix</h1><p>Offline Edition</p></div>
             </div>
-            <div class="header-user">
-                <div class="stats-icon">
-                    <i class="fas fa-chart-bar"></i>
-                </div>
-                <div class="user-profile">
-                    <div class="user-info">
-                        <h3 id="user-name-display">Sarah Chen</h3>
-                        <p id="user-level-display">Level B2</p>
-                    </div>
-                    <div class="user-avatar" id="user-avatar-header">SC</div>
-                </div>
+            <div class="user-actions">
+                <button onclick="toggleUpload()" class="action-btn-sm primary"><i class="fas fa-cloud-upload-alt"></i> Upload Data</button>
+                <button onclick="handleLogout()" class="action-btn-sm"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </div>
     </div>
 
-    <!-- Main Dashboard -->
-    <div id="main-dashboard" class="hidden">
-        <div class="container">
-            <div class="dashboard-grid">
-                <!-- Welcome Section -->
-                <div class="welcome-section">
-                    <div class="welcome-header">
-                        <h2 id="greeting-text">Good afternoon, Sarah</h2>
-                        <p>You're making excellent progress on your English mastery journey</p>
-                    </div>
-                    <div class="current-status">
-                        <div class="status-item">
-                            <div class="status-icon">
-                                <i class="fas fa-trophy"></i>
-                            </div>
-                            <div class="status-info">
-                                <h4>Current Level</h4>
-                                <p id="current-level-text">B2 - Upper Intermediate</p>
-                            </div>
-                        </div>
-                        <div class="status-item">
-                            <div class="status-icon">
-                                <i class="fas fa-arrow-trend-up"></i>
-                            </div>
-                            <div class="status-info">
-                                <h4>Progress to Next Level</h4>
-                                <p id="progress-text">You're 68% toward C1</p>
-                            </div>
-                        </div>
+    <div id="main-dashboard" class="container hidden">
+        <div class="welcome-card">
+            <div class="welcome-text">
+                <h2 id="greeting">Hello, Learner!</h2>
+                <p>Track your vocabulary mastery progress.</p>
+            </div>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                    <div class="stat-info"><h4>Level</h4><p id="current-level-display">A1</p></div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-fire"></i></div>
+                    <div class="stat-info"><h4>Words</h4><p id="total-words-display">0</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div>
+                <div class="section-title">
+                    <h3>Learning Path</h3>
+                </div>
+                <div id="modules-grid" class="modules-grid">
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #94a3b8; border: 2px dashed #e2e8f0; border-radius: 1rem;">
+                        <i class="fas fa-folder-open" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <p>No data found. Please upload your Oxford Word file.</p>
                     </div>
                 </div>
+            </div>
 
-                <!-- Two Column Layout -->
-                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
-                    <!-- Left Column -->
-                    <div>
-                        <!-- Stats Cards -->
-                        <div class="stats-grid">
-                            <!-- Words Mastered -->
-                            <div class="stat-card">
-                                <div class="stat-header">
-                                    <div class="stat-title words">
-                                        <i class="fas fa-book"></i>
-                                        <h4>Words Mastered</h4>
-                                    </div>
-                                    <span class="stat-badge">This Month</span>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="circular-progress">
-                                        <svg width="120" height="120">
-                                            <circle class="bg" cx="60" cy="60" r="52"></circle>
-                                            <circle class="progress" cx="60" cy="60" r="52" 
-                                                stroke-dasharray="327" 
-                                                stroke-dashoffset="59" 
-                                                id="words-progress-circle"></circle>
-                                        </svg>
-                                        <div class="percentage" id="words-percentage">82%</div>
-                                    </div>
-                                    <div class="stat-details">
-                                        <h3 id="words-count">247</h3>
-                                        <div class="stat-change">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>+12%</span>
-                                        </div>
-                                        <p class="stat-subtitle" id="total-words">1,834 total words</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Learning Streak -->
-                            <div class="stat-card">
-                                <div class="stat-header">
-                                    <div class="stat-title streak">
-                                        <i class="fas fa-fire"></i>
-                                        <h4>Learning Streak</h4>
-                                    </div>
-                                    <span class="stat-badge streak">Daily Goal</span>
-                                </div>
-                                <div class="stat-content" style="display: block;">
-                                    <h3 id="streak-days" style="font-size: 3rem; margin-bottom: 0.5rem;">12 <span style="font-size: 1.25rem; color: #64748b;">days</span></h3>
-                                    <p class="stat-subtitle">This Week</p>
-                                    <div class="week-calendar">
-                                        <div class="day-cell label">M</div>
-                                        <div class="day-cell label">T</div>
-                                        <div class="day-cell label">W</div>
-                                        <div class="day-cell label">T</div>
-                                        <div class="day-cell label">F</div>
-                                        <div class="day-cell label">S</div>
-                                        <div class="day-cell label">S</div>
-                                        <div class="day-cell active">✓</div>
-                                        <div class="day-cell active">✓</div>
-                                        <div class="day-cell active">✓</div>
-                                        <div class="day-cell active">✓</div>
-                                        <div class="day-cell active">✓</div>
-                                        <div class="day-cell inactive"></div>
-                                        <div class="day-cell inactive"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Study Time -->
-                            <div class="stat-card">
-                                <div class="stat-header">
-                                    <div class="stat-title time">
-                                        <i class="fas fa-clock"></i>
-                                        <h4>Study Time</h4>
-                                    </div>
-                                    <span class="stat-badge achievement">Achievement</span>
-                                </div>
-                                <div class="stat-content" style="display: block;">
-                                    <h3 id="study-hours" style="font-size: 3rem; margin-bottom: 0.5rem;">8.5 <span style="font-size: 1.25rem; color: #64748b;">hours</span></h3>
-                                    <div class="progress-bar-horizontal">
-                                        <div class="progress-bar-fill" style="width: 57%"></div>
-                                    </div>
-                                    <div class="progress-info">
-                                        <span>Monthly goal: 15h</span>
-                                        <span style="font-weight: 600; color: #2563eb;">57%</span>
-                                    </div>
-                                </div>
-                            </div>
+            <div>
+                <div class="section-title"><h3>Quick Actions</h3></div>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div onclick="startSession(10)" style="background: linear-gradient(135deg, #1e293b, #0f172a); color: white; padding: 2rem; border-radius: 1.25rem; cursor: pointer; transition: 0.3s;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                            <i class="fas fa-flag-checkered" style="font-size: 2rem; color: #fbbf24;"></i>
+                            <span style="background: rgba(255,255,255,0.1); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem;">Exam</span>
                         </div>
-
-                        <!-- Daily Goals -->
-                        <div class="goals-section">
-                            <div class="goals-header">
-                                <div>
-                                    <h3>Today's Learning Goals</h3>
-                                    <p class="goals-subtitle">Complete your daily objectives to maintain your streak</p>
-                                </div>
-                                <div class="goals-count">
-                                    <span id="goals-completed">2</span>/<span id="goals-total">4</span>
-                                    <div style="font-size: 0.75rem; color: #94a3b8; margin-top: -0.5rem;">completed</div>
-                                </div>
-                            </div>
-                            <div id="goals-list"></div>
-                        </div>
-
-                        <!-- Learning Modules -->
-                        <div class="modules-section">
-                            <div class="section-header">
-                                <h3>Learning Modules</h3>
-                                <div class="view-all">
-                                    View All <i class="fas fa-arrow-right"></i>
-                                </div>
-                            </div>
-                            <p style="color: #64748b; font-size: 0.875rem; margin-bottom: 1.5rem;">Continue where you left off</p>
-                            <div class="modules-grid" id="modules-grid"></div>
-                        </div>
-
-                        <!-- Action Cards -->
-                        <div class="action-cards">
-                            <div class="action-card primary" onclick="startAssessment()">
-                                <h3>Ready for a challenge?</h3>
-                                <p>Test your knowledge with a comprehensive B2 level assessment</p>
-                                <button class="action-button">Start Assessment</button>
-                            </div>
-                            <div class="action-card dark" onclick="startReview()">
-                                <h3>Review Mode</h3>
-                                <p>Reinforce your memory with spaced repetition practice</p>
-                                <button class="action-button">Start Review</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right Column - CEFR Journey -->
-                    <div>
-                        <div class="cefr-journey">
-                            <div class="journey-header">
-                                <h3>Your CEFR Journey</h3>
-                                <span class="progress-label">Progress: 68% to C1</span>
-                            </div>
-                            <div class="journey-timeline" id="journey-timeline"></div>
-                        </div>
+                        <h3>Final Assessment</h3>
+                        <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.5rem;">Pass this to unlock next level.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <div id="game-overlay" class="game-overlay hidden">
+        <div class="game-nav">
+            <div style="font-weight: 700; color: #1e293b; display: flex; gap: 1rem;">
+                <span id="game-mode-title">Quiz</span>
+                <span style="color: #cbd5e1;">|</span>
+                <span id="score-display" style="color: #2563eb;">0/10</span>
+            </div>
+            <button onclick="closeGame()" style="background: none; border: none; font-size: 1.5rem; color: #ef4444; cursor: pointer;"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="game-container" id="game-content">
+            </div>
+    </div>
 
-        // Firebase Config
-        const firebaseConfig = {
-            apiKey: "AIzaSyAS6S_Mv8LzX4bYhIp-lIbDN4OCAOQux6M",
-            authDomain: "oxfordvocabapp-a0719.firebaseapp.com",
-            projectId: "oxfordvocabapp-a0719",
-            storageBucket: "oxfordvocabapp-a0719.firebasestorage.app",
-            messagingSenderId: "135746599162",
-            appId: "1:135746599162:web:df9b550a2cb586b099f143"
-        };
+    <div id="upload-modal" class="modal hidden">
+        <div class="modal-box">
+            <h2 style="margin-bottom: 0.5rem;">Upload Database</h2>
+            <p style="color: #64748b; font-size: 0.9rem;">Supports .docx (Word) files</p>
+            <label class="upload-area">
+                <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: #2563eb; margin-bottom: 1rem;"></i>
+                <div style="font-weight: 600; color: #334155;">Click to select Word file</div>
+                <input type="file" hidden accept=".docx" onchange="handleDOCX(this)">
+            </label>
+            <div id="upload-status" style="font-size: 0.85rem; color: #64748b; margin-bottom: 1rem;">Waiting...</div>
+            <button onclick="toggleUpload()" style="background: none; border: none; color: #ef4444; cursor: pointer; text-decoration: underline;">Cancel</button>
+        </div>
+    </div>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const provider = new GoogleAuthProvider();
-
-        let currentUser = null;
+    <script>
+        // --- 1. CONFIG & STATE ---
+        const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
         let userData = { vocabulary: [], completedLevels: [] };
-        const ADMIN_EMAIL = "silvianur@students.amikom.ac.id";
+        let activeLevel = 'A1', currentQueue = [], qIndex = 0, score = 0, mistakes = 0, activeChapId = 1;
 
-        // Dummy data for stats (will be replaced with real Firebase data)
-        const appState = {
-            currentLevel: 'B2',
-            wordsLearned: 247,
-            totalWords: 1834,
-            wordsMasteredPercent: 82,
-            streak: 12,
-            studyHours: 8.5,
-            monthlyGoal: 15,
-            progressToNext: 68,
-            dailyGoals: [
-                { id: 1, icon: 'fa-book', text: 'Learn 20 new words', progress: '20/20', completed: true },
-                { id: 2, icon: 'fa-clipboard-check', text: 'Complete 1 vocabulary quiz', progress: '1/1', completed: true },
-                { id: 3, icon: 'fa-clock', text: 'Practice for 15 minutes', progress: '8/15 min', completed: false },
-                { id: 4, icon: 'fa-repeat', text: 'Review 10 learned words', progress: '0/10', completed: false }
-            ],
-            learningModules: [
-                { id: 1, level: 'B2', title: 'Academic Writing', description: 'Advanced vocabulary for essays and reports', wordCount: 120, weeks: 2, progress: 75, status: 'In Progress' },
-                { id: 2, level: 'B2', title: 'Business English', description: 'Professional communication and presentations', wordCount: 150, weeks: 3, progress: 45, status: 'In Progress' },
-                { id: 3, level: 'B2', title: 'Everyday Conversations', description: 'Informal language and common expressions', wordCount: 100, weeks: 1, progress: 90, status: 'In Progress' },
-                { id: 4, level: 'C1', title: 'Advanced Idioms', description: 'Complex expressions and figurative language', wordCount: 180, weeks: 4, progress: 0, status: 'Not Started' },
-                { id: 5, level: 'C1', title: 'Technical Terminology', description: 'Specialized vocabulary for specific fields', wordCount: 200, weeks: 5, progress: 0, status: 'Not Started' },
-                { id: 6, level: 'B2', title: 'Media & News', description: 'Understanding current affairs and journalism', wordCount: 130, weeks: 2, progress: 30, status: 'In Progress' }
-            ],
-            cefrLevels: [
-                { code: 'A1', name: 'Beginner', completed: true },
-                { code: 'A2', name: 'Elementary', completed: true },
-                { code: 'B1', name: 'Intermediate', completed: true },
-                { code: 'B2', name: 'Upper Inter.', current: true, progress: 68 },
-                { code: 'C1', name: 'Advanced', locked: false },
-                { code: 'C2', name: 'Mastery', locked: true }
-            ]
-        };
-
-        // Auth
+        // --- 2. AUTH & INIT ---
         window.handleLogin = () => {
-            signInWithPopup(auth, provider).catch(e => alert(e.message));
+            document.getElementById('landing-page').classList.add('hidden');
+            document.getElementById('app-header').classList.remove('hidden');
+            document.getElementById('main-dashboard').classList.remove('hidden');
+            loadData();
         };
 
-        window.handleLogout = () => {
-            signOut(auth).then(() => location.reload());
-        };
+        window.handleLogout = () => location.reload();
+        window.toggleUpload = () => document.getElementById('upload-modal').classList.toggle('hidden');
+        window.closeGame = () => document.getElementById('game-overlay').classList.add('hidden');
 
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                document.getElementById('landing-page').classList.add('hidden');
-                document.getElementById('app-header').classList.remove('hidden');
-                document.getElementById('main-dashboard').classList.remove('hidden');
-                
-                // Set user info
-                const firstName = user.displayName?.split(' ')[0] || 'User';
-                const initials = user.displayName ? user.displayName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'U';
-                
-                document.getElementById('user-name-display').textContent = firstName;
-                document.getElementById('user-avatar-header').textContent = initials;
-                
-                // Set greeting
-                const hour = new Date().getHours();
-                let greeting = 'Good morning';
-                if (hour >= 12 && hour < 18) greeting = 'Good afternoon';
-                else if (hour >= 18) greeting = 'Good evening';
-                
-                document.getElementById('greeting-text').textContent = `${greeting}, ${firstName}`;
-                
-                await loadData();
-                renderDashboard();
-            }
-        });
-
-        async function loadData() {
-            // Load shared vocabulary
-            const vocabRef = doc(db, "shared_vocabulary", "cefrix_data");
-            const vocabSnap = await getDoc(vocabRef);
-            
-            if (vocabSnap.exists()) {
-                userData.vocabulary = vocabSnap.data().words || [];
+        function loadData() {
+            const saved = localStorage.getItem('cefrix_data');
+            if(saved) {
+                userData = JSON.parse(saved);
+                if(!userData.completedLevels) userData.completedLevels = [];
             } else {
-                userData.vocabulary = [];
+                userData = { vocabulary: [], completedLevels: [] };
+                toggleUpload();
             }
-            
-            // Load user progress
-            const userRef = doc(db, "user_progress", currentUser.uid);
-            const userSnap = await getDoc(userRef);
-            
-            if (userSnap.exists()) {
-                const userProgress = userSnap.data();
-                userData.completedLevels = userProgress.completedLevels || [];
-                
-                if (userProgress.masteredWords) {
-                    userProgress.masteredWords.forEach(masteredKey => {
-                        const word = userData.vocabulary.find(v => v.english + "|" + v.pos === masteredKey);
-                        if (word) word.mastered = true;
-                    });
-                }
-            } else {
-                userData.completedLevels = [];
-                await setDoc(userRef, { completedLevels: [], masteredWords: [] });
-            }
+            renderModules();
+            updateStats();
         }
 
-        function renderDashboard() {
-            renderDailyGoals();
-            renderLearningModules();
-            renderCEFRJourney();
+        function saveData() {
+            localStorage.setItem('cefrix_data', JSON.stringify(userData));
+            renderModules();
+            updateStats();
         }
 
-        function renderDailyGoals() {
-            const container = document.getElementById('goals-list');
-            container.innerHTML = appState.dailyGoals.map(goal => `
-                <div class="goal-item ${goal.completed ? 'completed' : ''}">
-                    <div class="goal-icon">
-                        <i class="fas ${goal.icon}"></i>
-                    </div>
-                    <div class="goal-content">
-                        <h4>${goal.text}</h4>
-                        <p>${goal.progress}</p>
-                    </div>
-                    <div class="goal-check">
-                        <i class="fas fa-check"></i>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderLearningModules() {
+        // --- 3. MODULE RENDERER ---
+        function renderModules() {
             const container = document.getElementById('modules-grid');
-            container.innerHTML = appState.learningModules.map(module => `
-                <div class="module-card">
-                    <div class="module-header">
-                        <span class="module-level">${module.level}</span>
-                        ${module.status !== 'Not Started' ? `<span class="module-status">${module.status}</span>` : ''}
+            if(userData.vocabulary.length === 0) return;
+
+            container.innerHTML = LEVELS.map((lvl, idx) => {
+                const words = userData.vocabulary.filter(v => v.level === lvl);
+                const mastered = words.filter(v => v.mastered).length;
+                const total = words.length;
+                const percent = total > 0 ? Math.round((mastered/total)*100) : 0;
+                
+                let isLocked = idx > 0 && !userData.completedLevels.includes(LEVELS[idx-1]);
+                if(total === 0) isLocked = true;
+                
+                const statusClass = isLocked ? 'locked' : '';
+                const tagClass = percent === 100 ? 'green' : 'blue';
+                const tagText = percent === 100 ? 'Completed' : (isLocked ? 'Locked' : 'In Progress');
+
+                return `
+                <div class="module-card ${statusClass}" onclick="${isLocked ? '' : `openLevelMenu('${lvl}')`}">
+                    <div class="module-header" style="display:flex; justify-content:space-between; margin-bottom:1rem;">
+                        <span class="tag ${tagClass}">${tagText}</span>
+                        ${isLocked ? '<i class="fas fa-lock" style="color:#94a3b8"></i>' : ''}
                     </div>
-                    <h4 class="module-title">${module.title}</h4>
-                    <p class="module-description">${module.description}</p>
-                    <div class="module-meta">
-                        <span><i class="fas fa-book"></i>${module.wordCount} words</span>
-                        <span><i class="fas fa-clock"></i>${module.weeks} ${module.weeks === 1 ? 'week' : 'weeks'}</span>
+                    <h4 class="module-title" style="font-size:1.25rem; font-weight:700; color:#1e293b; margin-bottom:0.5rem;">Level ${lvl}</h4>
+                    <p class="module-description" style="color:#64748b; font-size:0.9rem; margin-bottom:1rem;">Essential vocabulary.</p>
+                    <div class="module-meta" style="display:flex; gap:1rem; font-size:0.85rem; color:#64748b; margin-bottom:1rem;">
+                        <span><i class="fas fa-book"></i> ${total}</span>
+                        <span><i class="fas fa-check-circle"></i> ${mastered}</span>
                     </div>
-                    <div class="module-progress-label">
-                        <span>Progress</span>
-                        <span>${module.progress}%</span>
-                    </div>
-                    <div class="module-progress-bar">
-                        <div class="module-progress-fill" style="width: ${module.progress}%"></div>
-                    </div>
-                    <div class="module-action">
-                        ${module.progress > 0 ? 'Continue' : 'Start Learning'} <i class="fas fa-arrow-right"></i>
-                    </div>
-                </div>
-            `).join('');
+                    <div class="progress-bar"><div class="progress-fill" style="width: ${percent}%"></div></div>
+                </div>`;
+            }).join('');
         }
 
-        function renderCEFRJourney() {
-            const container = document.getElementById('journey-timeline');
-            container.innerHTML = appState.cefrLevels.map(level => `
-                <div class="level-step ${level.completed ? 'completed' : ''} ${level.current ? 'current' : ''} ${level.locked ? 'locked' : ''}">
-                    <div class="level-badge">
-                        ${level.completed ? '<i class="fas fa-check"></i>' : level.code}
-                    </div>
-                    <div class="level-details">
-                        <h4>${level.code} <span style="font-weight: 400; color: #64748b;">${level.name}</span></h4>
-                        ${level.current ? `
-                            <div class="level-progress-bar">
-                                <div class="level-progress-fill" style="width: ${level.progress}%"></div>
-                            </div>
-                        ` : ''}
-                    </div>
-                    ${level.current ? '<span class="current-badge">Current</span>' : ''}
-                </div>
-            `).join('');
+        function updateStats() {
+            document.getElementById('total-words-display').innerText = userData.vocabulary.length;
+            let currentLvl = 'A1';
+            for(let l of LEVELS) { if(userData.completedLevels.includes(l)) currentLvl = l; }
+            document.getElementById('current-level-display').innerText = currentLvl;
         }
 
-        window.startAssessment = () => {
-            alert('Assessment feature coming soon! This will test your comprehensive B2 knowledge.');
+        // --- 4. GAME ENGINE (WITH MULTIMEDIA) ---
+        window.openLevelMenu = (lvl) => {
+            activeLevel = lvl;
+            const container = document.getElementById('game-content');
+            document.getElementById('game-overlay').classList.remove('hidden');
+            document.getElementById('game-mode-title').innerText = `Level ${lvl} Activities`;
+            
+            container.innerHTML = `
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; width: 100%; max-width: 800px;">
+                    <div class="module-card" onclick="startSession(1)">
+                        <i class="fas fa-keyboard" style="font-size: 2rem; color: #2563eb; margin-bottom: 1rem;"></i>
+                        <h4>Translation</h4><p style="color:#64748b">Type Indonesian meaning.</p>
+                    </div>
+                    <div class="module-card" onclick="startSession(2)">
+                        <i class="fas fa-pen-nib" style="font-size: 2rem; color: #2563eb; margin-bottom: 1rem;"></i>
+                        <h4>Sentence</h4><p style="color:#64748b">Contextual practice.</p>
+                    </div>
+                    <div class="module-card" onclick="startSession(3)">
+                        <i class="fas fa-list-ul" style="font-size: 2rem; color: #2563eb; margin-bottom: 1rem;"></i>
+                        <h4>Multiple Choice</h4><p style="color:#64748b">Select correct answer.</p>
+                    </div>
+                    <div class="module-card" onclick="startSession(7)">
+                        <i class="fas fa-bolt" style="font-size: 2rem; color: #f59e0b; margin-bottom: 1rem;"></i>
+                        <h4>Speed Run</h4><p style="color:#64748b">Fast paced action.</p>
+                    </div>
+                </div>
+            `;
         };
 
-        window.startReview = () => {
-            alert('Review mode coming soon! This will use spaced repetition to help you memorize words.');
+        window.startSession = (mode) => {
+            activeChapId = mode;
+            let words = userData.vocabulary.filter(v => v.level === activeLevel);
+            if(mode === 10) {
+                if(words.length < 5) return alert("Not enough words.");
+                currentQueue = words.sort(()=>Math.random()-0.5).slice(0, 20);
+            } else {
+                let pool = words.filter(v => !v.mastered);
+                if(pool.length < 5) pool = words;
+                currentQueue = pool.sort(()=>Math.random()-0.5).slice(0, 10);
+            }
+            if(currentQueue.length === 0) return alert("Empty level.");
+            qIndex = 0; score = 0; mistakes = 0;
+            renderQuestion(mode);
+        };
+
+        // --- MAIN RENDERER ---
+        async function renderQuestion(mode) {
+            if(qIndex >= currentQueue.length) {
+                document.getElementById('game-content').innerHTML = `
+                    <div class="quiz-card">
+                        <i class="fas fa-trophy" style="font-size: 4rem; color: #fbbf24; margin-bottom: 1rem;"></i>
+                        <h1>Complete!</h1>
+                        <h2 style="font-size: 3rem; color: #2563eb; margin: 1rem 0;">${score}/${currentQueue.length}</h2>
+                        <button class="cta-btn" onclick="closeGame()">Back to Menu</button>
+                    </div>`;
+                if(mode === 10 && mistakes <= 3) {
+                    if(!userData.completedLevels.includes(activeLevel)) userData.completedLevels.push(activeLevel);
+                }
+                saveData();
+                return;
+            }
+
+            const w = currentQueue[qIndex];
+            const container = document.getElementById('game-content');
+            
+            // FETCH PHONETIC (API)
+            let phonetic = "";
+            try {
+                const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${w.english}`);
+                const data = await res.json();
+                if(data[0]?.phonetic) phonetic = data[0].phonetic;
+            } catch(e) {}
+
+            // IMAGE URL (AI Generated based on word)
+            const imgUrl = `https://image.pollinations.ai/prompt/minimalist vector illustration of ${w.english}?width=300&height=300&nologo=true`;
+
+            // HTML HEADER (Word + Sound + Phonetic + Image)
+            const multimediaHeader = `
+                <div class="quiz-image-container">
+                    <img src="${imgUrl}" alt="${w.english}" onerror="this.style.display='none'">
+                </div>
+                <div class="word-header">
+                    <div class="quiz-word">${w.english}</div>
+                    <div>
+                        <span class="phonetic-badge">${phonetic}</span>
+                        <button class="speaker-btn" onclick="speak('${w.english}')"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="quiz-type">${w.pos}</div>
+                </div>
+            `;
+
+            if(mode === 1) { // Translation
+                container.innerHTML = `
+                    <div class="quiz-card">
+                        ${multimediaHeader}
+                        <input id="ans-input" class="quiz-input" placeholder="Meaning in Indonesian..." autocomplete="off">
+                        <button class="cta-btn" onclick="checkAns('${w.indonesian}', ${mode}, 'input')">Check</button>
+                    </div>`;
+                setTimeout(()=>document.getElementById('ans-input').focus(), 100);
+            } 
+            else if(mode === 3 || mode === 7) { // MC
+                const dist = userData.vocabulary.filter(v => v.english !== w.english).sort(()=>Math.random()-0.5).slice(0, 3);
+                const opts = [w, ...dist].sort(()=>Math.random()-0.5);
+                container.innerHTML = `
+                    <div class="quiz-card">
+                        ${multimediaHeader}
+                        <div class="quiz-options">
+                            ${opts.map(o => `<button class="quiz-btn" onclick="checkAns('${o.indonesian}', ${mode}, this, '${w.indonesian}')">${o.indonesian}</button>`).join('')}
+                        </div>
+                    </div>`;
+            }
+            else { // Sentence
+                const masked = w.example.replace(new RegExp(w.english, 'gi'), '_____');
+                container.innerHTML = `
+                    <div class="quiz-card">
+                        <h3>Complete the Sentence</h3>
+                        <p style="font-size:1.2rem; font-style:italic; margin:1.5rem 0; color:#475569;">"${masked}"</p>
+                        <div class="quiz-type">Hint: ${w.indonesian}</div>
+                        <input id="ans-input" class="quiz-input" placeholder="Type the word..." autocomplete="off">
+                        <button class="cta-btn" onclick="checkAns('${w.english}', ${mode}, 'input')">Check</button>
+                    </div>`;
+            }
+        }
+
+        // --- HELPERS ---
+        window.speak = (txt) => {
+            const u = new SpeechSynthesisUtterance(txt);
+            u.lang = 'en-US';
+            window.speechSynthesis.speak(u);
+        };
+
+        window.checkAns = (correct, mode, el, matchVal) => {
+            let isCorrect = false;
+            if(el === 'input') {
+                const val = document.getElementById('ans-input').value.toLowerCase().trim();
+                if(val.length > 1 && (correct.toLowerCase().includes(val) || val.includes(correct.toLowerCase()))) isCorrect = true;
+            } else {
+                isCorrect = (el.innerText === matchVal);
+                if(isCorrect) el.classList.add('correct'); else el.classList.add('wrong');
+            }
+
+            if(isCorrect) { score++; currentQueue[qIndex].mastered = true; } else { mistakes++; }
+            document.getElementById('score-display').innerText = `${score}/${currentQueue.length}`;
+            setTimeout(() => { qIndex++; renderQuestion(mode); }, 1500);
+        };
+
+        // --- WORD UPLOAD (PARSER) ---
+        window.handleDOCX = async (input) => {
+            document.getElementById('upload-status').innerText = "Reading...";
+            try {
+                const arrayBuffer = await input.files[0].arrayBuffer();
+                const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+                const lines = result.value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+                let count = 0, currentLvl = "A1", newVocab = [];
+                const existingKeys = new Set(userData.vocabulary.map(v => v.english + v.pos));
+                const regexItem = /^[\u2022\-\*]?\s*(.+?)\s+\((.+?)\)\s*:\s*(.+)$/;
+                const regexLevel = /^Level\s+([A-C][1-2])$/i;
+
+                for (let i = 0; i < lines.length; i++) {
+                    let line = lines[i];
+                    let matchLevel = regexLevel.exec(line);
+                    if (matchLevel) { currentLvl = matchLevel[1].toUpperCase(); continue; }
+
+                    let matchItem = regexItem.exec(line);
+                    if (matchItem) {
+                        const word = matchItem[1].trim();
+                        const pos = matchItem[2].trim();
+                        const meaning = matchItem[3].trim();
+                        let example = `Example: ${word} is used here.`;
+                        if (i + 1 < lines.length && lines[i+1].toLowerCase().startsWith("example:")) {
+                            example = lines[i+1].replace(/^Example:\s*/i, "").trim();
+                            i++;
+                        }
+                        const key = word + pos;
+                        if (!existingKeys.has(key)) {
+                            newVocab.push({
+                                english: word, pos: pos, indonesian: meaning,
+                                level: currentLvl, example: example, mastered: false
+                            });
+                            existingKeys.add(key);
+                            count++;
+                        }
+                    }
+                }
+                if (count > 0) {
+                    userData.vocabulary = [...userData.vocabulary, ...newVocab];
+                    saveData();
+                    alert(`Imported ${count} words.`);
+                    toggleUpload();
+                } else { document.getElementById('upload-status').innerText = "Format Error."; }
+            } catch (err) { console.error(err); }
+            input.value = "";
         };
     </script>
 </body>
