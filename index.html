@@ -3,120 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CEFRix - Ultimate Mastery</title>
-    
+    <title>CEFRix - Online Mastery</title>
     <link rel="icon" type="image/jpeg" href="/logo.jpg">
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     
     <style>
-        /* --- CORE STYLES --- */
+        /* CSS SAMA SEPERTI DESIGN PREMIUM SEBELUMNYA */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
         .hidden { display: none !important; }
-        
-        /* HEADER */
         .app-header { background: white; border-bottom: 1px solid #e2e8f0; padding: 1rem 0; position: sticky; top: 0; z-index: 50; }
         .header-content { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
-        
         .logo-group { display: flex; align-items: center; gap: 0.75rem; }
         .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #2563eb, #3b82f6); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; }
         .logo-text h1 { font-size: 1.25rem; font-weight: 800; color: #1e293b; }
         .logo-text p { font-size: 0.7rem; color: #64748b; font-weight: 500; }
-
         .user-actions { display: flex; align-items: center; gap: 1rem; }
         .action-btn-sm { padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: 0.2s; border: 1px solid #e2e8f0; background: white; color: #64748b; display: flex; align-items: center; gap: 0.5rem; }
         .action-btn-sm:hover { background: #f1f5f9; color: #1e293b; }
         .action-btn-sm.primary { background: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
-
-        /* LANDING */
         .landing-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); }
         .hero-box { text-align: center; padding: 3rem; }
         .hero-title { font-size: 4rem; font-weight: 900; color: #1e293b; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
         .hero-title span { color: #2563eb; }
         .cta-btn { background: #2563eb; color: white; padding: 1rem 2.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 1.1rem; border: none; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); display: inline-flex; align-items: center; gap: 0.5rem; }
         .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(37, 99, 235, 0.4); }
-
-        /* DASHBOARD */
         .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
         .welcome-card { background: white; border-radius: 1.5rem; padding: 2.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; }
         .welcome-text h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
         .welcome-text p { color: #64748b; }
-        
         .stats-row { display: flex; gap: 2rem; }
         .stat-item { display: flex; align-items: center; gap: 1rem; }
         .stat-icon { width: 50px; height: 50px; background: #eff6ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #2563eb; font-size: 1.25rem; }
         .stat-info h4 { font-size: 0.875rem; color: #64748b; }
         .stat-info p { font-size: 1.25rem; font-weight: 700; }
-
-        /* MAIN GRID */
         .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
-        
-        /* MODULES (Dynamic) */
         .section-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
         .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
-        
         .module-card { background: white; border-radius: 1.25rem; padding: 1.5rem; box-shadow: 0 2px 5px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; transition: 0.3s; cursor: pointer; position: relative; overflow: hidden; }
         .module-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.06); border-color: #e2e8f0; }
         .module-card.locked { opacity: 0.6; cursor: not-allowed; background: #f8fafc; }
-        
         .tag { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 700; margin-bottom: 1rem; }
         .tag.blue { background: #eff6ff; color: #2563eb; }
         .tag.green { background: #f0fdf4; color: #16a34a; }
-        .tag.gray { background: #f1f5f9; color: #64748b; }
-
         .progress-bar { height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden; margin: 1rem 0; }
         .progress-fill { height: 100%; background: #2563eb; transition: width 0.5s; }
-
-        /* GAME OVERLAY (ENHANCED FOR MULTIMEDIA) */
         .game-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.98); z-index: 100; display: flex; flex-direction: column; overflow-y: auto; }
         .game-nav { padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; background: white; position: sticky; top: 0; z-index: 10; }
         .game-container { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem; }
-        
         .quiz-card { background: white; width: 100%; max-width: 600px; padding: 2rem; border-radius: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.1); text-align: center; border: 1px solid #f1f5f9; position: relative; }
-        
-        /* MULTIMEDIA ELEMENTS */
-        .quiz-image-container {
-            width: 150px; height: 150px; margin: 0 auto 1.5rem; border-radius: 1rem; overflow: hidden; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1); background: #f8fafc; display: flex; align-items: center; justify-content: center;
-        }
+        .quiz-image-container { width: 150px; height: 150px; margin: 0 auto 1.5rem; border-radius: 1rem; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); background: #f8fafc; display: flex; align-items: center; justify-content: center; }
         .quiz-image-container img { width: 100%; height: 100%; object-fit: cover; }
-        
         .word-header { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; margin-bottom: 2rem; }
         .quiz-word { font-size: 3rem; font-weight: 800; color: #1e293b; line-height: 1; }
-        
-        .phonetic-badge { 
-            background: #f1f5f9; color: #64748b; padding: 0.25rem 0.75rem; 
-            border-radius: 1rem; font-family: 'Times New Roman', serif; font-style: italic; font-size: 1.1rem;
-        }
-        
-        .speaker-btn {
-            background: #eff6ff; color: #2563eb; border: none; width: 40px; height: 40px; border-radius: 50%;
-            cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 1.2rem;
-            transition: 0.2s; margin-top: 0.5rem;
-        }
+        .phonetic-badge { background: #f1f5f9; color: #64748b; padding: 0.25rem 0.75rem; border-radius: 1rem; font-family: 'Times New Roman', serif; font-style: italic; font-size: 1.1rem; }
+        .speaker-btn { background: #eff6ff; color: #2563eb; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.2s; margin-top: 0.5rem; }
         .speaker-btn:hover { background: #2563eb; color: white; transform: scale(1.1); }
-
         .quiz-type { color: #64748b; font-style: italic; margin-bottom: 2rem; }
-        
         .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         .quiz-btn { padding: 1.25rem; border: 2px solid #e2e8f0; background: white; border-radius: 1rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.2s; color: #475569; }
         .quiz-btn:hover { border-color: #2563eb; color: #2563eb; background: #eff6ff; }
         .quiz-btn.correct { background: #22c55e; border-color: #22c55e; color: white; }
         .quiz-btn.wrong { background: #ef4444; border-color: #ef4444; color: white; }
-
         .quiz-input { width: 100%; padding: 1rem; font-size: 1.2rem; border: 2px solid #e2e8f0; border-radius: 1rem; margin-bottom: 1rem; text-align: center; outline: none; }
         .quiz-input:focus { border-color: #2563eb; }
-
-        /* UPLOAD MODAL */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-box { background: white; padding: 2rem; border-radius: 1.5rem; width: 500px; text-align: center; }
         .upload-area { border: 3px dashed #cbd5e1; border-radius: 1rem; padding: 3rem; margin: 1.5rem 0; cursor: pointer; transition: 0.2s; display: block; }
         .upload-area:hover { border-color: #2563eb; background: #f8fafc; }
-
         @media (max-width: 1024px) { .main-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -124,23 +80,21 @@
 
     <div id="landing-page" class="landing-page">
         <div class="hero-box">
-            <div style="font-size: 5rem; color: #2563eb; margin-bottom: 1rem;"><i class="fas fa-layer-group"></i></div>
             <h1 class="hero-title">CEFR<span>ix</span></h1>
-            <p style="color: #64748b; font-size: 1.2rem; margin-bottom: 3rem; letter-spacing: 1px;">Multimedia Vocabulary Engine</p>
-            <button class="cta-btn" onclick="handleLogin()">
-                <i class="fas fa-play"></i> Start Learning (Offline Mode)
-            </button>
+            <p style="color: #64748b; font-size: 1.2rem; margin-bottom: 3rem;">ONLINE MULTIMEDIA LEARNING</p>
+            <button class="cta-btn" onclick="handleLogin()"><i class="fab fa-google"></i> Login to Start</button>
         </div>
     </div>
 
     <div id="app-header" class="app-header hidden">
         <div class="header-content">
             <div class="logo-group">
-                <div class="logo-icon"><i class="fas fa-cube"></i></div>
-                <div class="logo-text"><h1>CEFRix</h1><p>Offline Edition</p></div>
+                <div class="logo-icon"><i class="fas fa-cloud"></i></div>
+                <div class="logo-text"><h1>CEFRix</h1><p>Online Mode</p></div>
             </div>
             <div class="user-actions">
-                <button onclick="toggleUpload()" class="action-btn-sm primary"><i class="fas fa-cloud-upload-alt"></i> Upload Data</button>
+                <div id="user-display" style="font-weight: 600;">User</div>
+                <button onclick="toggleUpload()" class="action-btn-sm primary"><i class="fas fa-cloud-upload-alt"></i> Upload</button>
                 <button onclick="handleLogout()" class="action-btn-sm"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </div>
@@ -148,46 +102,26 @@
 
     <div id="main-dashboard" class="container hidden">
         <div class="welcome-card">
-            <div class="welcome-text">
-                <h2 id="greeting">Hello, Learner!</h2>
-                <p>Track your vocabulary mastery progress.</p>
-            </div>
+            <div class="welcome-text"><h2 id="greeting">Welcome!</h2><p>Data synced to cloud.</p></div>
             <div class="stats-row">
-                <div class="stat-item">
-                    <div class="stat-icon"><i class="fas fa-trophy"></i></div>
-                    <div class="stat-info"><h4>Level</h4><p id="current-level-display">A1</p></div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-icon"><i class="fas fa-fire"></i></div>
-                    <div class="stat-info"><h4>Words</h4><p id="total-words-display">0</p></div>
-                </div>
+                <div class="stat-item"><div class="stat-icon"><i class="fas fa-trophy"></i></div><div class="stat-info"><h4>Level</h4><p id="current-level-display">A1</p></div></div>
+                <div class="stat-item"><div class="stat-icon"><i class="fas fa-fire"></i></div><div class="stat-info"><h4>Words</h4><p id="total-words-display">0</p></div></div>
             </div>
         </div>
 
         <div class="main-grid">
             <div>
-                <div class="section-title">
-                    <h3>Learning Path</h3>
-                </div>
+                <div class="section-title"><h3>Learning Modules</h3></div>
                 <div id="modules-grid" class="modules-grid">
-                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #94a3b8; border: 2px dashed #e2e8f0; border-radius: 1rem;">
-                        <i class="fas fa-folder-open" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-                        <p>No data found. Please upload your Oxford Word file.</p>
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #94a3b8; border: 2px dashed #e2e8f0;">
+                        <i class="fas fa-spinner fa-spin"></i> Loading data from cloud...
                     </div>
                 </div>
             </div>
-
             <div>
-                <div class="section-title"><h3>Quick Actions</h3></div>
-                <div style="display: flex; flex-direction: column; gap: 1rem;">
-                    <div onclick="startSession(10)" style="background: linear-gradient(135deg, #1e293b, #0f172a); color: white; padding: 2rem; border-radius: 1.25rem; cursor: pointer; transition: 0.3s;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
-                            <i class="fas fa-flag-checkered" style="font-size: 2rem; color: #fbbf24;"></i>
-                            <span style="background: rgba(255,255,255,0.1); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem;">Exam</span>
-                        </div>
-                        <h3>Final Assessment</h3>
-                        <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.5rem;">Pass this to unlock next level.</p>
-                    </div>
+                <div class="section-title"><h3>Actions</h3></div>
+                <div onclick="startSession(10)" style="background: #1e293b; color: white; padding: 2rem; border-radius: 1.25rem; cursor: pointer;">
+                    <h3>Final Assessment</h3><p style="color: #94a3b8; font-size: 0.9rem;">Pass to unlock next level.</p>
                 </div>
             </div>
         </div>
@@ -195,73 +129,100 @@
 
     <div id="game-overlay" class="game-overlay hidden">
         <div class="game-nav">
-            <div style="font-weight: 700; color: #1e293b; display: flex; gap: 1rem;">
-                <span id="game-mode-title">Quiz</span>
-                <span style="color: #cbd5e1;">|</span>
-                <span id="score-display" style="color: #2563eb;">0/10</span>
-            </div>
-            <button onclick="closeGame()" style="background: none; border: none; font-size: 1.5rem; color: #ef4444; cursor: pointer;"><i class="fas fa-times"></i></button>
+            <div style="font-weight: 700;">Quiz | <span id="score-display" style="color: #2563eb;">0/10</span></div>
+            <button onclick="closeGame()" style="background:none;border:none;font-size:1.5rem;color:#ef4444;"><i class="fas fa-times"></i></button>
         </div>
-        <div class="game-container" id="game-content">
-            </div>
+        <div class="game-container" id="game-content"></div>
     </div>
 
     <div id="upload-modal" class="modal hidden">
         <div class="modal-box">
-            <h2 style="margin-bottom: 0.5rem;">Upload Database</h2>
-            <p style="color: #64748b; font-size: 0.9rem;">Supports .docx (Word) files</p>
+            <h2>Upload Database</h2>
             <label class="upload-area">
-                <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: #2563eb; margin-bottom: 1rem;"></i>
-                <div style="font-weight: 600; color: #334155;">Click to select Word file</div>
+                <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: #2563eb;"></i>
+                <div>Select Word (.docx)</div>
                 <input type="file" hidden accept=".docx" onchange="handleDOCX(this)">
             </label>
-            <div id="upload-status" style="font-size: 0.85rem; color: #64748b; margin-bottom: 1rem;">Waiting...</div>
-            <button onclick="toggleUpload()" style="background: none; border: none; color: #ef4444; cursor: pointer; text-decoration: underline;">Cancel</button>
+            <div id="upload-status"></div>
+            <button onclick="toggleUpload()" style="background:none;border:none;text-decoration:underline;">Cancel</button>
         </div>
     </div>
 
-    <script>
-        // --- 1. CONFIG & STATE ---
-        const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
-        let userData = { vocabulary: [], completedLevels: [] };
-        let activeLevel = 'A1', currentQueue = [], qIndex = 0, score = 0, mistakes = 0, activeChapId = 1;
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // --- 2. AUTH & INIT ---
-        window.handleLogin = () => {
-            document.getElementById('landing-page').classList.add('hidden');
-            document.getElementById('app-header').classList.remove('hidden');
-            document.getElementById('main-dashboard').classList.remove('hidden');
-            loadData();
+        // ==========================================
+        // 🔴🔴🔴 ISI FIREBASE CONFIG DI SINI 🔴🔴🔴
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAS6S_Mv8LzX4bYhIp-lIbDN4OCAOQux6M",
+            authDomain: "oxfordvocabapp-a0719.firebaseapp.com",
+            projectId: "oxfordvocabapp-a0719",
+            storageBucket: "oxfordvocabapp-a0719.firebasestorage.app",
+            messagingSenderId: "135746599162",
+            appId: "1:135746599162:web:df9b550a2cb586b099f143"
         };
 
-        window.handleLogout = () => location.reload();
-        window.toggleUpload = () => document.getElementById('upload-modal').classList.toggle('hidden');
-        window.closeGame = () => document.getElementById('game-overlay').classList.add('hidden');
+        let app, auth, db, provider;
+        let currentUser = null, userData = { vocabulary: [], completedLevels: [] };
+        let activeLevel = 'A1', currentQueue = [], qIndex = 0, score = 0, mistakes = 0;
+        const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
-        function loadData() {
-            const saved = localStorage.getItem('cefrix_data');
-            if(saved) {
-                userData = JSON.parse(saved);
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            provider = new GoogleAuthProvider();
+        } catch(e) { 
+            alert("🔥 ERROR: Firebase Config belum diisi! Tombol tidak akan jalan."); 
+        }
+
+        // AUTH
+        window.handleLogin = () => signInWithPopup(auth, provider).catch(e => alert("Login Error: " + e.message));
+        window.handleLogout = () => signOut(auth).then(() => location.reload());
+        
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('landing-page').classList.add('hidden');
+                document.getElementById('app-header').classList.remove('hidden');
+                document.getElementById('main-dashboard').classList.remove('hidden');
+                document.getElementById('user-display').innerText = user.displayName.split(' ')[0];
+                await loadData();
+            }
+        });
+
+        // DATABASE (FIRESTORE)
+        async function loadData() {
+            const ref = doc(db, "cefrix_online_v1", currentUser.uid);
+            const snap = await getDoc(ref);
+            if (snap.exists()) {
+                userData = snap.data();
                 if(!userData.completedLevels) userData.completedLevels = [];
             } else {
                 userData = { vocabulary: [], completedLevels: [] };
+                await setDoc(ref, userData);
                 toggleUpload();
             }
             renderModules();
             updateStats();
         }
 
-        function saveData() {
-            localStorage.setItem('cefrix_data', JSON.stringify(userData));
+        async function saveData() {
+            await updateDoc(doc(db, "cefrix_online_v1", currentUser.uid), userData);
             renderModules();
             updateStats();
         }
 
-        // --- 3. MODULE RENDERER ---
+        // RENDER UI
         function renderModules() {
             const container = document.getElementById('modules-grid');
-            if(userData.vocabulary.length === 0) return;
-
+            if(userData.vocabulary.length === 0) {
+                container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:2rem;">Belum ada data. Upload Word dulu.</div>`;
+                return;
+            }
             container.innerHTML = LEVELS.map((lvl, idx) => {
                 const words = userData.vocabulary.filter(v => v.level === lvl);
                 const mastered = words.filter(v => v.mastered).length;
@@ -273,20 +234,14 @@
                 
                 const statusClass = isLocked ? 'locked' : '';
                 const tagClass = percent === 100 ? 'green' : 'blue';
-                const tagText = percent === 100 ? 'Completed' : (isLocked ? 'Locked' : 'In Progress');
 
                 return `
                 <div class="module-card ${statusClass}" onclick="${isLocked ? '' : `openLevelMenu('${lvl}')`}">
-                    <div class="module-header" style="display:flex; justify-content:space-between; margin-bottom:1rem;">
-                        <span class="tag ${tagClass}">${tagText}</span>
-                        ${isLocked ? '<i class="fas fa-lock" style="color:#94a3b8"></i>' : ''}
+                    <div style="display:flex; justify-content:space-between; margin-bottom:1rem;">
+                        <span class="tag ${tagClass}">Level ${lvl}</span>
+                        ${isLocked ? '<i class="fas fa-lock"></i>' : ''}
                     </div>
-                    <h4 class="module-title" style="font-size:1.25rem; font-weight:700; color:#1e293b; margin-bottom:0.5rem;">Level ${lvl}</h4>
-                    <p class="module-description" style="color:#64748b; font-size:0.9rem; margin-bottom:1rem;">Essential vocabulary.</p>
-                    <div class="module-meta" style="display:flex; gap:1rem; font-size:0.85rem; color:#64748b; margin-bottom:1rem;">
-                        <span><i class="fas fa-book"></i> ${total}</span>
-                        <span><i class="fas fa-check-circle"></i> ${mastered}</span>
-                    </div>
+                    <h4>${total} Words</h4>
                     <div class="progress-bar"><div class="progress-fill" style="width: ${percent}%"></div></div>
                 </div>`;
             }).join('');
@@ -299,72 +254,45 @@
             document.getElementById('current-level-display').innerText = currentLvl;
         }
 
-        // --- 4. GAME ENGINE (WITH MULTIMEDIA) ---
+        // GAME & MULTIMEDIA
         window.openLevelMenu = (lvl) => {
             activeLevel = lvl;
             const container = document.getElementById('game-content');
             document.getElementById('game-overlay').classList.remove('hidden');
-            document.getElementById('game-mode-title').innerText = `Level ${lvl} Activities`;
-            
             container.innerHTML = `
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; width: 100%; max-width: 800px;">
-                    <div class="module-card" onclick="startSession(1)">
-                        <i class="fas fa-keyboard" style="font-size: 2rem; color: #2563eb; margin-bottom: 1rem;"></i>
-                        <h4>Translation</h4><p style="color:#64748b">Type Indonesian meaning.</p>
-                    </div>
-                    <div class="module-card" onclick="startSession(2)">
-                        <i class="fas fa-pen-nib" style="font-size: 2rem; color: #2563eb; margin-bottom: 1rem;"></i>
-                        <h4>Sentence</h4><p style="color:#64748b">Contextual practice.</p>
-                    </div>
-                    <div class="module-card" onclick="startSession(3)">
-                        <i class="fas fa-list-ul" style="font-size: 2rem; color: #2563eb; margin-bottom: 1rem;"></i>
-                        <h4>Multiple Choice</h4><p style="color:#64748b">Select correct answer.</p>
-                    </div>
-                    <div class="module-card" onclick="startSession(7)">
-                        <i class="fas fa-bolt" style="font-size: 2rem; color: #f59e0b; margin-bottom: 1rem;"></i>
-                        <h4>Speed Run</h4><p style="color:#64748b">Fast paced action.</p>
-                    </div>
-                </div>
-            `;
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; width: 100%; max-width: 600px;">
+                    <div class="module-card" onclick="startSession(1)"><h4>Translation</h4></div>
+                    <div class="module-card" onclick="startSession(3)"><h4>Multiple Choice</h4></div>
+                </div>`;
         };
 
         window.startSession = (mode) => {
-            activeChapId = mode;
             let words = userData.vocabulary.filter(v => v.level === activeLevel);
             if(mode === 10) {
-                if(words.length < 5) return alert("Not enough words.");
+                if(words.length < 5) return alert("Kata belum cukup.");
                 currentQueue = words.sort(()=>Math.random()-0.5).slice(0, 20);
             } else {
                 let pool = words.filter(v => !v.mastered);
                 if(pool.length < 5) pool = words;
                 currentQueue = pool.sort(()=>Math.random()-0.5).slice(0, 10);
             }
-            if(currentQueue.length === 0) return alert("Empty level.");
+            if(currentQueue.length === 0) return alert("Kosong.");
             qIndex = 0; score = 0; mistakes = 0;
             renderQuestion(mode);
         };
 
-        // --- MAIN RENDERER ---
         async function renderQuestion(mode) {
             if(qIndex >= currentQueue.length) {
                 document.getElementById('game-content').innerHTML = `
-                    <div class="quiz-card">
-                        <i class="fas fa-trophy" style="font-size: 4rem; color: #fbbf24; margin-bottom: 1rem;"></i>
-                        <h1>Complete!</h1>
-                        <h2 style="font-size: 3rem; color: #2563eb; margin: 1rem 0;">${score}/${currentQueue.length}</h2>
-                        <button class="cta-btn" onclick="closeGame()">Back to Menu</button>
-                    </div>`;
-                if(mode === 10 && mistakes <= 3) {
-                    if(!userData.completedLevels.includes(activeLevel)) userData.completedLevels.push(activeLevel);
-                }
-                saveData();
+                    <div class="quiz-card"><h1>Selesai!</h1><h2>${score}/${currentQueue.length}</h2><button class="cta-btn" onclick="closeGame()">Tutup</button></div>`;
+                if(score > 0) saveData();
                 return;
             }
 
             const w = currentQueue[qIndex];
             const container = document.getElementById('game-content');
             
-            // FETCH PHONETIC (API)
+            // 1. Multimedia API (Audio & Phonetic)
             let phonetic = "";
             try {
                 const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${w.english}`);
@@ -372,127 +300,71 @@
                 if(data[0]?.phonetic) phonetic = data[0].phonetic;
             } catch(e) {}
 
-            // IMAGE URL (AI Generated based on word)
-            const imgUrl = `https://image.pollinations.ai/prompt/minimalist vector illustration of ${w.english}?width=300&height=300&nologo=true`;
+            // 2. Image API
+            const imgUrl = `https://image.pollinations.ai/prompt/illustration of ${w.english}?width=300&height=300&nologo=true`;
 
-            // HTML HEADER (Word + Sound + Phonetic + Image)
-            const multimediaHeader = `
-                <div class="quiz-image-container">
-                    <img src="${imgUrl}" alt="${w.english}" onerror="this.style.display='none'">
-                </div>
+            const header = `
+                <div class="quiz-image-container"><img src="${imgUrl}" onerror="this.style.display='none'"></div>
                 <div class="word-header">
                     <div class="quiz-word">${w.english}</div>
-                    <div>
-                        <span class="phonetic-badge">${phonetic}</span>
-                        <button class="speaker-btn" onclick="speak('${w.english}')"><i class="fas fa-volume-up"></i></button>
-                    </div>
+                    <div><span class="phonetic-badge">${phonetic}</span><button class="speaker-btn" onclick="speak('${w.english}')"><i class="fas fa-volume-up"></i></button></div>
                     <div class="quiz-type">${w.pos}</div>
-                </div>
-            `;
+                </div>`;
 
-            if(mode === 1) { // Translation
-                container.innerHTML = `
-                    <div class="quiz-card">
-                        ${multimediaHeader}
-                        <input id="ans-input" class="quiz-input" placeholder="Meaning in Indonesian..." autocomplete="off">
-                        <button class="cta-btn" onclick="checkAns('${w.indonesian}', ${mode}, 'input')">Check</button>
-                    </div>`;
-                setTimeout(()=>document.getElementById('ans-input').focus(), 100);
-            } 
-            else if(mode === 3 || mode === 7) { // MC
-                const dist = userData.vocabulary.filter(v => v.english !== w.english).sort(()=>Math.random()-0.5).slice(0, 3);
+            if(mode === 1) {
+                container.innerHTML = `<div class="quiz-card">${header}<input id="ans" class="quiz-input" placeholder="Arti..."><button class="cta-btn" onclick="check('${w.indonesian}', 'input')">Cek</button></div>`;
+            } else {
+                const dist = userData.vocabulary.filter(v=>v.english!==w.english).sort(()=>Math.random()-0.5).slice(0,3);
                 const opts = [w, ...dist].sort(()=>Math.random()-0.5);
-                container.innerHTML = `
-                    <div class="quiz-card">
-                        ${multimediaHeader}
-                        <div class="quiz-options">
-                            ${opts.map(o => `<button class="quiz-btn" onclick="checkAns('${o.indonesian}', ${mode}, this, '${w.indonesian}')">${o.indonesian}</button>`).join('')}
-                        </div>
-                    </div>`;
-            }
-            else { // Sentence
-                const masked = w.example.replace(new RegExp(w.english, 'gi'), '_____');
-                container.innerHTML = `
-                    <div class="quiz-card">
-                        <h3>Complete the Sentence</h3>
-                        <p style="font-size:1.2rem; font-style:italic; margin:1.5rem 0; color:#475569;">"${masked}"</p>
-                        <div class="quiz-type">Hint: ${w.indonesian}</div>
-                        <input id="ans-input" class="quiz-input" placeholder="Type the word..." autocomplete="off">
-                        <button class="cta-btn" onclick="checkAns('${w.english}', ${mode}, 'input')">Check</button>
-                    </div>`;
+                container.innerHTML = `<div class="quiz-card">${header}<div class="quiz-options">${opts.map(o=>`<button class="quiz-btn" onclick="check('${o.indonesian}', this, '${w.indonesian}')">${o.indonesian}</button>`).join('')}</div></div>`;
             }
         }
 
-        // --- HELPERS ---
-        window.speak = (txt) => {
-            const u = new SpeechSynthesisUtterance(txt);
-            u.lang = 'en-US';
-            window.speechSynthesis.speak(u);
-        };
-
-        window.checkAns = (correct, mode, el, matchVal) => {
-            let isCorrect = false;
+        window.speak = (txt) => { const u = new SpeechSynthesisUtterance(txt); u.lang='en-US'; speechSynthesis.speak(u); };
+        
+        window.check = (corr, el, match) => {
+            let ok = false;
             if(el === 'input') {
-                const val = document.getElementById('ans-input').value.toLowerCase().trim();
-                if(val.length > 1 && (correct.toLowerCase().includes(val) || val.includes(correct.toLowerCase()))) isCorrect = true;
+                const val = document.getElementById('ans').value.toLowerCase();
+                if(val.includes(corr.toLowerCase()) || corr.toLowerCase().includes(val)) ok = true;
             } else {
-                isCorrect = (el.innerText === matchVal);
-                if(isCorrect) el.classList.add('correct'); else el.classList.add('wrong');
+                if(el.innerText === match) { el.classList.add('correct'); ok = true; } 
+                else el.classList.add('wrong');
             }
-
-            if(isCorrect) { score++; currentQueue[qIndex].mastered = true; } else { mistakes++; }
-            document.getElementById('score-display').innerText = `${score}/${currentQueue.length}`;
-            setTimeout(() => { qIndex++; renderQuestion(mode); }, 1500);
+            if(ok) { score++; currentQueue[qIndex].mastered = true; }
+            setTimeout(() => { qIndex++; renderQuestion(3); }, 1000); // Mode hardcoded for flow
         };
 
-        // --- WORD UPLOAD (PARSER) ---
+        // PARSER
         window.handleDOCX = async (input) => {
-            document.getElementById('upload-status').innerText = "Reading...";
+            document.getElementById('upload-status').innerText = "Processing...";
             try {
-                const arrayBuffer = await input.files[0].arrayBuffer();
-                const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
-                const lines = result.value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+                const buf = await input.files[0].arrayBuffer();
+                const res = await mammoth.extractRawText({ arrayBuffer: buf });
+                const lines = res.value.split('\n').map(l=>l.trim()).filter(l=>l.length>0);
+                
+                let count=0, lvl="A1", newV=[], keys=new Set(userData.vocabulary.map(v=>v.english+v.pos));
+                const regItem = /^[\u2022\-\*]?\s*(.+?)\s+\((.+?)\)\s*:\s*(.+)$/;
+                const regLvl = /^Level\s+([A-C][1-2])$/i;
 
-                let count = 0, currentLvl = "A1", newVocab = [];
-                const existingKeys = new Set(userData.vocabulary.map(v => v.english + v.pos));
-                const regexItem = /^[\u2022\-\*]?\s*(.+?)\s+\((.+?)\)\s*:\s*(.+)$/;
-                const regexLevel = /^Level\s+([A-C][1-2])$/i;
-
-                for (let i = 0; i < lines.length; i++) {
-                    let line = lines[i];
-                    let matchLevel = regexLevel.exec(line);
-                    if (matchLevel) { currentLvl = matchLevel[1].toUpperCase(); continue; }
-
-                    let matchItem = regexItem.exec(line);
-                    if (matchItem) {
-                        const word = matchItem[1].trim();
-                        const pos = matchItem[2].trim();
-                        const meaning = matchItem[3].trim();
-                        let example = `Example: ${word} is used here.`;
-                        if (i + 1 < lines.length && lines[i+1].toLowerCase().startsWith("example:")) {
-                            example = lines[i+1].replace(/^Example:\s*/i, "").trim();
-                            i++;
-                        }
-                        const key = word + pos;
-                        if (!existingKeys.has(key)) {
-                            newVocab.push({
-                                english: word, pos: pos, indonesian: meaning,
-                                level: currentLvl, example: example, mastered: false
-                            });
-                            existingKeys.add(key);
-                            count++;
-                        }
+                for(let i=0; i<lines.length; i++) {
+                    let l = lines[i];
+                    let mL = regLvl.exec(l);
+                    if(mL) { lvl = mL[1].toUpperCase(); continue; }
+                    let mI = regItem.exec(l);
+                    if(mI) {
+                        const w=mI[1].trim(), p=mI[2].trim(), m=mI[3].trim();
+                        let ex = `Example: ${w}`;
+                        if(i+1<lines.length && lines[i+1].startsWith("Example:")) { ex = lines[i+1].replace("Example:","").trim(); i++; }
+                        if(!keys.has(w+p)) { newV.push({english:w, pos:p, indonesian:m, level:lvl, example:ex, mastered:false}); keys.add(w+p); count++; }
                     }
                 }
-                if (count > 0) {
-                    userData.vocabulary = [...userData.vocabulary, ...newVocab];
-                    saveData();
-                    alert(`Imported ${count} words.`);
-                    toggleUpload();
-                } else { document.getElementById('upload-status').innerText = "Format Error."; }
-            } catch (err) { console.error(err); }
-            input.value = "";
+                if(count>0) { userData.vocabulary=[...userData.vocabulary, ...newV]; await saveData(); alert(`Masuk ${count} kata!`); toggleUpload(); }
+            } catch(e) { console.error(e); }
         };
+
+        window.toggleUpload = () => document.getElementById('upload-modal').classList.toggle('hidden');
+        window.closeGame = () => document.getElementById('game-overlay').classList.add('hidden');
     </script>
 </body>
 </html>
