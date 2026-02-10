@@ -29,19 +29,114 @@
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #ffffff;
+            background: #f8fafc;
             color: #1e293b;
             line-height: 1.6;
         }
         
-        /* Utility Classes */
         .hidden { display: none !important; }
+        
+        /* Header */
+        .app-header {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e293b;
+        }
+        
+        .logo-text p {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .stats-icon {
+            background: #f1f5f9;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .stats-icon:hover {
+            background: #e2e8f0;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+        
+        .user-info h3 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .user-info p {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
         
         /* Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 2rem;
         }
         
         /* Landing Page */
@@ -128,607 +223,712 @@
             box-shadow: 0 15px 35px rgba(37, 99, 235, 0.4);
         }
         
-        /* Dashboard */
-        .dashboard {
-            min-height: 100vh;
-            background: #f8fafc;
-            padding: 2rem 0;
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            gap: 2rem;
         }
         
-        .dashboard-header {
+        /* Welcome Section */
+        .welcome-section {
             background: white;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 1.5rem 0;
-            margin-bottom: 3rem;
+            border-radius: 1.5rem;
+            padding: 3rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         
-        .header-content {
+        .welcome-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+        
+        .welcome-header p {
+            color: #64748b;
+            font-size: 1rem;
+        }
+        
+        .current-status {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .status-icon {
+            width: 48px;
+            height: 48px;
+            background: #eff6ff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2563eb;
+            font-size: 1.25rem;
+        }
+        
+        .status-info h4 {
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+        
+        .status-info p {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        /* CEFR Journey */
+        .cefr-journey {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .journey-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 2rem;
         }
         
-        .header-brand {
-            display: flex;
-            align-items: baseline;
-            gap: 2px;
-        }
-        
-        .header-brand .cefr {
-            font-size: 1.75rem;
-            font-weight: 800;
+        .journey-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
             color: #1e293b;
-            letter-spacing: -0.03em;
         }
         
-        .header-brand .ix {
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: #2563eb;
-            letter-spacing: -0.03em;
+        .progress-label {
+            font-size: 0.875rem;
+            color: #64748b;
         }
         
-        .header-actions {
+        .journey-timeline {
             display: flex;
-            gap: 1rem;
-            align-items: center;
+            flex-direction: column;
+            gap: 0.5rem;
         }
         
-        .user-info {
+        .level-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .level-step:hover {
+            background: #f8fafc;
+        }
+        
+        .level-step.current {
+            background: #eff6ff;
+            border: 2px solid #2563eb;
+        }
+        
+        .level-step.completed .level-badge {
+            background: #2563eb;
+            color: white;
+        }
+        
+        .level-step.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .level-badge {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #64748b;
+            flex-shrink: 0;
+        }
+        
+        .level-step.current .level-badge {
+            background: #2563eb;
+            color: white;
+        }
+        
+        .level-details {
+            flex: 1;
+        }
+        
+        .level-details h4 {
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .level-details p {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+        
+        .level-progress-bar {
+            height: 4px;
+            background: #f1f5f9;
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .level-progress-fill {
+            height: 100%;
+            background: #2563eb;
+            transition: width 0.5s ease;
+        }
+        
+        .current-badge {
+            background: #eff6ff;
+            color: #2563eb;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-title {
             display: flex;
             align-items: center;
             gap: 0.75rem;
         }
         
-        .user-avatar {
+        .stat-title i {
             width: 40px;
             height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.25rem;
         }
         
-        .btn-icon {
-            background: white;
-            border: 1px solid #e2e8f0;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #475569;
+        .stat-title.words i {
+            background: #eff6ff;
+            color: #2563eb;
         }
         
-        .btn-icon:hover {
-            border-color: #cbd5e1;
-            background: #f8fafc;
+        .stat-title.streak i {
+            background: #fff7ed;
+            color: #f97316;
         }
         
-        .btn-primary {
-            background: #2563eb;
-            color: white;
-            border: none;
+        .stat-title.time i {
+            background: #f0fdf4;
+            color: #10b981;
         }
         
-        .btn-primary:hover {
-            background: #1d4ed8;
-        }
-        
-        /* Level Cards */
-        .levels-section {
-            margin-bottom: 3rem;
-        }
-        
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        
-        .levels-grid {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 3rem;
-        }
-        
-        .level-card {
-            background: white;
-            border: 2px solid #f1f5f9;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            min-width: 140px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .level-card:hover {
-            border-color: #cbd5e1;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        
-        .level-card.active {
-            background: #2563eb;
-            border-color: #2563eb;
-            color: white;
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
-        }
-        
-        .level-card.completed {
-            border-color: #10b981;
-            background: #ecfdf5;
-        }
-        
-        .level-card.locked {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .level-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .level-progress {
+        .stat-title h4 {
             font-size: 0.875rem;
             color: #64748b;
-            margin-bottom: 0.75rem;
+            font-weight: 500;
         }
         
-        .level-card.active .level-progress {
-            color: #e0e7ff;
+        .stat-badge {
+            background: #eff6ff;
+            color: #2563eb;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
         }
         
-        .progress-bar {
-            height: 6px;
+        .stat-badge.streak {
+            background: #fff7ed;
+            color: #f97316;
+        }
+        
+        .stat-badge.achievement {
+            background: #f0fdf4;
+            color: #10b981;
+        }
+        
+        .stat-content {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .circular-progress {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+        
+        .circular-progress svg {
+            transform: rotate(-90deg);
+        }
+        
+        .circular-progress circle {
+            fill: none;
+            stroke-width: 8;
+        }
+        
+        .circular-progress .bg {
+            stroke: #f1f5f9;
+        }
+        
+        .circular-progress .progress {
+            stroke: #2563eb;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+        
+        .circular-progress .percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1e293b;
+        }
+        
+        .stat-details h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-change {
+            color: #10b981;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .stat-subtitle {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        
+        .week-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .day-cell {
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .day-cell.label {
+            color: #94a3b8;
+            background: none;
+        }
+        
+        .day-cell.active {
+            background: #f97316;
+            color: white;
+        }
+        
+        .day-cell.inactive {
             background: #f1f5f9;
-            border-radius: 3px;
+            color: #cbd5e1;
+        }
+        
+        .progress-bar-horizontal {
+            height: 8px;
+            background: #f1f5f9;
+            border-radius: 4px;
             overflow: hidden;
+            margin-top: 0.75rem;
         }
         
-        .level-card.active .progress-bar {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .progress-fill {
+        .progress-bar-fill {
             height: 100%;
-            background: #10b981;
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+            border-radius: 4px;
             transition: width 0.5s ease;
         }
         
-        .level-card.active .progress-fill {
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        
+        /* Daily Goals */
+        .goals-section {
             background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
         }
         
-        /* Learning Modes */
-        .modes-section {
-            margin-bottom: 3rem;
+        .goals-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
         }
         
-        .modes-grid {
+        .goals-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .goals-count {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #2563eb;
+        }
+        
+        .goals-count span {
+            font-size: 1rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        
+        .goals-subtitle {
+            color: #64748b;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .goal-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            background: #f8fafc;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+        }
+        
+        .goal-item:hover {
+            background: #f1f5f9;
+        }
+        
+        .goal-item.completed {
+            background: #f0fdf4;
+        }
+        
+        .goal-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            flex-shrink: 0;
+        }
+        
+        .goal-item.completed .goal-icon {
+            background: #10b981;
+            color: white;
+        }
+        
+        .goal-content {
+            flex: 1;
+        }
+        
+        .goal-content h4 {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .goal-item.completed .goal-content h4 {
+            text-decoration: line-through;
+            color: #64748b;
+        }
+        
+        .goal-content p {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+        
+        .goal-check {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent;
+            flex-shrink: 0;
+        }
+        
+        .goal-item.completed .goal-check {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+        
+        /* Learning Modules */
+        .modules-section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .view-all {
+            color: #2563eb;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .modules-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 1.5rem;
         }
         
-        .mode-card {
+        .module-card {
             background: white;
-            border-radius: 1rem;
+            border-radius: 1.25rem;
             padding: 2rem;
-            border-left: 6px solid #2563eb;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border-top: 4px solid #2563eb;
+            transition: all 0.3s;
             cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
         
-        .mode-card:hover {
+        .module-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
         }
         
-        .mode-card h3 {
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .module-level {
+            background: #f1f5f9;
+            color: #64748b;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .module-status {
+            background: #eff6ff;
+            color: #2563eb;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .module-title {
             font-size: 1.25rem;
             font-weight: 700;
             color: #1e293b;
             margin-bottom: 0.5rem;
         }
         
-        .mode-card small {
+        .module-description {
             color: #64748b;
             font-size: 0.875rem;
-        }
-        
-        .mode-card i {
-            position: absolute;
-            right: 1.5rem;
-            bottom: 1.5rem;
-            font-size: 3rem;
-            opacity: 0.08;
-            color: #2563eb;
-        }
-        
-        .mode-card.listening { border-left-color: #2563eb; }
-        .mode-card.speaking { border-left-color: #7c3aed; }
-        .mode-card.speed { border-left-color: #f59e0b; }
-        .mode-card.final { 
-            border-left-color: #ef4444; 
-            background: #fef2f2;
-            grid-column: 1 / -1;
-        }
-        
-        .mode-card.final h3 {
-            color: #dc2626;
-        }
-        
-        /* Game Screen */
-        .game-screen {
-            background: white;
-            border-radius: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            padding: 3rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .game-header {
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 1rem 0;
-            margin-bottom: 2rem;
-        }
-        
-        .game-header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .btn-back {
-            background: none;
-            border: 1px solid #e2e8f0;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            color: #64748b;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        
-        .btn-back:hover {
-            background: #f8fafc;
-            border-color: #cbd5e1;
-        }
-        
-        .game-score {
-            font-weight: 700;
-            color: #2563eb;
-            font-size: 1.125rem;
-        }
-        
-        .question-card {
-            text-align: center;
-            padding: 2rem 0;
-        }
-        
-        .word-display {
-            font-size: 3.5rem;
-            font-weight: 800;
-            color: #2563eb;
-            margin: 2rem 0;
-            letter-spacing: -0.02em;
-        }
-        
-        .input-field {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.75rem;
-            font-size: 1.125rem;
-            text-align: center;
-            outline: none;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .input-field:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-        
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        
-        .option-btn {
-            padding: 1.25rem 1.5rem;
-            background: white;
-            border: 2px solid #f1f5f9;
-            border-radius: 0.75rem;
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: #475569;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .option-btn:hover {
-            border-color: #2563eb;
-            background: #eff6ff;
-            color: #2563eb;
-        }
-        
-        .option-btn.correct {
-            background: #10b981;
-            border-color: #10b981;
-            color: white;
-        }
-        
-        .option-btn.wrong {
-            background: #ef4444;
-            border-color: #ef4444;
-            color: white;
-        }
-        
-        .submit-btn {
-            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
-            font-size: 1.125rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 1.5rem;
-            width: 100%;
-            max-width: 300px;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
-        }
-        
-        .feedback-box {
-            margin-top: 1.5rem;
-            padding: 1.25rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            display: none;
-        }
-        
-        .feedback-box.correct {
-            background: #ecfdf5;
-            color: #059669;
-            border: 2px solid #10b981;
-        }
-        
-        .feedback-box.wrong {
-            background: #fef2f2;
-            color: #dc2626;
-            border: 2px solid #ef4444;
-        }
-        
-        .feedback-box.almost {
-            background: #fffbeb;
-            color: #d97706;
-            border: 2px solid #f59e0b;
-        }
-        
-        /* Admin Panel */
-        .admin-modal {
-            position: fixed;
-            inset: 0;
-            background: white;
-            z-index: 1000;
-            padding: 3rem;
-            overflow-y: auto;
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #f1f5f9;
-        }
-        
-        .modal-header h2 {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #1e293b;
-        }
-        
-        .btn-close {
-            background: none;
-            border: none;
-            font-size: 2rem;
-            cursor: pointer;
-            color: #94a3b8;
-            transition: color 0.2s;
-        }
-        
-        .btn-close:hover {
-            color: #64748b;
-        }
-        
-        .upload-zone {
-            border: 3px dashed #cbd5e1;
-            border-radius: 1rem;
-            padding: 4rem 2rem;
-            text-align: center;
-            cursor: pointer;
-            background: #f8fafc;
-            transition: all 0.3s;
-            margin-bottom: 2rem;
-        }
-        
-        .upload-zone:hover {
-            background: #f1f5f9;
-            border-color: #94a3b8;
-        }
-        
-        .upload-zone i {
-            font-size: 4rem;
-            color: #2563eb;
-            margin-bottom: 1rem;
-        }
-        
-        .log-area {
-            background: #f1f5f9;
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            font-family: 'Courier New', monospace;
-            font-size: 0.875rem;
-            height: 200px;
-            overflow-y: auto;
             margin-bottom: 1.5rem;
         }
         
-        .btn-danger {
-            background: #ef4444;
+        .module-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+        
+        .module-meta i {
+            margin-right: 0.5rem;
+        }
+        
+        .module-progress-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .module-progress-bar {
+            height: 6px;
+            background: #f1f5f9;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .module-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+            transition: width 0.5s ease;
+        }
+        
+        .module-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: #2563eb;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        /* Action Cards */
+        .action-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .action-card {
+            border-radius: 1.25rem;
+            padding: 2.5rem;
             color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .action-card.primary {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+        }
+        
+        .action-card.dark {
+            background: linear-gradient(135deg, #1e293b, #334155);
+        }
+        
+        .action-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        
+        .action-card p {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        
+        .action-button {
+            background: white;
+            color: #2563eb;
             border: none;
-            padding: 1rem 2rem;
+            padding: 0.75rem 1.5rem;
             border-radius: 0.75rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
         }
         
-        .btn-danger:hover {
-            background: #dc2626;
+        .action-card.dark .action-button {
+            color: #1e293b;
         }
         
-        /* Hint Box */
-        .hint-box {
-            background: #eff6ff;
-            border: 2px solid #bfdbfe;
-            padding: 1rem 1.5rem;
-            border-radius: 0.75rem;
-            margin: 1.5rem 0;
-            display: inline-block;
-        }
-        
-        .hint-box i {
-            color: #2563eb;
-            margin-right: 0.5rem;
-        }
-        
-        .sentence-display {
-            background: #f8fafc;
-            padding: 2rem;
-            border-radius: 1rem;
-            font-size: 1.5rem;
-            line-height: 1.8;
-            color: #334155;
-            margin: 2rem 0;
-            font-style: italic;
-        }
-        
-        /* Audio Button */
-        .audio-btn {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #2563eb, #3b82f6);
-            border: none;
-            color: white;
-            font-size: 3rem;
-            cursor: pointer;
-            margin: 2rem auto;
-            display: block;
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .audio-btn:hover {
+        .action-button:hover {
             transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(37, 99, 235, 0.4);
-        }
-        
-        /* Mic Button */
-        .mic-btn {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
-            border: none;
-            color: white;
-            font-size: 3rem;
-            cursor: pointer;
-            margin: 2rem auto;
-            display: block;
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .mic-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(124, 58, 237, 0.4);
-        }
-        
-        .mic-btn.recording {
-            background: #ef4444;
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        .transcript {
-            color: #64748b;
-            min-height: 30px;
-            font-style: italic;
-            margin-top: 1rem;
-        }
-        
-        /* Timer */
-        .timer-display {
-            font-size: 5rem;
-            font-weight: 800;
-            color: #ef4444;
-            margin: 1rem 0;
         }
         
         /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
         @media (max-width: 768px) {
             .brand-name .cefr,
             .brand-name .ix {
                 font-size: 3rem;
             }
             
-            .modes-grid {
-                grid-template-columns: 1fr;
+            .header-content {
+                padding: 0 1rem;
             }
             
-            .options-grid {
-                grid-template-columns: 1fr;
+            .container {
+                padding: 1rem;
             }
             
-            .word-display {
-                font-size: 2.5rem;
+            .welcome-section {
+                padding: 2rem;
+            }
+            
+            .current-status {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -738,7 +938,7 @@
     <div id="landing-page" class="landing-page">
         <div class="hero-section">
             <div class="logo-container">
-                <img src="/logo.jpg" alt="CEFRix Logo" id="landing-logo">
+                <img src="/logo.jpg" alt="CEFRix Logo">
             </div>
             <div class="brand-name">
                 <span class="cefr">CEFR</span>
@@ -752,134 +952,209 @@
         </div>
     </div>
 
-    <!-- Dashboard -->
-    <div id="dashboard" class="dashboard hidden">
-        <div class="dashboard-header">
-            <div class="container">
-                <div class="header-content">
-                    <div class="header-brand">
-                        <span class="cefr">CEFR</span>
-                        <span class="ix">ix</span>
+    <!-- App Header -->
+    <div id="app-header" class="app-header hidden">
+        <div class="header-content">
+            <div class="header-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>CEFRix</h1>
+                    <p>Vocabulary Mastery</p>
+                </div>
+            </div>
+            <div class="header-user">
+                <div class="stats-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="user-profile">
+                    <div class="user-info">
+                        <h3 id="user-name-display">Sarah Chen</h3>
+                        <p id="user-level-display">Level B2</p>
                     </div>
-                    <div class="header-actions">
-                        <div class="user-info">
-                            <div class="user-avatar" id="user-avatar">U</div>
-                            <span id="user-name-header"></span>
+                    <div class="user-avatar" id="user-avatar-header">SC</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="main-dashboard" class="hidden">
+        <div class="container">
+            <div class="dashboard-grid">
+                <!-- Welcome Section -->
+                <div class="welcome-section">
+                    <div class="welcome-header">
+                        <h2 id="greeting-text">Good afternoon, Sarah</h2>
+                        <p>You're making excellent progress on your English mastery journey</p>
+                    </div>
+                    <div class="current-status">
+                        <div class="status-item">
+                            <div class="status-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="status-info">
+                                <h4>Current Level</h4>
+                                <p id="current-level-text">B2 - Upper Intermediate</p>
+                            </div>
                         </div>
-                        <button class="btn-icon btn-primary" onclick="toggleAdmin()" id="upload-btn" style="display:none;">
-                            <i class="fas fa-upload"></i> Upload
-                        </button>
-                        <button class="btn-icon" onclick="handleLogout()">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </button>
+                        <div class="status-item">
+                            <div class="status-icon">
+                                <i class="fas fa-arrow-trend-up"></i>
+                            </div>
+                            <div class="status-info">
+                                <h4>Progress to Next Level</h4>
+                                <p id="progress-text">You're 68% toward C1</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Two Column Layout -->
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+                    <!-- Left Column -->
+                    <div>
+                        <!-- Stats Cards -->
+                        <div class="stats-grid">
+                            <!-- Words Mastered -->
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-title words">
+                                        <i class="fas fa-book"></i>
+                                        <h4>Words Mastered</h4>
+                                    </div>
+                                    <span class="stat-badge">This Month</span>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="circular-progress">
+                                        <svg width="120" height="120">
+                                            <circle class="bg" cx="60" cy="60" r="52"></circle>
+                                            <circle class="progress" cx="60" cy="60" r="52" 
+                                                stroke-dasharray="327" 
+                                                stroke-dashoffset="59" 
+                                                id="words-progress-circle"></circle>
+                                        </svg>
+                                        <div class="percentage" id="words-percentage">82%</div>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3 id="words-count">247</h3>
+                                        <div class="stat-change">
+                                            <i class="fas fa-arrow-up"></i>
+                                            <span>+12%</span>
+                                        </div>
+                                        <p class="stat-subtitle" id="total-words">1,834 total words</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Learning Streak -->
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-title streak">
+                                        <i class="fas fa-fire"></i>
+                                        <h4>Learning Streak</h4>
+                                    </div>
+                                    <span class="stat-badge streak">Daily Goal</span>
+                                </div>
+                                <div class="stat-content" style="display: block;">
+                                    <h3 id="streak-days" style="font-size: 3rem; margin-bottom: 0.5rem;">12 <span style="font-size: 1.25rem; color: #64748b;">days</span></h3>
+                                    <p class="stat-subtitle">This Week</p>
+                                    <div class="week-calendar">
+                                        <div class="day-cell label">M</div>
+                                        <div class="day-cell label">T</div>
+                                        <div class="day-cell label">W</div>
+                                        <div class="day-cell label">T</div>
+                                        <div class="day-cell label">F</div>
+                                        <div class="day-cell label">S</div>
+                                        <div class="day-cell label">S</div>
+                                        <div class="day-cell active">✓</div>
+                                        <div class="day-cell active">✓</div>
+                                        <div class="day-cell active">✓</div>
+                                        <div class="day-cell active">✓</div>
+                                        <div class="day-cell active">✓</div>
+                                        <div class="day-cell inactive"></div>
+                                        <div class="day-cell inactive"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Study Time -->
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-title time">
+                                        <i class="fas fa-clock"></i>
+                                        <h4>Study Time</h4>
+                                    </div>
+                                    <span class="stat-badge achievement">Achievement</span>
+                                </div>
+                                <div class="stat-content" style="display: block;">
+                                    <h3 id="study-hours" style="font-size: 3rem; margin-bottom: 0.5rem;">8.5 <span style="font-size: 1.25rem; color: #64748b;">hours</span></h3>
+                                    <div class="progress-bar-horizontal">
+                                        <div class="progress-bar-fill" style="width: 57%"></div>
+                                    </div>
+                                    <div class="progress-info">
+                                        <span>Monthly goal: 15h</span>
+                                        <span style="font-weight: 600; color: #2563eb;">57%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Daily Goals -->
+                        <div class="goals-section">
+                            <div class="goals-header">
+                                <div>
+                                    <h3>Today's Learning Goals</h3>
+                                    <p class="goals-subtitle">Complete your daily objectives to maintain your streak</p>
+                                </div>
+                                <div class="goals-count">
+                                    <span id="goals-completed">2</span>/<span id="goals-total">4</span>
+                                    <div style="font-size: 0.75rem; color: #94a3b8; margin-top: -0.5rem;">completed</div>
+                                </div>
+                            </div>
+                            <div id="goals-list"></div>
+                        </div>
+
+                        <!-- Learning Modules -->
+                        <div class="modules-section">
+                            <div class="section-header">
+                                <h3>Learning Modules</h3>
+                                <div class="view-all">
+                                    View All <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                            <p style="color: #64748b; font-size: 0.875rem; margin-bottom: 1.5rem;">Continue where you left off</p>
+                            <div class="modules-grid" id="modules-grid"></div>
+                        </div>
+
+                        <!-- Action Cards -->
+                        <div class="action-cards">
+                            <div class="action-card primary" onclick="startAssessment()">
+                                <h3>Ready for a challenge?</h3>
+                                <p>Test your knowledge with a comprehensive B2 level assessment</p>
+                                <button class="action-button">Start Assessment</button>
+                            </div>
+                            <div class="action-card dark" onclick="startReview()">
+                                <h3>Review Mode</h3>
+                                <p>Reinforce your memory with spaced repetition practice</p>
+                                <button class="action-button">Start Review</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column - CEFR Journey -->
+                    <div>
+                        <div class="cefr-journey">
+                            <div class="journey-header">
+                                <h3>Your CEFR Journey</h3>
+                                <span class="progress-label">Progress: 68% to C1</span>
+                            </div>
+                            <div class="journey-timeline" id="journey-timeline"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="container">
-            <!-- Levels Section -->
-            <div class="levels-section">
-                <h2 class="section-title">Choose Your Level</h2>
-                <div class="levels-grid" id="levels-grid"></div>
-            </div>
-
-            <!-- Learning Modes -->
-            <div class="modes-section" id="modes-section">
-                <h2 class="section-title">Learning Modes</h2>
-                <div class="modes-grid">
-                    <div class="mode-card" onclick="startChapter(1)">
-                        <h3>1. Translation</h3>
-                        <small>Type the Indonesian meaning</small>
-                        <i class="fas fa-language"></i>
-                    </div>
-                    <div class="mode-card" onclick="startChapter(2)">
-                        <h3>2. Fill the Blank</h3>
-                        <small>Complete the sentence</small>
-                        <i class="fas fa-pen"></i>
-                    </div>
-                    <div class="mode-card" onclick="startChapter(3)">
-                        <h3>3. Multiple Choice</h3>
-                        <small>Choose the correct answer</small>
-                        <i class="fas fa-list-check"></i>
-                    </div>
-                    <div class="mode-card listening" onclick="startChapter(4)">
-                        <h3>4. Listening</h3>
-                        <small>Listen and type</small>
-                        <i class="fas fa-headphones"></i>
-                    </div>
-                    <div class="mode-card speaking" onclick="startChapter(5)">
-                        <h3>5. Speaking</h3>
-                        <small>Speak the word</small>
-                        <i class="fas fa-microphone"></i>
-                    </div>
-                    <div class="mode-card speed" onclick="startChapter(7)">
-                        <h3>7. Speed Challenge</h3>
-                        <small>5 seconds per question</small>
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <div class="mode-card final" onclick="startChapter(10)">
-                        <h3>🔥 Final Test</h3>
-                        <small id="final-status">Complete all words to unlock</small>
-                        <i class="fas fa-trophy"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Locked Message -->
-            <div id="locked-msg" class="hidden" style="text-align:center; padding:4rem;">
-                <i class="fas fa-lock" style="font-size:5rem; color:#cbd5e1; margin-bottom:1rem;"></i>
-                <p style="color:#64748b; font-size:1.125rem;">Complete the previous level to unlock</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Game Screen -->
-    <div id="game-container" class="hidden">
-        <div class="dashboard-header game-header">
-            <div class="container">
-                <div class="game-header-content">
-                    <button class="btn-back" onclick="goHome()">
-                        <i class="fas fa-arrow-left"></i> Back
-                    </button>
-                    <div class="game-score">
-                        <span id="score-display">0/10</span>
-                        <span id="mistakes-display" style="display:none; margin-left:1rem; color:#ef4444;"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="container">
-            <div class="game-screen" id="game-screen"></div>
-        </div>
-    </div>
-
-    <!-- Admin Panel -->
-    <div id="admin-panel" class="admin-modal hidden">
-        <div class="container">
-            <div class="modal-header">
-                <h2>Upload Vocabulary Database</h2>
-                <button class="btn-close" onclick="toggleAdmin()">&times;</button>
-            </div>
-            
-            <label for="docx-input" class="upload-zone">
-                <i class="fas fa-file-word"></i>
-                <h3>Select Word Document (.docx)</h3>
-                <p style="color:#64748b;">Click or drag file here</p>
-            </label>
-            <input type="file" id="docx-input" accept=".docx" style="display:none;" onchange="handleDOCX(this)">
-
-            <div id="status-box" style="display:none; text-align:center; padding:2rem;">
-                <i class="fas fa-spinner fa-spin" style="font-size:3rem; color:#2563eb;"></i>
-                <p style="margin-top:1rem; color:#64748b;">Processing file...</p>
-            </div>
-            
-            <div class="log-area" id="log-area">Ready to upload...</div>
-            
-            <button onclick="clearData()" class="btn-danger" style="width:100%;">
-                <i class="fas fa-trash"></i> Reset All Data
-            </button>
         </div>
     </div>
 
@@ -903,18 +1178,43 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        // State
         let currentUser = null;
         let userData = { vocabulary: [], completedLevels: [] };
-        let activeLevel = 'A1';
-        let currentQueue = [], sessionMastered = [], qIndex = 0, score = 0, mistakes = 0, timerInterval;
-        let activeChapId = 1;
-        const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
         const ADMIN_EMAIL = "silvianur@students.amikom.ac.id";
 
-        function isAdmin() {
-            return currentUser && currentUser.email === ADMIN_EMAIL;
-        }
+        // Dummy data for stats (will be replaced with real Firebase data)
+        const appState = {
+            currentLevel: 'B2',
+            wordsLearned: 247,
+            totalWords: 1834,
+            wordsMasteredPercent: 82,
+            streak: 12,
+            studyHours: 8.5,
+            monthlyGoal: 15,
+            progressToNext: 68,
+            dailyGoals: [
+                { id: 1, icon: 'fa-book', text: 'Learn 20 new words', progress: '20/20', completed: true },
+                { id: 2, icon: 'fa-clipboard-check', text: 'Complete 1 vocabulary quiz', progress: '1/1', completed: true },
+                { id: 3, icon: 'fa-clock', text: 'Practice for 15 minutes', progress: '8/15 min', completed: false },
+                { id: 4, icon: 'fa-repeat', text: 'Review 10 learned words', progress: '0/10', completed: false }
+            ],
+            learningModules: [
+                { id: 1, level: 'B2', title: 'Academic Writing', description: 'Advanced vocabulary for essays and reports', wordCount: 120, weeks: 2, progress: 75, status: 'In Progress' },
+                { id: 2, level: 'B2', title: 'Business English', description: 'Professional communication and presentations', wordCount: 150, weeks: 3, progress: 45, status: 'In Progress' },
+                { id: 3, level: 'B2', title: 'Everyday Conversations', description: 'Informal language and common expressions', wordCount: 100, weeks: 1, progress: 90, status: 'In Progress' },
+                { id: 4, level: 'C1', title: 'Advanced Idioms', description: 'Complex expressions and figurative language', wordCount: 180, weeks: 4, progress: 0, status: 'Not Started' },
+                { id: 5, level: 'C1', title: 'Technical Terminology', description: 'Specialized vocabulary for specific fields', wordCount: 200, weeks: 5, progress: 0, status: 'Not Started' },
+                { id: 6, level: 'B2', title: 'Media & News', description: 'Understanding current affairs and journalism', wordCount: 130, weeks: 2, progress: 30, status: 'In Progress' }
+            ],
+            cefrLevels: [
+                { code: 'A1', name: 'Beginner', completed: true },
+                { code: 'A2', name: 'Elementary', completed: true },
+                { code: 'B1', name: 'Intermediate', completed: true },
+                { code: 'B2', name: 'Upper Inter.', current: true, progress: 68 },
+                { code: 'C1', name: 'Advanced', locked: false },
+                { code: 'C2', name: 'Mastery', locked: true }
+            ]
+        };
 
         // Auth
         window.handleLogin = () => {
@@ -929,21 +1229,29 @@
             if (user) {
                 currentUser = user;
                 document.getElementById('landing-page').classList.add('hidden');
-                document.getElementById('dashboard').classList.remove('hidden');
+                document.getElementById('app-header').classList.remove('hidden');
+                document.getElementById('main-dashboard').classList.remove('hidden');
                 
-                const initials = user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U';
-                document.getElementById('user-avatar').textContent = initials;
-                document.getElementById('user-name-header').textContent = user.displayName?.split(' ')[0] || 'User';
+                // Set user info
+                const firstName = user.displayName?.split(' ')[0] || 'User';
+                const initials = user.displayName ? user.displayName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'U';
                 
-                if (isAdmin()) {
-                    document.getElementById('upload-btn').style.display = 'inline-block';
-                }
+                document.getElementById('user-name-display').textContent = firstName;
+                document.getElementById('user-avatar-header').textContent = initials;
+                
+                // Set greeting
+                const hour = new Date().getHours();
+                let greeting = 'Good morning';
+                if (hour >= 12 && hour < 18) greeting = 'Good afternoon';
+                else if (hour >= 18) greeting = 'Good evening';
+                
+                document.getElementById('greeting-text').textContent = `${greeting}, ${firstName}`;
                 
                 await loadData();
+                renderDashboard();
             }
         });
 
-        // Data Management
         async function loadData() {
             // Load shared vocabulary
             const vocabRef = doc(db, "shared_vocabulary", "cefrix_data");
@@ -953,10 +1261,6 @@
                 userData.vocabulary = vocabSnap.data().words || [];
             } else {
                 userData.vocabulary = [];
-                if (isAdmin()) {
-                    await setDoc(vocabRef, { words: [] });
-                    toggleAdmin();
-                }
             }
             
             // Load user progress
@@ -977,575 +1281,86 @@
                 userData.completedLevels = [];
                 await setDoc(userRef, { completedLevels: [], masteredWords: [] });
             }
-            
-            renderLevels();
         }
 
-        async function saveData() {
-            // Save vocabulary (admin only)
-            if (isAdmin()) {
-                const vocabRef = doc(db, "shared_vocabulary", "cefrix_data");
-                const cleanVocab = userData.vocabulary.map(v => ({
-                    english: v.english,
-                    pos: v.pos,
-                    indonesian: v.indonesian,
-                    level: v.level,
-                    example: v.example
-                }));
-                await setDoc(vocabRef, { words: cleanVocab });
-            }
-            
-            // Save user progress
-            const userRef = doc(db, "user_progress", currentUser.uid);
-            const masteredWords = userData.vocabulary
-                .filter(v => v.mastered)
-                .map(v => v.english + "|" + v.pos);
-            
-            await setDoc(userRef, {
-                completedLevels: userData.completedLevels,
-                masteredWords: masteredWords
-            });
-            
-            renderLevels();
+        function renderDashboard() {
+            renderDailyGoals();
+            renderLearningModules();
+            renderCEFRJourney();
         }
 
-        // DOCX Parser
-        window.handleDOCX = async (input) => {
-            if (!isAdmin()) {
-                alert("⛔ Admin access required");
-                input.value = "";
-                return;
-            }
-            
-            if (input.files.length === 0) return;
-            document.getElementById('status-box').style.display = 'block';
-            const log = document.getElementById('log-area');
-            log.innerHTML = "Reading file...<br>";
-
-            try {
-                const arrayBuffer = await input.files[0].arrayBuffer();
-                const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
-                const lines = result.value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-
-                let count = 0;
-                let currentLevel = "A1";
-                const newVocab = [];
-                const existingKeys = new Set(userData.vocabulary.map(v => v.english + "|" + v.pos));
-
-                const cleanText = (text) => {
-                    return text
-                        .replace(/^[\u2022\u2023\u25E6\u2043\u2219\-\*•●○◦▪▫■□▸▹►▻⦿⦾]+\s*/g, '')
-                        .replace(/^[\d]+[\.\)]\s*/g, '')
-                        .replace(/[\u200B-\u200D\uFEFF]/g, '')
-                        .trim();
-                };
-
-                const regexItem = /^(.+?)\s+\((.+?)\)\s*:\s*(.+)$/;
-                const regexLevel = /^Level\s+([A-C][1-2])$/i;
-
-                for (let i = 0; i < lines.length; i++) {
-                    let line = cleanText(lines[i]);
-                    if (line.length === 0) continue;
-                    
-                    let matchLevel = regexLevel.exec(line);
-                    if (matchLevel) {
-                        currentLevel = matchLevel[1].toUpperCase();
-                        continue;
-                    }
-
-                    let matchItem = regexItem.exec(line);
-                    if (matchItem) {
-                        const word = cleanText(matchItem[1]);
-                        const pos = cleanText(matchItem[2]);
-                        const meaning = cleanText(matchItem[3]);
-                        
-                        let example = `Example: The word '${word}' is useful.`;
-                        if (i + 1 < lines.length) {
-                            const nextLine = cleanText(lines[i+1]);
-                            if (nextLine.toLowerCase().startsWith("example:")) {
-                                example = nextLine.replace(/^Example:\s*/i, "").trim();
-                                i++;
-                            }
-                        }
-
-                        const uniqueKey = word + "|" + pos;
-
-                        if (!existingKeys.has(uniqueKey)) {
-                            newVocab.push({
-                                english: word,
-                                pos: pos,
-                                indonesian: meaning,
-                                level: currentLevel,
-                                example: example,
-                                mastered: false
-                            });
-                            existingKeys.add(uniqueKey);
-                            count++;
-                        }
-                    }
-                }
-
-                if (count > 0) {
-                    userData.vocabulary = [...userData.vocabulary, ...newVocab];
-                    await saveData();
-                    log.innerHTML += `<b style="color:#10b981">SUCCESS! ${count} words added. Total: ${userData.vocabulary.length}</b>`;
-                    alert(`Success! ${count} words added.`);
-                } else {
-                    log.innerHTML += `<b style="color:#ef4444">Failed. Check format: word (type) : meaning</b>`;
-                }
-
-            } catch (err) {
-                console.error(err);
-                log.innerHTML += `<b style="color:#ef4444">Error: ${err.message}</b>`;
-                alert("Failed to read file.");
-            } finally {
-                document.getElementById('status-box').style.display = 'none';
-                input.value = "";
-            }
-        };
-
-        // Render Levels
-        function renderLevels() {
-            const container = document.getElementById('levels-grid');
-            container.innerHTML = '';
-            
-            LEVELS.forEach((lvl, idx) => {
-                const words = userData.vocabulary.filter(v => v.level === lvl);
-                const mastered = words.filter(v => v.mastered).length;
-                const total = words.length;
-                const percent = total > 0 ? Math.round((mastered / total) * 100) : 0;
-                
-                let locked = idx > 0 && !userData.completedLevels.includes(LEVELS[idx-1]);
-                if (total === 0) locked = false;
-                const isDone = userData.completedLevels.includes(lvl);
-
-                const div = document.createElement('div');
-                div.className = `level-card ${activeLevel === lvl ? 'active' : ''} ${locked ? 'locked' : ''} ${isDone ? 'completed' : ''}`;
-                div.onclick = () => !locked && selectLevel(lvl);
-                div.innerHTML = `
-                    <div class="level-name">${lvl}</div>
-                    <div class="level-progress">${mastered}/${total}</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width:${percent}%"></div>
+        function renderDailyGoals() {
+            const container = document.getElementById('goals-list');
+            container.innerHTML = appState.dailyGoals.map(goal => `
+                <div class="goal-item ${goal.completed ? 'completed' : ''}">
+                    <div class="goal-icon">
+                        <i class="fas ${goal.icon}"></i>
                     </div>
-                `;
-                container.appendChild(div);
-            });
-            
-            updateUI();
-        }
-
-        window.selectLevel = (lvl) => {
-            activeLevel = lvl;
-            renderLevels();
-            updateUI();
-        }
-
-        function updateUI() {
-            const words = userData.vocabulary.filter(v => v.level === activeLevel);
-            const mastered = words.filter(v => v.mastered).length;
-            const idx = LEVELS.indexOf(activeLevel);
-            let locked = idx > 0 && !userData.completedLevels.includes(LEVELS[idx-1]) && words.length > 0;
-
-            if (locked) {
-                document.getElementById('modes-section').classList.add('hidden');
-                document.getElementById('locked-msg').classList.remove('hidden');
-            } else {
-                document.getElementById('modes-section').classList.remove('hidden');
-                document.getElementById('locked-msg').classList.add('hidden');
-                
-                const finalStatus = document.getElementById('final-status');
-                if (words.length > 0 && mastered === words.length) {
-                    finalStatus.textContent = "Ready for final test!";
-                    finalStatus.style.color = "#10b981";
-                } else {
-                    finalStatus.textContent = `${words.length - mastered} words remaining`;
-                }
-            }
-        }
-
-        // Game Logic
-        function shuffle(a) { return a.sort(() => Math.random() - 0.5); }
-
-        window.startChapter = (ch) => {
-            activeChapId = ch;
-            let pool = [];
-            
-            if (ch === 10) {
-                const all = userData.vocabulary.filter(v => v.level === activeLevel);
-                if (all.filter(v=>v.mastered).length < all.length) return alert("Complete all words first!");
-                pool = shuffle(all).slice(0, 20);
-                document.getElementById('mistakes-display').style.display = 'inline';
-            } else {
-                pool = userData.vocabulary.filter(v => v.level === activeLevel && !v.mastered);
-                if (pool.length < 5) return alert("Not enough words. Upload vocabulary first!");
-                pool = shuffle(pool).slice(0, 10);
-                document.getElementById('mistakes-display').style.display = 'none';
-            }
-            
-            currentQueue = pool;
-            sessionMastered = [];
-            qIndex = 0;
-            score = 0;
-            mistakes = 0;
-            
-            document.getElementById('dashboard').classList.add('hidden');
-            document.getElementById('game-container').classList.remove('hidden');
-            renderQ();
-        };
-
-        function renderQ() {
-            if (qIndex >= currentQueue.length || (activeChapId === 10 && mistakes > 3)) return showResult();
-            
-            const w = currentQueue[qIndex];
-            const ch = activeChapId === 10 ? 3 : activeChapId;
-            const dist = shuffle(userData.vocabulary.filter(x => x.english !== w.english)).slice(0, 3);
-            const opts = shuffle([w, ...dist]);
-            const container = document.getElementById('game-screen');
-            const timer = ch === 7 ? `<div class="timer-display" id="timer">5</div>` : '';
-
-            let html = '';
-            
-            // Chapter 1: Translation
-            if (ch === 1) {
-                html = `
-                    <div class="question-card">
-                        <div class="word-display">${w.english}</div>
-                        <input id="inp" class="input-field" placeholder="Type the meaning..." autocomplete="off" onkeypress="if(event.key==='Enter') checkType('${w.indonesian.replace(/'/g, "\\'")}')">
-                        <button onclick="checkType('${w.indonesian.replace(/'/g, "\\'" )}')" class="submit-btn">Check Answer</button>
-                        <div id="fb" class="feedback-box"></div>
+                    <div class="goal-content">
+                        <h4>${goal.text}</h4>
+                        <p>${goal.progress}</p>
                     </div>
-                `;
-            }
-            // Chapter 2: Fill the Blank
-            else if (ch === 2) {
-                const masked = w.example.replace(new RegExp(w.english, 'gi'), '_____');
-                html = `
-                    <div class="question-card">
-                        <h3 style="color:#64748b; margin-bottom:1.5rem; font-weight:600;">Complete the sentence:</h3>
-                        <div class="sentence-display">"${masked}"</div>
-                        <div class="hint-box">
-                            <i class="fas fa-lightbulb"></i>
-                            <b>${w.pos}</b> - ${w.indonesian}
-                        </div>
-                        <input id="inp" class="input-field" placeholder="Type the missing word..." autocomplete="off" onkeypress="if(event.key==='Enter') checkFillBlank('${w.english.replace(/'/g, "\\'")}')">
-                        <button onclick="checkFillBlank('${w.english.replace(/'/g, "\\'" )}')" class="submit-btn">Check Answer</button>
-                        <div id="fb" class="feedback-box"></div>
+                    <div class="goal-check">
+                        <i class="fas fa-check"></i>
                     </div>
-                `;
-            }
-            // Chapter 3: Multiple Choice
-            else if (ch === 3 || ch === 7) {
-                html = `
-                    <div class="question-card">
-                        ${timer}
-                        <div class="word-display">${w.english}</div>
-                        <div class="options-grid">
-                            ${opts.map(o => `<button class="option-btn" onclick="checkBtn(this, '${o.indonesian.replace(/'/g, "\\'")}', '${w.indonesian.replace(/'/g, "\\'")}')">${o.indonesian}</button>`).join('')}
-                        </div>
-                        <div id="fb" class="feedback-box"></div>
-                    </div>
-                `;
-                if(ch===7) startTimer(5);
-            }
-            // Chapter 4: Listening
-            else if (ch === 4) {
-                html = `
-                    <div class="question-card">
-                        <button onclick="playAudio('${w.english}')" class="audio-btn">
-                            <i class="fas fa-volume-up"></i>
-                        </button>
-                        <p style="color:#64748b; margin-bottom:1.5rem;">Listen and type what you hear</p>
-                        <input id="inp" class="input-field" placeholder="Type the word..." autocomplete="off" onkeypress="if(event.key==='Enter') checkListening('${w.english.replace(/'/g, "\\'")}')">
-                        <button onclick="checkListening('${w.english.replace(/'/g, "\\'" )}')" class="submit-btn">Check Answer</button>
-                        <div id="fb" class="feedback-box"></div>
-                    </div>
-                `;
-                setTimeout(() => window.playAudio(w.english), 300);
-            }
-            // Chapter 5: Speaking
-            else if (ch === 5) {
-                html = `
-                    <div class="question-card">
-                        <div class="word-display">${w.indonesian}</div>
-                        <p style="color:#64748b; margin-bottom:1.5rem;">Speak the English word</p>
-                        <button id="mic-btn" onclick="startSpeaking('${w.english.replace(/'/g, "\\'")}', '${w.indonesian.replace(/'/g, "\\'")}' )" class="mic-btn">
-                            <i class="fas fa-microphone"></i>
-                        </button>
-                        <p id="transcript" class="transcript"></p>
-                        <div id="fb" class="feedback-box"></div>
-                    </div>
-                `;
-            }
-            
-            container.innerHTML = html;
-            if(ch<3 || ch===4) setTimeout(() => {
-                const inp = document.getElementById('inp');
-                if(inp) inp.focus();
-            }, 100);
-            
-            document.getElementById('score-display').innerText = `${score}/${currentQueue.length}`;
-            if(activeChapId === 10) document.getElementById('mistakes-display').innerText = `Mistakes: ${mistakes}/3`;
-        }
-
-        // Smart Check with typo tolerance
-        function smartCheck(userInput, correctAnswer) {
-            const normalize = (str) => {
-                return str.toLowerCase()
-                    .replace(/[\s\-_]+/g, '')
-                    .trim();
-            };
-            
-            const userNorm = normalize(userInput);
-            const correctNorm = normalize(correctAnswer);
-            
-            if (userNorm === correctNorm) {
-                return { correct: true, isClose: false };
-            }
-            
-            if (userNorm.length < 2) {
-                return { correct: false, isClose: false };
-            }
-            
-            const distance = getLevenshteinDistance(userNorm, correctNorm);
-            const maxDistance = Math.floor(correctNorm.length / 4);
-            
-            if (distance <= maxDistance && distance > 0) {
-                return { correct: false, isClose: true };
-            }
-            
-            if (userNorm.includes(correctNorm) || correctNorm.includes(userNorm)) {
-                if (userNorm.length >= correctNorm.length * 0.7) {
-                    return { correct: true, isClose: false };
-                }
-            }
-            
-            return { correct: false, isClose: false };
-        }
-        
-        function getLevenshteinDistance(a, b) {
-            if (a.length === 0) return b.length;
-            if (b.length === 0) return a.length;
-            
-            const matrix = [];
-            
-            for (let i = 0; i <= b.length; i++) {
-                matrix[i] = [i];
-            }
-            
-            for (let j = 0; j <= a.length; j++) {
-                matrix[0][j] = j;
-            }
-            
-            for (let i = 1; i <= b.length; i++) {
-                for (let j = 1; j <= a.length; j++) {
-                    if (b.charAt(i - 1) === a.charAt(j - 1)) {
-                        matrix[i][j] = matrix[i - 1][j - 1];
-                    } else {
-                        matrix[i][j] = Math.min(
-                            matrix[i - 1][j - 1] + 1,
-                            matrix[i][j - 1] + 1,
-                            matrix[i - 1][j] + 1
-                        );
-                    }
-                }
-            }
-            
-            return matrix[b.length][a.length];
-        }
-
-        window.checkType = (c) => {
-            const v = document.getElementById('inp').value.trim();
-            const result = smartCheck(v, c);
-            showFb(result.correct, c, null, result.isClose);
-        }
-
-        window.checkBtn = (b, s, c) => {
-            showFb(s===c, c, b);
-        }
-
-        window.checkFillBlank = (correctWord) => {
-            const userInput = document.getElementById('inp').value.trim();
-            const result = smartCheck(userInput, correctWord);
-            
-            if (result.correct) {
-                showFb(true, correctWord);
-            } else if (result.isClose) {
-                showFb(false, `Almost! Correct answer: "${correctWord}"`, null, true);
-            } else {
-                showFb(false, `Correct answer: "${correctWord}"`);
-            }
-        }
-
-        window.playAudio = (word) => {
-            const utterance = new SpeechSynthesisUtterance(word);
-            utterance.lang = 'en-US';
-            utterance.rate = 0.8;
-            window.speechSynthesis.cancel();
-            window.speechSynthesis.speak(utterance);
-        }
-
-        window.checkListening = (correctWord) => {
-            const userInput = document.getElementById('inp').value.trim();
-            const result = smartCheck(userInput, correctWord);
-            
-            if (result.correct) {
-                showFb(true, correctWord);
-            } else if (result.isClose) {
-                showFb(false, `Almost! Correct: "${correctWord}"`, null, true);
-            } else {
-                showFb(false, correctWord);
-            }
-        }
-
-        let recognition = null;
-        window.startSpeaking = (correctWord, meaning) => {
-            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                alert('Speech Recognition not supported in this browser. Try Chrome.');
-                return;
-            }
-
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            recognition = new SpeechRecognition();
-            recognition.lang = 'en-US';
-            recognition.continuous = false;
-            recognition.interimResults = false;
-
-            const micBtn = document.getElementById('mic-btn');
-            const transcript = document.getElementById('transcript');
-            
-            micBtn.classList.add('recording');
-            transcript.innerText = 'Listening...';
-
-            recognition.onresult = (event) => {
-                const spokenWord = event.results[0][0].transcript.toLowerCase().trim();
-                transcript.innerText = `You said: "${spokenWord}"`;
-                
-                setTimeout(() => {
-                    const result = smartCheck(spokenWord, correctWord);
-                    showFb(result.correct, correctWord, null, result.isClose);
-                }, 500);
-            };
-
-            recognition.onerror = (event) => {
-                micBtn.classList.remove('recording');
-                transcript.innerText = 'Error: ' + event.error + '. Try again!';
-            };
-
-            recognition.onend = () => {
-                micBtn.classList.remove('recording');
-            };
-
-            recognition.start();
-        }
-
-        function showFb(ok, cor, btn, isClose = false) {
-            clearInterval(timerInterval);
-            const fb = document.getElementById('fb');
-            fb.style.display = 'block';
-            
-            if (ok) {
-                if (btn) btn.classList.add('correct');
-                fb.className = "feedback-box correct";
-                fb.innerHTML = "✅ Correct!";
-                score++;
-                if (activeChapId !== 10) sessionMastered.push(currentQueue[qIndex]);
-            } else {
-                if (btn) btn.classList.add('wrong');
-                if (activeChapId === 10) mistakes++;
-                
-                if (isClose) {
-                    fb.className = "feedback-box almost";
-                    fb.innerHTML = `⚠️ Almost correct!<br><small>Answer: <b>${cor}</b></small>`;
-                } else {
-                    fb.className = "feedback-box wrong";
-                    fb.innerHTML = `❌ Wrong!<br><small>Answer: <b>${cor}</b></small>`;
-                }
-            }
-            
-            setTimeout(() => {
-                qIndex++;
-                renderQ();
-            }, 1500);
-        }
-
-        function startTimer(s) {
-            clearInterval(timerInterval);
-            let t = s;
-            timerInterval = setInterval(() => {
-                t--;
-                const timer = document.getElementById('timer');
-                if (timer) timer.innerText = t;
-                if (t <= 0) showFb(false, "Time's up!");
-            }, 1000);
-        }
-
-        async function showResult() {
-            let msg = "Completed", col = "#2563eb";
-            
-            if (activeChapId === 10) {
-                if (mistakes > 3) {
-                    msg = "Failed ❌";
-                    col = "#ef4444";
-                } else {
-                    msg = "Passed! 🎉";
-                    col = "#10b981";
-                    if (!userData.completedLevels.includes(activeLevel)) {
-                        userData.completedLevels.push(activeLevel);
-                    }
-                }
-            } else {
-                if (sessionMastered.length > 0) {
-                    sessionMastered.forEach(mWord => {
-                        const target = userData.vocabulary.find(v => v.english === mWord.english && v.pos === mWord.pos);
-                        if (target) target.mastered = true;
-                    });
-                }
-            }
-            
-            await saveData();
-            
-            document.getElementById('game-screen').innerHTML = `
-                <div class="question-card">
-                    <h1 style="color:${col}; font-size:3rem; margin-bottom:1rem;">${msg}</h1>
-                    <p style="font-size:2rem; color:#64748b; margin-bottom:2rem;">${score} / ${currentQueue.length} correct</p>
-                    <button onclick="goHome()" class="submit-btn" style="max-width:200px;">
-                        <i class="fas fa-home"></i> Home
-                    </button>
                 </div>
-            `;
+            `).join('');
         }
 
-        window.toggleAdmin = () => {
-            if (!isAdmin()) {
-                alert("⛔ Admin access only");
-                return;
-            }
-            document.getElementById('admin-panel').classList.toggle('hidden');
+        function renderLearningModules() {
+            const container = document.getElementById('modules-grid');
+            container.innerHTML = appState.learningModules.map(module => `
+                <div class="module-card">
+                    <div class="module-header">
+                        <span class="module-level">${module.level}</span>
+                        ${module.status !== 'Not Started' ? `<span class="module-status">${module.status}</span>` : ''}
+                    </div>
+                    <h4 class="module-title">${module.title}</h4>
+                    <p class="module-description">${module.description}</p>
+                    <div class="module-meta">
+                        <span><i class="fas fa-book"></i>${module.wordCount} words</span>
+                        <span><i class="fas fa-clock"></i>${module.weeks} ${module.weeks === 1 ? 'week' : 'weeks'}</span>
+                    </div>
+                    <div class="module-progress-label">
+                        <span>Progress</span>
+                        <span>${module.progress}%</span>
+                    </div>
+                    <div class="module-progress-bar">
+                        <div class="module-progress-fill" style="width: ${module.progress}%"></div>
+                    </div>
+                    <div class="module-action">
+                        ${module.progress > 0 ? 'Continue' : 'Start Learning'} <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        window.goHome = () => {
-            document.getElementById('dashboard').classList.remove('hidden');
-            document.getElementById('game-container').classList.add('hidden');
-            clearInterval(timerInterval);
-            renderLevels();
+        function renderCEFRJourney() {
+            const container = document.getElementById('journey-timeline');
+            container.innerHTML = appState.cefrLevels.map(level => `
+                <div class="level-step ${level.completed ? 'completed' : ''} ${level.current ? 'current' : ''} ${level.locked ? 'locked' : ''}">
+                    <div class="level-badge">
+                        ${level.completed ? '<i class="fas fa-check"></i>' : level.code}
+                    </div>
+                    <div class="level-details">
+                        <h4>${level.code} <span style="font-weight: 400; color: #64748b;">${level.name}</span></h4>
+                        ${level.current ? `
+                            <div class="level-progress-bar">
+                                <div class="level-progress-fill" style="width: ${level.progress}%"></div>
+                            </div>
+                        ` : ''}
+                    </div>
+                    ${level.current ? '<span class="current-badge">Current</span>' : ''}
+                </div>
+            `).join('');
+        }
+
+        window.startAssessment = () => {
+            alert('Assessment feature coming soon! This will test your comprehensive B2 knowledge.');
         };
 
-        window.clearData = async () => {
-            if (!isAdmin()) {
-                alert("⛔ Admin access only");
-                return;
-            }
-            
-            if (confirm("Delete all vocabulary data?")) {
-                const vocabRef = doc(db, "shared_vocabulary", "cefrix_data");
-                await setDoc(vocabRef, { words: [] });
-                
-                const userRef = doc(db, "user_progress", currentUser.uid);
-                await setDoc(userRef, { completedLevels: [], masteredWords: [] });
-                
-                location.reload();
-            }
+        window.startReview = () => {
+            alert('Review mode coming soon! This will use spaced repetition to help you memorize words.');
         };
     </script>
 </body>
