@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1535,21 +1535,18 @@
             const vocabRef = doc(db, "shared_vocabulary", "cefrix_data");
             const vocabSnap = await getDoc(vocabRef);
             
-            // Setelah load vocabulary dari Firestore, clean data
             if (vocabSnap.exists()) {
                 userData.vocabulary = vocabSnap.data().words || [];
-    
-            // CLEAN DATA - Remove "HIGHLIG" prefix
-            userData.vocabulary = userData.vocabulary.map(word => {
-                return {
+                
+                // CRITICAL FIX: Clean vocabulary data - remove HIGHLIG/badge prefix
+                userData.vocabulary = userData.vocabulary.map(word => ({
                     ...word,
                     english: word.english
-                        .replace(/^HIGHLIG\s*/i, '')  // Remove HIGHLIG prefix
-                        .replace(/^[A-Z]{6,}\s*/g, '') // Remove any 6+ letter prefix
+                        .replace(/^HIGHLIG\s*/i, '')      // Remove HIGHLIG prefix
+                        .replace(/^[A-Z]{5,}\s+/g, '')    // Remove any 5+ uppercase letter prefix
+                        .replace(/^[A-Z]{2,}\s+n\.\s*/g, '') // Remove "XX n." pattern
                         .trim()
-                };
-            });
-        }
+                }));
             } else {
                 userData.vocabulary = [];
             }
@@ -2107,7 +2104,6 @@ function renderQ() {
             .replace(/^[A-Z]{5,}\s+/g, '')
             .replace(/^[A-Z]{2,}\s+[a-z]\.\s*/g, '')
             .trim();
-        const masked = w.example.replace(new RegExp('\\b' + cleanWord + '\\b', 'gi'), '_____');
         
         // Try to mask with word boundary
         let masked = w.example.replace(new RegExp('\\b' + cleanWord + '\\b', 'gi'), '_____');
@@ -2309,4 +2305,3 @@ window.goHome = async () => {
     </script>
 </body>
 </html>
-
