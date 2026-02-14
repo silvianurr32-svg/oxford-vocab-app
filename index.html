@@ -1477,6 +1477,7 @@
         let sessionStartTime = null;
         let currentQueue = [], sessionMastered = [], qIndex = 0, score = 0, mistakes = 0;
         let timerInterval, activeChapId = 1;
+        let retryAttempts = 0;  // Track retry attempts for "almost correct"
 
         function shuffle(a) { return a.sort(() => Math.random() - 0.5); }
         const ADMIN_EMAIL = "silvianurr32@gmail.com";
@@ -2091,6 +2092,8 @@
 function renderQ() {
     if (qIndex >= currentQueue.length) return showResult();
     
+    retryAttempts = 0;  // Reset retry counter for new question
+    
     const w = currentQueue[qIndex];
     const ch = activeChapId;
     const container = document.getElementById('game-screen');
@@ -2155,37 +2158,64 @@ function startTimer(s) {
     }, 1000);
 }
 
-function smartCheck(userInput, correctAnswer) {
+function smartCheck(userInput, correctAnswer, isRetry = false) {
     // Support multiple correct answers (comma-separated: "mati, lepas, padam")
     const possibleAnswers = correctAnswer.split(',').map(a => a.trim());
     
     const normalize = (str) => str.toLowerCase().replace(/[\s\-_]+/g, '').trim();
     const userNorm = normalize(userInput);
+    const userLower = userInput.toLowerCase().trim();
     
     // Check against ALL possible answers
     for (const answer of possibleAnswers) {
         const correctNorm = normalize(answer);
+        const answerLower = answer.toLowerCase().trim();
         
-        // Exact match
+        // 1. EXACT MATCH
         if (userNorm === correctNorm) {
             return { correct: true, isClose: false };
         }
         
-        // Typo tolerance check
+        // 2. TYPO TOLERANCE (Levenshtein distance)
         if (userNorm.length >= 2) {
             const distance = getLevenshteinDistance(userNorm, correctNorm);
             const maxDistance = Math.floor(correctNorm.length / 4);
             
             if (distance <= maxDistance && distance > 0) {
-                return { correct: false, isClose: true };
+                // Give second chance on first attempt
+                return { correct: false, isClose: !isRetry, reason: 'typo' };
             }
+        }
+        
+        // 3. PARTIAL WORD MATCH (e.g., "siang" for "siang hari")
+        const answerWords = answerLower.split(/\s+/);
+        const userWords = userLower.split(/\s+/);
+        
+        if (answerWords.length > 1 && userWords.length > 0) {
+            // Count how many words match
+            const matchCount = userWords.filter(uw => 
+                answerWords.some(aw => aw === uw || aw.includes(uw) || uw.includes(aw))
+            ).length;
             
-            // Substring match
-            if (userNorm.includes(correctNorm) || correctNorm.includes(userNorm)) {
-                if (userNorm.length >= correctNorm.length * 0.7) {
-                    return { correct: true, isClose: false };
-                }
+            const matchPercentage = matchCount / answerWords.length;
+            
+            // If 50%+ words match (like "terima kasih" for "berterima kasih")
+            if (matchPercentage >= 0.5 && matchPercentage < 1.0 && matchCount > 0) {
+                return { correct: false, isClose: !isRetry, reason: 'partial' };
             }
+        }
+        
+        // 4. SUBSTRING MATCH (user input is part of answer, e.g., "siang" in "siang hari")
+        if (userNorm.length >= 3 && correctNorm.includes(userNorm)) {
+            // User input is at least 50% of correct answer
+            if (userNorm.length >= correctNorm.length * 0.4) {
+                return { correct: false, isClose: !isRetry, reason: 'subset' };
+            }
+        }
+        
+        // 5. REVERSE SUBSTRING (answer is part of user input - too much info)
+        if (userNorm.includes(correctNorm) && userNorm.length >= correctNorm.length * 0.7) {
+            return { correct: true, isClose: false };
         }
     }
     
@@ -2212,18 +2242,58 @@ function getLevenshteinDistance(a, b) {
 
 window.checkType = (c) => {
     const v = document.getElementById('inp').value.trim();
-    const result = smartCheck(v, c);
-    showFb(result.correct, c, null, result.isClose);
+    const isRetry = retryAttempts > 0;
+    const result = smartCheck(v, c, isRetry);
+    
+    if (result.correct) {
+        showFb(true, c, null, false);
+        retryAttempts = 0;  // Reset
+    } else if (result.isClose && !isRetry) {
+        // First attempt - give second chance
+        retryAttempts = 1;
+        showRetryFeedback();
+    } else {
+        // Second attempt or completely wrong
+        showFb(false, c, null, result.isClose);
+        retryAttempts = 0;  // Reset
+    }
+}
+
+function showRetryFeedback() {
+    const fb = document.getElementById('fb');
+    fb.style.display = 'block';
+    fb.style.background = '#fffbeb';
+    fb.style.color = '#d97706';
+    fb.style.border = '2px solid #f59e0b';
+    fb.innerHTML = `⚠️ <b>Almost there!</b><br><small>Try again or check your spelling</small>`;
+    
+    // Clear input for retry
+    const inp = document.getElementById('inp');
+    if (inp) {
+        inp.value = '';
+        inp.focus();
+    }
+    
+    // Don't move to next question - stay on current
 }
 
 window.checkBtn = (b, s, c) => { showFb(s===c, c, b); }
 
 window.checkFillBlank = (correctWord) => {
     const userInput = document.getElementById('inp').value.trim();
-    const result = smartCheck(userInput, correctWord);
-    if (result.correct) showFb(true, correctWord);
-    else if (result.isClose) showFb(false, `Almost! Correct: "${correctWord}"`, null, true);
-    else showFb(false, `Correct: "${correctWord}"`);
+    const isRetry = retryAttempts > 0;
+    const result = smartCheck(userInput, correctWord, isRetry);
+    
+    if (result.correct) {
+        showFb(true, correctWord);
+        retryAttempts = 0;
+    } else if (result.isClose && !isRetry) {
+        retryAttempts = 1;
+        showRetryFeedback();
+    } else {
+        showFb(false, correctWord, null, result.isClose);
+        retryAttempts = 0;
+    }
 }
 
 window.playAudio = (word) => {
@@ -2236,10 +2306,19 @@ window.playAudio = (word) => {
 
 window.checkListening = (correctWord) => {
     const userInput = document.getElementById('inp').value.trim();
-    const result = smartCheck(userInput, correctWord);
-    if (result.correct) showFb(true, correctWord);
-    else if (result.isClose) showFb(false, `Almost! Correct: "${correctWord}"`, null, true);
-    else showFb(false, correctWord);
+    const isRetry = retryAttempts > 0;
+    const result = smartCheck(userInput, correctWord, isRetry);
+    
+    if (result.correct) {
+        showFb(true, correctWord);
+        retryAttempts = 0;
+    } else if (result.isClose && !isRetry) {
+        retryAttempts = 1;
+        showRetryFeedback();
+    } else {
+        showFb(false, correctWord);
+        retryAttempts = 0;
+    }
 }
 
 let recognition = null;
