@@ -2013,7 +2013,7 @@ function renderQ() {
     if (ch === 1) {
         html = `<div style="text-align:center;padding:2rem 0"><h2 style="font-size:3.5rem;font-weight:800;color:#2563eb;margin:2rem 0">${w.english}</h2><input id="inp" style="width:100%;padding:1rem 1.5rem;border:2px solid #e2e8f0;border-radius:0.75rem;font-size:1.125rem;text-align:center" placeholder="Type meaning..." onkeypress="if(event.key==='Enter') checkType('${w.indonesian.replace(/'/g, "\\'")}')"><button onclick="checkType('${w.indonesian.replace(/'/g, "\\'")}')" style="background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);color:white;border:none;padding:1rem 2rem;border-radius:0.75rem;font-size:1.125rem;font-weight:600;cursor:pointer;margin-top:1.5rem;max-width:300px;width:100%">Check</button><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
     } else if (ch === 2) {
-        const masked = w.example.replace(new RegExp(w.english, 'gi'), '_____');
+        const masked = w.example.replace(new RegExp('\\b' + w.english.trim() + '\\b', 'gi'), '_____');
         html = `<div style="text-align:center;padding:2rem 0"><h3 style="color:#64748b;margin-bottom:1.5rem">Complete the sentence:</h3><div style="background:#f8fafc;padding:2rem;border-radius:1rem;font-size:1.5rem;color:#334155;margin:2rem 0;font-style:italic">"${masked}"</div><div style="background:#eff6ff;border:2px solid #bfdbfe;padding:1rem 1.5rem;border-radius:0.75rem;margin:1.5rem 0;display:inline-block"><i class="fas fa-lightbulb" style="color:#2563eb"></i> <b>${w.pos}</b> - ${w.indonesian}</div><input id="inp" style="width:100%;padding:1rem 1.5rem;border:2px solid #e2e8f0;border-radius:0.75rem;font-size:1.125rem;text-align:center" placeholder="Type word..." onkeypress="if(event.key==='Enter') checkFillBlank('${w.english.replace(/'/g, "\\'")}')"><button onclick="checkFillBlank('${w.english.replace(/'/g, "\\'")}')" style="background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);color:white;border:none;padding:1rem 2rem;border-radius:0.75rem;font-size:1.125rem;font-weight:600;cursor:pointer;margin-top:1.5rem;max-width:300px;width:100%">Check</button><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
     } else if (ch === 3) {
         const dist = shuffle(userData.vocabulary.filter(x => x.english !== w.english)).slice(0, 3);
@@ -2201,3 +2201,4 @@ window.goHome = async () => {
     </script>
 </body>
 </html>
+
