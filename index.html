@@ -2156,17 +2156,39 @@ function startTimer(s) {
 }
 
 function smartCheck(userInput, correctAnswer) {
+    // Support multiple correct answers (comma-separated: "mati, lepas, padam")
+    const possibleAnswers = correctAnswer.split(',').map(a => a.trim());
+    
     const normalize = (str) => str.toLowerCase().replace(/[\s\-_]+/g, '').trim();
     const userNorm = normalize(userInput);
-    const correctNorm = normalize(correctAnswer);
-    if (userNorm === correctNorm) return { correct: true, isClose: false };
-    if (userNorm.length < 2) return { correct: false, isClose: false };
-    const distance = getLevenshteinDistance(userNorm, correctNorm);
-    const maxDistance = Math.floor(correctNorm.length / 4);
-    if (distance <= maxDistance && distance > 0) return { correct: false, isClose: true };
-    if (userNorm.includes(correctNorm) || correctNorm.includes(userNorm)) {
-        if (userNorm.length >= correctNorm.length * 0.7) return { correct: true, isClose: false };
+    
+    // Check against ALL possible answers
+    for (const answer of possibleAnswers) {
+        const correctNorm = normalize(answer);
+        
+        // Exact match
+        if (userNorm === correctNorm) {
+            return { correct: true, isClose: false };
+        }
+        
+        // Typo tolerance check
+        if (userNorm.length >= 2) {
+            const distance = getLevenshteinDistance(userNorm, correctNorm);
+            const maxDistance = Math.floor(correctNorm.length / 4);
+            
+            if (distance <= maxDistance && distance > 0) {
+                return { correct: false, isClose: true };
+            }
+            
+            // Substring match
+            if (userNorm.includes(correctNorm) || correctNorm.includes(userNorm)) {
+                if (userNorm.length >= correctNorm.length * 0.7) {
+                    return { correct: true, isClose: false };
+                }
+            }
+        }
     }
+    
     return { correct: false, isClose: false };
 }
 
