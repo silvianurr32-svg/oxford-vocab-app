@@ -72,6 +72,43 @@
             visibility: visible !important;
         }
 
+        /* Block browser extension badges (Google Translate, Grammarly, Highlighters, etc) */
+        #game-screen [class*="translate"],
+        #game-screen [class*="grammar"],
+        #game-screen [class*="highlight"],
+        #game-screen [class*="extension"],
+        #game-screen [id*="translate"],
+        #game-screen [id*="highlight"],
+        #game-screen [data-highlight],
+        #game-screen [data-translate],
+        #game-screen mark,
+        #game-screen .notranslate,
+        #game-screen span[style*="position: absolute"],
+        #game-screen div[style*="position: absolute"][style*="z-index"],
+        #game-screen span[style*="background"][style*="padding"][style*="border-radius"] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+        
+        /* Force clean text rendering - prevent extension injection */
+        #game-screen h1,
+        #game-screen h2,
+        #game-screen h3 {
+            position: relative !important;
+            z-index: 1 !important;
+            isolation: isolate !important;
+        }
+        
+        /* Remove any absolutely positioned elements near headings */
+        #game-screen h1 *[style*="position"],
+        #game-screen h2 *[style*="position"],
+        #game-screen h3 *[style*="position"] {
+            position: static !important;
+            display: none !important;
+        }
+        
         /* ========== END FIX ========== */
         
         /* Header */
@@ -1361,7 +1398,7 @@
     </div>
 
     <!-- Game Container -->
-<div id="game-container" class="hidden">
+<div id="game-container" class="hidden" translate="no">
     <div class="app-header">
         <div class="header-content">
             <div class="header-logo">
@@ -2239,6 +2276,3 @@ window.goHome = async () => {
     </script>
 </body>
 </html>
-
-
-
