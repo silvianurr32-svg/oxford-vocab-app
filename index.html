@@ -35,10 +35,44 @@
         }
         
         .hidden { display: none !important; }
-        /* Fix word-meta bug */
-        #game-screen .word-meta {
+
+        /* ========== FIX BADGE BUG ========== */
+
+        /* Remove ALL badges/labels from game screen */
+        #game-screen .word-meta,
+        #game-screen .word-badge,
+        #game-screen .level-badge,
+        #game-screen .pos-tag,
+        #game-screen .word-label,
+        #game-screen [class*="badge"],
+        #game-screen [class*="label"],
+        #game-screen [class*="tag"] {
+            display: none !important;
+            visibility: hidden !important;
+        }
+
+        /* Remove pseudo-elements (::before, ::after) */
+        #game-screen h1::before,
+        #game-screen h1::after,
+        #game-screen h2::before,
+        #game-screen h2::after,
+        #game-screen h3::before,
+        #game-screen h3::after,
+        #game-screen .word-display::before,
+        #game-screen .word-display::after {
+            content: none !important;
             display: none !important;
         }
+
+        /* KEEP hint box in Fill the Blank (the blue box with lightbulb) */
+        #game-screen div[style*="background:#eff6ff"],
+        #game-screen div[style*="background: #eff6ff"],
+        #game-screen .hint-box {
+            display: inline-block !important;
+            visibility: visible !important;
+        }
+
+        /* ========== END FIX ========== */
         
         /* Header */
         .app-header {
@@ -2205,5 +2239,6 @@ window.goHome = async () => {
     </script>
 </body>
 </html>
+
 
 
