@@ -1322,6 +1322,31 @@
         </div>
     </div>
 
+    <!-- Game Container -->
+<div id="game-container" class="hidden">
+    <div class="app-header">
+        <div class="header-content">
+            <div class="header-logo">
+                <div class="logo-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="logo-text">
+                    <h1>CEFRix</h1>
+                    <p>Vocabulary Mastery</p>
+                </div>
+            </div>
+            <div class="header-user">
+                <button class="btn-icon" onclick="goHome()">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </button>
+                <div style="font-weight: 700; color: #2563eb; font-size: 1.125rem;" id="game-score-display">0/10</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container" style="margin-top: 2rem;">
+        <div class="game-screen" id="game-screen" style="background: white; border-radius: 1.5rem; padding: 3rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); max-width: 800px; margin: 0 auto;"></div>
+    </div>
+</div>
+
     <!-- Admin Panel -->
     <div id="admin-panel" class="admin-modal hidden">
         <div class="container">
@@ -1375,7 +1400,11 @@
         let userStats = null;
         let dailyGoals = null;
         let sessionStartTime = null;
-        const ADMIN_EMAIL = "silvianur@students.amikom.ac.id";
+        let currentQueue = [], sessionMastered = [], qIndex = 0, score = 0, mistakes = 0;
+        let timerInterval, activeChapId = 1;
+
+        function shuffle(a) { return a.sort(() => Math.random() - 0.5); }
+        const ADMIN_EMAIL = "silvianurr32@gmail.com";
         const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
         function isAdmin() {
@@ -1808,8 +1837,25 @@
             renderDashboard();
         };
 
-        window.startMode = (mode) => {
-            alert(`Practice mode ${mode} will be integrated with existing learning system.\n\nFor now, this will track your progress and update stats automatically.`);
+        window.startMode = (chapterId) => {
+        activeChapId = chapterId;
+        const currentLevel = getCurrentLevel();
+        let pool = userData.vocabulary.filter(v => v.level === currentLevel && !v.mastered);
+    
+        if (pool.length < 5) {
+        alert("Not enough words! Please upload vocabulary first.");
+        return;
+        }
+    
+        currentQueue = shuffle(pool).slice(0, 10);
+        sessionMastered = [];
+        qIndex = 0;
+        score = 0;
+        mistakes = 0;
+    
+        document.getElementById('main-dashboard').classList.add('hidden');
+        document.getElementById('game-container').classList.remove('hidden');
+        renderQ();
         };
 
         window.toggleAdmin = () => {
@@ -1951,6 +1997,207 @@
         window.addEventListener('beforeunload', () => {
             trackSessionEnd();
         });
+
+        // ========== GAME FUNCTIONS ==========
+
+// Render Question
+function renderQ() {
+    if (qIndex >= currentQueue.length) return showResult();
+    
+    const w = currentQueue[qIndex];
+    const ch = activeChapId;
+    const container = document.getElementById('game-screen');
+    
+    let html = '';
+    
+    if (ch === 1) {
+        html = `<div style="text-align:center;padding:2rem 0"><h2 style="font-size:3.5rem;font-weight:800;color:#2563eb;margin:2rem 0">${w.english}</h2><input id="inp" style="width:100%;padding:1rem 1.5rem;border:2px solid #e2e8f0;border-radius:0.75rem;font-size:1.125rem;text-align:center" placeholder="Type meaning..." onkeypress="if(event.key==='Enter') checkType('${w.indonesian.replace(/'/g, "\\'")}')"><button onclick="checkType('${w.indonesian.replace(/'/g, "\\'")}')" style="background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);color:white;border:none;padding:1rem 2rem;border-radius:0.75rem;font-size:1.125rem;font-weight:600;cursor:pointer;margin-top:1.5rem;max-width:300px;width:100%">Check</button><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
+    } else if (ch === 2) {
+        const masked = w.example.replace(new RegExp(w.english, 'gi'), '_____');
+        html = `<div style="text-align:center;padding:2rem 0"><h3 style="color:#64748b;margin-bottom:1.5rem">Complete the sentence:</h3><div style="background:#f8fafc;padding:2rem;border-radius:1rem;font-size:1.5rem;color:#334155;margin:2rem 0;font-style:italic">"${masked}"</div><div style="background:#eff6ff;border:2px solid #bfdbfe;padding:1rem 1.5rem;border-radius:0.75rem;margin:1.5rem 0;display:inline-block"><i class="fas fa-lightbulb" style="color:#2563eb"></i> <b>${w.pos}</b> - ${w.indonesian}</div><input id="inp" style="width:100%;padding:1rem 1.5rem;border:2px solid #e2e8f0;border-radius:0.75rem;font-size:1.125rem;text-align:center" placeholder="Type word..." onkeypress="if(event.key==='Enter') checkFillBlank('${w.english.replace(/'/g, "\\'")}')"><button onclick="checkFillBlank('${w.english.replace(/'/g, "\\'")}')" style="background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);color:white;border:none;padding:1rem 2rem;border-radius:0.75rem;font-size:1.125rem;font-weight:600;cursor:pointer;margin-top:1.5rem;max-width:300px;width:100%">Check</button><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
+    } else if (ch === 3) {
+        const dist = shuffle(userData.vocabulary.filter(x => x.english !== w.english)).slice(0, 3);
+        const opts = shuffle([w, ...dist]);
+        html = `<div style="text-align:center;padding:2rem 0"><h2 style="font-size:3.5rem;font-weight:800;color:#2563eb;margin:2rem 0">${w.english}</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0">${opts.map(o => `<button onclick="checkBtn(this,'${o.indonesian.replace(/'/g,"\\'")}','${w.indonesian.replace(/'/g,"\\'")}' )" style="padding:1.25rem;background:white;border:2px solid #f1f5f9;border-radius:0.75rem;font-size:1.125rem;font-weight:600;color:#475569;cursor:pointer">${o.indonesian}</button>`).join('')}</div><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
+    } else if (ch === 4) {
+        html = `<div style="text-align:center;padding:2rem 0"><button onclick="playAudio('${w.english}')" style="width:150px;height:150px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#3b82f6);border:none;color:white;font-size:3rem;cursor:pointer;margin:2rem auto;display:block"><i class="fas fa-volume-up"></i></button><p style="color:#64748b;margin-bottom:1.5rem">Listen and type</p><input id="inp" style="width:100%;padding:1rem 1.5rem;border:2px solid #e2e8f0;border-radius:0.75rem;font-size:1.125rem;text-align:center" placeholder="Type word..." onkeypress="if(event.key==='Enter') checkListening('${w.english.replace(/'/g, "\\'")}')"><button onclick="checkListening('${w.english.replace(/'/g, "\\'")}')" style="background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);color:white;border:none;padding:1rem 2rem;border-radius:0.75rem;font-size:1.125rem;font-weight:600;cursor:pointer;margin-top:1.5rem;max-width:300px;width:100%">Check</button><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
+        setTimeout(() => playAudio(w.english), 300);
+    } else if (ch === 5) {
+        html = `<div style="text-align:center;padding:2rem 0"><h2 style="font-size:2.5rem;font-weight:700;color:#1e293b;margin:2rem 0">${w.indonesian}</h2><p style="color:#64748b;margin-bottom:1.5rem">Speak the English word</p><button id="mic-btn" onclick="startSpeaking('${w.english.replace(/'/g,"\\'")}','${w.indonesian.replace(/'/g,"\\'")}' )" style="width:150px;height:150px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#8b5cf6);border:none;color:white;font-size:3rem;cursor:pointer;margin:2rem auto;display:block"><i class="fas fa-microphone"></i></button><p id="transcript" style="color:#64748b;min-height:30px;font-style:italic"></p><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
+    } else if (ch === 7) {
+        const dist = shuffle(userData.vocabulary.filter(x => x.english !== w.english)).slice(0, 3);
+        const opts = shuffle([w, ...dist]);
+        html = `<div style="text-align:center;padding:2rem 0"><h1 id="timer" style="color:#ef4444;font-size:5rem;margin:0">5</h1><h2 style="font-size:3rem;font-weight:800;color:#2563eb;margin:2rem 0">${w.english}</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0">${opts.map(o => `<button onclick="checkBtn(this,'${o.indonesian.replace(/'/g,"\\'")}','${w.indonesian.replace(/'/g,"\\'")}' )" style="padding:1.25rem;background:white;border:2px solid #f1f5f9;border-radius:0.75rem;font-size:1.125rem;font-weight:600;color:#475569;cursor:pointer">${o.indonesian}</button>`).join('')}</div><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
+        startTimer(5);
+    }
+    
+    container.innerHTML = html;
+    if(ch<3 || ch===4) setTimeout(() => { const inp=document.getElementById('inp'); if(inp) inp.focus(); }, 100);
+    document.getElementById('game-score-display').innerText = `${score}/${currentQueue.length}`;
+}
+
+function startTimer(s) {
+    clearInterval(timerInterval);
+    let t = s;
+    timerInterval = setInterval(() => {
+        t--;
+        const timer = document.getElementById('timer');
+        if (timer) timer.innerText = t;
+        if (t <= 0) { clearInterval(timerInterval); showFb(false, "Time's up!"); }
+    }, 1000);
+}
+
+function smartCheck(userInput, correctAnswer) {
+    const normalize = (str) => str.toLowerCase().replace(/[\s\-_]+/g, '').trim();
+    const userNorm = normalize(userInput);
+    const correctNorm = normalize(correctAnswer);
+    if (userNorm === correctNorm) return { correct: true, isClose: false };
+    if (userNorm.length < 2) return { correct: false, isClose: false };
+    const distance = getLevenshteinDistance(userNorm, correctNorm);
+    const maxDistance = Math.floor(correctNorm.length / 4);
+    if (distance <= maxDistance && distance > 0) return { correct: false, isClose: true };
+    if (userNorm.includes(correctNorm) || correctNorm.includes(userNorm)) {
+        if (userNorm.length >= correctNorm.length * 0.7) return { correct: true, isClose: false };
+    }
+    return { correct: false, isClose: false };
+}
+
+function getLevenshteinDistance(a, b) {
+    if (a.length === 0) return b.length;
+    if (b.length === 0) return a.length;
+    const matrix = [];
+    for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+    for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+    for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+            if (b.charAt(i-1) === a.charAt(j-1)) {
+                matrix[i][j] = matrix[i-1][j-1];
+            } else {
+                matrix[i][j] = Math.min(matrix[i-1][j-1]+1, matrix[i][j-1]+1, matrix[i-1][j]+1);
+            }
+        }
+    }
+    return matrix[b.length][a.length];
+}
+
+window.checkType = (c) => {
+    const v = document.getElementById('inp').value.trim();
+    const result = smartCheck(v, c);
+    showFb(result.correct, c, null, result.isClose);
+}
+
+window.checkBtn = (b, s, c) => { showFb(s===c, c, b); }
+
+window.checkFillBlank = (correctWord) => {
+    const userInput = document.getElementById('inp').value.trim();
+    const result = smartCheck(userInput, correctWord);
+    if (result.correct) showFb(true, correctWord);
+    else if (result.isClose) showFb(false, `Almost! Correct: "${correctWord}"`, null, true);
+    else showFb(false, `Correct: "${correctWord}"`);
+}
+
+window.playAudio = (word) => {
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.8;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+}
+
+window.checkListening = (correctWord) => {
+    const userInput = document.getElementById('inp').value.trim();
+    const result = smartCheck(userInput, correctWord);
+    if (result.correct) showFb(true, correctWord);
+    else if (result.isClose) showFb(false, `Almost! Correct: "${correctWord}"`, null, true);
+    else showFb(false, correctWord);
+}
+
+let recognition = null;
+window.startSpeaking = (correctWord, meaning) => {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert('Speech Recognition not supported. Try Chrome.');
+        return;
+    }
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    const micBtn = document.getElementById('mic-btn');
+    const transcript = document.getElementById('transcript');
+    micBtn.style.background = '#ef4444';
+    transcript.innerText = 'Listening...';
+    recognition.onresult = (event) => {
+        const spokenWord = event.results[0][0].transcript.toLowerCase().trim();
+        transcript.innerText = `You said: "${spokenWord}"`;
+        setTimeout(() => {
+            const result = smartCheck(spokenWord, correctWord);
+            showFb(result.correct, correctWord, null, result.isClose);
+        }, 500);
+    };
+    recognition.onerror = (event) => {
+        micBtn.style.background = 'linear-gradient(135deg,#7c3aed,#8b5cf6)';
+        transcript.innerText = 'Error: ' + event.error;
+    };
+    recognition.onend = () => {
+        micBtn.style.background = 'linear-gradient(135deg,#7c3aed,#8b5cf6)';
+    };
+    recognition.start();
+}
+
+function showFb(ok, cor, btn, isClose = false) {
+    clearInterval(timerInterval);
+    const fb = document.getElementById('fb');
+    fb.style.display = 'block';
+    if (ok) {
+        if (btn) btn.style.background = '#10b981';
+        fb.style.background = '#ecfdf5';
+        fb.style.color = '#059669';
+        fb.style.border = '2px solid #10b981';
+        fb.innerHTML = "✅ Correct!";
+        score++;
+        sessionMastered.push(currentQueue[qIndex]);
+    } else {
+        if (btn) btn.style.background = '#ef4444';
+        if (isClose) {
+            fb.style.background = '#fffbeb';
+            fb.style.color = '#d97706';
+            fb.style.border = '2px solid #f59e0b';
+            fb.innerHTML = `⚠️ Almost!<br><small>Answer: <b>${cor}</b></small>`;
+        } else {
+            fb.style.background = '#fef2f2';
+            fb.style.color = '#dc2626';
+            fb.style.border = '2px solid #ef4444';
+            fb.innerHTML = `❌ Wrong!<br><small>Answer: <b>${cor}</b></small>`;
+        }
+    }
+    setTimeout(() => { qIndex++; renderQ(); }, 1500);
+}
+
+async function showResult() {
+    await updateGoalsAfterQuiz(sessionMastered.length);
+    if (sessionMastered.length > 0) {
+        sessionMastered.forEach(mWord => {
+            const target = userData.vocabulary.find(v => v.english === mWord.english && v.pos === mWord.pos);
+            if (target) target.mastered = true;
+        });
+        const userRef = doc(db, "user_progress", currentUser.uid);
+        const masteredWords = userData.vocabulary.filter(v => v.mastered).map(v => v.english + "|" + v.pos);
+        await updateDoc(userRef, { masteredWords: masteredWords });
+    }
+    document.getElementById('game-screen').innerHTML = `<div style="text-align:center;padding:2rem 0"><h1 style="color:#2563eb;font-size:3rem;margin-bottom:1rem">Completed!</h1><p style="font-size:2rem;color:#64748b;margin-bottom:2rem">${score} / ${currentQueue.length} correct</p><button onclick="goHome()" style="background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);color:white;border:none;padding:1rem 2rem;border-radius:0.75rem;font-size:1.125rem;font-weight:600;cursor:pointer;max-width:200px;width:100%"><i class="fas fa-home"></i> Home</button></div>`;
+}
+
+window.goHome = async () => {
+    await trackSessionEnd();
+    document.getElementById('game-container').classList.add('hidden');
+    document.getElementById('main-dashboard').classList.remove('hidden');
+    await loadData();
+    await generateDailyGoals();
+    renderDashboard();
+};
+
+// ========== END GAME FUNCTIONS ==========
     </script>
 </body>
 </html>
