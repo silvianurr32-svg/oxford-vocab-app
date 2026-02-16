@@ -6,8 +6,8 @@
     <title>CEFRix - English Mastery</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/jpeg" href="/logo.png">
-    <link rel="apple-touch-icon" href="/logo.png">
+    <link rel="icon" type="image/jpeg" href="/logo.jpg">
+    <link rel="apple-touch-icon" href="/logo.jpg">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -202,12 +202,12 @@
         .logo-text h1 {
             font-size: 1.5rem;
             font-weight: 800;
-            color: #1e293b;
+            color: var(--text-primary);
         }
         
         .logo-text p {
             font-size: 0.75rem;
-            color: #64748b;
+            color: var(--text-secondary);
         }
         
         .header-user {
@@ -217,8 +217,8 @@
         }
         
         .btn-icon {
-            background: white;
-            border: 1px solid #e2e8f0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
             cursor: pointer;
@@ -233,7 +233,7 @@
         
         .btn-icon:hover {
             border-color: #cbd5e1;
-            background: #f8fafc;
+            background: var(--bg-tertiary);
         }
         
         .btn-primary {
@@ -268,12 +268,12 @@
         .user-info h3 {
             font-size: 0.875rem;
             font-weight: 600;
-            color: #1e293b;
+            color: var(--text-primary);
         }
         
         .user-info p {
             font-size: 0.75rem;
-            color: #64748b;
+            color: var(--text-secondary);
         }
         
         /* Container */
@@ -326,7 +326,7 @@
         .brand-name .cefr {
             font-size: 4rem;
             font-weight: 800;
-            color: #1e293b;
+            color: var(--text-primary);
             letter-spacing: -0.03em;
         }
         
@@ -338,7 +338,7 @@
         }
         
         .tagline {
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 0.875rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
@@ -375,7 +375,7 @@
         
         /* Welcome Section */
         .welcome-section {
-            background: white;
+            background: var(--bg-secondary);
             border-radius: 1.5rem;
             padding: 3rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
@@ -384,12 +384,12 @@
         .welcome-header h2 {
             font-size: 2rem;
             font-weight: 700;
-            color: #1e293b;
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
         
         .welcome-header p {
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 1rem;
         }
         
@@ -420,19 +420,19 @@
         
         .status-info h4 {
             font-size: 0.875rem;
-            color: #64748b;
+            color: var(--text-secondary);
             font-weight: 500;
         }
         
         .status-info p {
             font-size: 1.25rem;
             font-weight: 700;
-            color: #1e293b;
+            color: var(--text-primary);
         }
         
         /* CEFR Journey */
         .cefr-journey {
-            background: white;
+            background: var(--bg-secondary);
             border-radius: 1.5rem;
             padding: 2rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
@@ -448,12 +448,12 @@
         .journey-header h3 {
             font-size: 1.25rem;
             font-weight: 700;
-            color: #1e293b;
+            color: var(--text-primary);
         }
         
         .progress-label {
             font-size: 0.875rem;
-            color: #64748b;
+            color: var(--text-secondary);
         }
         
         .journey-timeline {
@@ -473,7 +473,7 @@
         }
         
         .level-step:hover {
-            background: #f8fafc;
+            background: var(--bg-tertiary);
         }
         
         .level-step.current {
@@ -495,12 +495,12 @@
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: #f1f5f9;
+            background: var(--bg-tertiary);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            color: #64748b;
+            color: var(--text-secondary);
             flex-shrink: 0;
         }
         
@@ -515,17 +515,17 @@
         
         .level-details h4 {
             font-weight: 600;
-            color: #1e293b;
+            color: var(--text-primary);
         }
         
         .level-details p {
             font-size: 0.875rem;
-            color: #64748b;
+            color: var(--text-secondary);
         }
         
         .level-progress-bar {
             height: 4px;
-            background: #f1f5f9;
+            background: var(--bg-tertiary);
             border-radius: 2px;
             margin-top: 0.5rem;
             overflow: hidden;
@@ -555,7 +555,7 @@
         }
         
         .stat-card {
-            background: white;
+            background: var(--bg-secondary);
             border-radius: 1.5rem;
             padding: 2rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
@@ -601,7 +601,7 @@
         
         .stat-title h4 {
             font-size: 0.875rem;
-            color: #64748b;
+            color: var(--text-secondary);
             font-weight: 500;
         }
         
@@ -662,13 +662,13 @@
             transform: translate(-50%, -50%);
             font-size: 2rem;
             font-weight: 800;
-            color: #1e293b;
+            color: var(--text-primary);
         }
         
         .stat-details h3 {
             font-size: 2.5rem;
             font-weight: 800;
-            color: #1e293b;
+            color: var(--text-primary);
             margin-bottom: 0.25rem;
         }
         
@@ -682,7 +682,7 @@
         }
         
         .stat-subtitle {
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 0.875rem;
         }
         
@@ -702,7 +702,7 @@
         }
         
         .day-cell.label {
-            color: #94a3b8;
+            color: var(--text-tertiary);
             background: none;
         }
         
@@ -712,13 +712,13 @@
         }
         
         .day-cell.inactive {
-            background: #f1f5f9;
+            background: var(--bg-tertiary);
             color: #cbd5e1;
         }
         
         .progress-bar-horizontal {
             height: 8px;
-            background: #f1f5f9;
+            background: var(--bg-tertiary);
             border-radius: 4px;
             overflow: hidden;
             margin-top: 0.75rem;
@@ -736,12 +736,12 @@
             justify-content: space-between;
             margin-top: 0.5rem;
             font-size: 0.75rem;
-            color: #64748b;
+            color: var(--text-secondary);
         }
         
         /* Daily Goals */
         .goals-section {
-            background: white;
+            background: var(--bg-secondary);
             border-radius: 1.5rem;
             padding: 2rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
@@ -758,7 +758,7 @@
         .goals-header h3 {
             font-size: 1.25rem;
             font-weight: 700;
-            color: #1e293b;
+            color: var(--text-primary);
         }
         
         .goals-count {
@@ -769,12 +769,12 @@
         
         .goals-count span {
             font-size: 1rem;
-            color: #94a3b8;
+            color: var(--text-tertiary);
             font-weight: 500;
         }
         
         .goals-subtitle {
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 0.875rem;
             margin-bottom: 1.5rem;
         }
@@ -785,13 +785,13 @@
             gap: 1rem;
             padding: 1.25rem;
             border-radius: 0.75rem;
-            background: #f8fafc;
+            background: var(--bg-tertiary);
             margin-bottom: 1rem;
             transition: all 0.2s;
         }
         
         .goal-item:hover {
-            background: #f1f5f9;
+            background: var(--bg-tertiary);
         }
         
         .goal-item.completed {
@@ -802,11 +802,11 @@
             width: 40px;
             height: 40px;
             border-radius: 10px;
-            background: white;
+            background: var(--bg-secondary);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #94a3b8;
+            color: var(--text-tertiary);
             flex-shrink: 0;
         }
         
@@ -821,18 +821,18 @@
         
         .goal-content h4 {
             font-weight: 600;
-            color: #1e293b;
+            color: var(--text-primary);
             margin-bottom: 0.25rem;
         }
         
         .goal-item.completed .goal-content h4 {
             text-decoration: line-through;
-            color: #64748b;
+            color: var(--text-secondary);
         }
         
         .goal-content p {
             font-size: 0.875rem;
-            color: #64748b;
+            color: var(--text-secondary);
         }
         
         .goal-check {
@@ -868,7 +868,7 @@
         .section-header h3 {
             font-size: 1.25rem;
             font-weight: 700;
-            color: #1e293b;
+            color: var(--text-primary);
         }
         
         .view-all {
@@ -888,11 +888,11 @@
         }
         
         .module-card {
-            background: white;
+            background: var(--bg-secondary);
             border-radius: 1.25rem;
             padding: 2rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            border-top: 4px solid #2563eb;
+            border-top: 4px solid var(--blue-600);
             transition: all 0.3s;
             cursor: pointer;
         }
@@ -910,8 +910,8 @@
         }
         
         .module-level {
-            background: #f1f5f9;
-            color: #64748b;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
             padding: 0.25rem 0.75rem;
             border-radius: 0.5rem;
             font-size: 0.75rem;
@@ -930,12 +930,12 @@
         .module-title {
             font-size: 1.25rem;
             font-weight: 700;
-            color: #1e293b;
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
         
         .module-description {
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 0.875rem;
             margin-bottom: 1.5rem;
         }
@@ -945,7 +945,7 @@
             gap: 1.5rem;
             margin-bottom: 1.5rem;
             font-size: 0.875rem;
-            color: #64748b;
+            color: var(--text-secondary);
         }
         
         .module-meta i {
@@ -954,7 +954,7 @@
         
         .module-progress-label {
             font-size: 0.75rem;
-            color: #64748b;
+            color: var(--text-secondary);
             margin-bottom: 0.5rem;
             display: flex;
             justify-content: space-between;
@@ -962,7 +962,7 @@
         
         .module-progress-bar {
             height: 6px;
-            background: #f1f5f9;
+            background: var(--bg-tertiary);
             border-radius: 3px;
             overflow: hidden;
             margin-bottom: 1rem;
@@ -1024,7 +1024,7 @@
         }
         
         .action-button {
-            background: white;
+            background: var(--bg-secondary);
             color: #2563eb;
             border: none;
             padding: 0.75rem 1.5rem;
@@ -1035,7 +1035,7 @@
         }
         
         .action-card.dark .action-button {
-            color: #1e293b;
+            color: var(--text-primary);
         }
         
         .action-button:hover {
@@ -1054,7 +1054,7 @@
         }
 
         .mode-card {
-            background: white;
+            background: var(--bg-secondary);
             border-radius: 1rem;
             padding: 2rem;
             border-left: 6px solid #2563eb;
@@ -1073,12 +1073,12 @@
         .mode-card h3 {
             font-size: 1.25rem;
             font-weight: 700;
-            color: #1e293b;
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
 
         .mode-card small {
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 0.875rem;
         }
 
@@ -1104,7 +1104,7 @@
         .admin-modal {
             position: fixed;
             inset: 0;
-            background: white;
+            background: var(--bg-secondary);
             z-index: 1000;
             padding: 3rem;
             overflow-y: auto;
@@ -1122,7 +1122,7 @@
         .modal-header h2 {
             font-size: 2rem;
             font-weight: 800;
-            color: #1e293b;
+            color: var(--text-primary);
         }
 
         .btn-close {
@@ -1130,12 +1130,12 @@
             border: none;
             font-size: 2rem;
             cursor: pointer;
-            color: #94a3b8;
+            color: var(--text-tertiary);
             transition: color 0.2s;
         }
 
         .btn-close:hover {
-            color: #64748b;
+            color: var(--text-secondary);
         }
 
         .upload-zone {
@@ -1144,14 +1144,14 @@
             padding: 4rem 2rem;
             text-align: center;
             cursor: pointer;
-            background: #f8fafc;
+            background: var(--bg-tertiary);
             transition: all 0.3s;
             margin-bottom: 2rem;
         }
 
         .upload-zone:hover {
-            background: #f1f5f9;
-            border-color: #94a3b8;
+            background: var(--bg-tertiary);
+            border-color: var(--text-tertiary);
         }
 
         .upload-zone i {
@@ -1161,7 +1161,7 @@
         }
 
         .log-area {
-            background: #f1f5f9;
+            background: var(--bg-tertiary);
             padding: 1.5rem;
             border-radius: 0.75rem;
             font-family: 'Courier New', monospace;
@@ -1245,7 +1245,7 @@
         <div class="header-content">
             <div class="header-logo" onclick="goToDashboard()">
                 <div class="logo-icon">
-                    <i class="fas fa-chart-line"></i>
+                    <img src="/logo.jpg" alt="CEFRix" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
                 </div>
                 <div class="logo-text">
                     <h1>CEFRix</h1>
@@ -1349,7 +1349,7 @@
                                     <span class="stat-badge streak">Daily Goal</span>
                                 </div>
                                 <div class="stat-content" style="display: block;">
-                                    <h3 id="streak-days" style="font-size: 3rem; margin-bottom: 0.5rem;">0 <span style="font-size: 1.25rem; color: #64748b;">days</span></h3>
+                                    <h3 id="streak-days" style="font-size: 3rem; margin-bottom: 0.5rem;">0 <span style="font-size: 1.25rem; color: var(--text-secondary);">days</span></h3>
                                     <p class="stat-subtitle">This Week</p>
                                     <div class="week-calendar" id="week-calendar"></div>
                                 </div>
@@ -1365,7 +1365,7 @@
                                     <span class="stat-badge achievement">Achievement</span>
                                 </div>
                                 <div class="stat-content" style="display: block;">
-                                    <h3 id="study-hours" style="font-size: 3rem; margin-bottom: 0.5rem;">0 <span style="font-size: 1.25rem; color: #64748b;">hours</span></h3>
+                                    <h3 id="study-hours" style="font-size: 3rem; margin-bottom: 0.5rem;">0 <span style="font-size: 1.25rem; color: var(--text-secondary);">hours</span></h3>
                                     <div class="progress-bar-horizontal">
                                         <div class="progress-bar-fill" id="study-progress-fill" style="width: 0%"></div>
                                     </div>
@@ -1386,7 +1386,7 @@
                                 </div>
                                 <div class="goals-count">
                                     <span id="goals-completed">0</span>/<span id="goals-total">4</span>
-                                    <div style="font-size: 0.75rem; color: #94a3b8; margin-top: -0.5rem;">completed</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-tertiary); margin-top: -0.5rem;">completed</div>
                                 </div>
                             </div>
                             <div id="goals-list"></div>
@@ -1468,7 +1468,7 @@
     </div>
     
     <div class="container" style="margin-top: 2rem;">
-        <div class="game-screen" id="game-screen" style="background: white; border-radius: 1.5rem; padding: 3rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); max-width: 800px; margin: 0 auto;"></div>
+        <div class="game-screen" id="game-screen" style="background: var(--bg-secondary); border-radius: 1.5rem; padding: 3rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); max-width: 800px; margin: 0 auto;"></div>
     </div>
 </div>
 
@@ -1483,13 +1483,13 @@
             <label for="docx-input" class="upload-zone">
                 <i class="fas fa-file-word"></i>
                 <h3>Select Word Document (.docx)</h3>
-                <p style="color:#64748b;">Click or drag file here</p>
+                <p style="color: var(--text-secondary);">Click or drag file here</p>
             </label>
             <input type="file" id="docx-input" accept=".docx" style="display:none;" onchange="handleDOCX(this)">
 
             <div id="status-box" style="display:none; text-align:center; padding:2rem;">
                 <i class="fas fa-spinner fa-spin" style="font-size:3rem; color:#2563eb;"></i>
-                <p style="margin-top:1rem; color:#64748b;">Processing file...</p>
+                <p style="margin-top:1rem; color: var(--text-secondary);">Processing file...</p>
             </div>
             
             <div class="log-area" id="log-area">Ready to upload...</div>
@@ -1819,7 +1819,7 @@
             `;
             
             // Update UI - Streak
-            document.getElementById('streak-days').innerHTML = `${userStats.streak.current} <span style="font-size: 1.25rem; color: #64748b;">days</span>`;
+            document.getElementById('streak-days').innerHTML = `${userStats.streak.current} <span style="font-size: 1.25rem; color: var(--text-secondary);">days</span>`;
             renderWeekCalendar();
             
             // Update UI - Study Time
@@ -1827,7 +1827,7 @@
             const studyGoal = 15; // 15 hours per month
             const studyPercent = Math.min(100, Math.round((studyHours / studyGoal) * 100));
             
-            document.getElementById('study-hours').innerHTML = `${studyHours} <span style="font-size: 1.25rem; color: #64748b;">hours</span>`;
+            document.getElementById('study-hours').innerHTML = `${studyHours} <span style="font-size: 1.25rem; color: var(--text-secondary);">hours</span>`;
             document.getElementById('study-progress-fill').style.width = `${studyPercent}%`;
             document.getElementById('study-percentage').textContent = `${studyPercent}%`;
             
@@ -1945,7 +1945,7 @@
                             ${completed ? '<i class="fas fa-check"></i>' : level}
                         </div>
                         <div class="level-details">
-                            <h4>${level} <span style="font-weight: 400; color: #64748b;">${getLevelName(level)}</span></h4>
+                            <h4>${level} <span style="font-weight: 400; color: var(--text-secondary);">${getLevelName(level)}</span></h4>
                             ${current ? `
                                 <div class="level-progress-bar">
                                     <div class="level-progress-fill" style="width: ${progress}%"></div>
@@ -2151,7 +2151,7 @@ function renderQ() {
     let html = '';
     
     if (ch === 1) {
-        html = `<div style="text-align:center;padding:2rem 0"><h2 style="font-size:3.5rem;font-weight:800;color:#2563eb;margin:2rem 0">${w.english}</h2><input id="inp" style="width:100%;padding:1rem 1.5rem;border:2px solid #e2e8f0;border-radius:0.75rem;font-size:1.125rem;text-align:center" placeholder="Type meaning..." onkeypress="if(event.key==='Enter') checkType('${w.indonesian.replace(/'/g, "\\'")}')"><button onclick="checkType('${w.indonesian.replace(/'/g, "\\'")}')" style="background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);color:white;border:none;padding:1rem 2rem;border-radius:0.75rem;font-size:1.125rem;font-weight:600;cursor:pointer;margin-top:1.5rem;max-width:300px;width:100%">Check</button><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
+        html = `<div style="text-align:center;padding:2rem 0"><h2 style="font-size:3.5rem;font-weight:800;color:#2563eb;margin:2rem 0">${w.english}</h2><input id="inp" style="width:100%;padding:1rem 1.5rem;border: 2px solid var(--border-color);border-radius:0.75rem;font-size:1.125rem;text-align:center" placeholder="Type meaning..." onkeypress="if(event.key==='Enter') checkType('${w.indonesian.replace(/'/g, "\\'")}')"><button onclick="checkType('${w.indonesian.replace(/'/g, "\\'")}')" style="background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);color:white;border:none;padding:1rem 2rem;border-radius:0.75rem;font-size:1.125rem;font-weight:600;cursor:pointer;margin-top:1.5rem;max-width:300px;width:100%">Check</button><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
     } else if (ch === 2) {
         // CRITICAL FIX: Clean word AGGRESSIVELY - remove ANY non-letter prefix
         const cleanWord = w.english
@@ -2175,20 +2175,20 @@ function renderQ() {
             console.error('FILL BLANK FAILED:', { original: w.english, cleaned: cleanWord, example: w.example });
         }
         
-        html = `<div style="text-align:center;padding:2rem 0"><h3 style="color:#64748b;margin-bottom:1.5rem">Complete the sentence:</h3><div style="background:#f8fafc;padding:2rem;border-radius:1rem;font-size:1.5rem;color:#334155;margin:2rem 0;font-style:italic">"${masked}"</div><div style="background:#eff6ff;border:2px solid #bfdbfe;padding:1rem 1.5rem;border-radius:0.75rem;margin:1.5rem 0;display:inline-block"><i class="fas fa-lightbulb" style="color:#2563eb"></i> <b>${w.pos}</b> - ${w.indonesian}</div><input id="inp" style="width:100%;padding:1rem 1.5rem;border:2px solid #e2e8f0;border-radius:0.75rem;font-size:1.125rem;text-align:center" placeholder="Type word..." onkeypress="if(event.key==='Enter') checkFillBlank('${cleanWord.replace(/'/g, "\\'")}')"><button onclick="checkFillBlank('${cleanWord.replace(/'/g, "\\'")}' )" style="background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);color:white;border:none;padding:1rem 2rem;border-radius:0.75rem;font-size:1.125rem;font-weight:600;cursor:pointer;margin-top:1.5rem;max-width:300px;width:100%">Check</button><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
+        html = `<div style="text-align:center;padding:2rem 0"><h3 style="color: var(--text-secondary);margin-bottom:1.5rem">Complete the sentence:</h3><div style="background: var(--bg-tertiary);padding:2rem;border-radius:1rem;font-size:1.5rem;color:#334155;margin:2rem 0;font-style:italic">"${masked}"</div><div style="background:#eff6ff;border:2px solid #bfdbfe;padding:1rem 1.5rem;border-radius:0.75rem;margin:1.5rem 0;display:inline-block"><i class="fas fa-lightbulb" style="color:#2563eb"></i> <b>${w.pos}</b> - ${w.indonesian}</div><input id="inp" style="width:100%;padding:1rem 1.5rem;border: 2px solid var(--border-color);border-radius:0.75rem;font-size:1.125rem;text-align:center" placeholder="Type word..." onkeypress="if(event.key==='Enter') checkFillBlank('${cleanWord.replace(/'/g, "\\'")}')"><button onclick="checkFillBlank('${cleanWord.replace(/'/g, "\\'")}' )" style="background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);color:white;border:none;padding:1rem 2rem;border-radius:0.75rem;font-size:1.125rem;font-weight:600;cursor:pointer;margin-top:1.5rem;max-width:300px;width:100%">Check</button><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
     } else if (ch === 3) {
         const dist = shuffle(userData.vocabulary.filter(x => x.english !== w.english)).slice(0, 3);
         const opts = shuffle([w, ...dist]);
-        html = `<div style="text-align:center;padding:2rem 0"><h2 style="font-size:3.5rem;font-weight:800;color:#2563eb;margin:2rem 0">${w.english}</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0">${opts.map(o => `<button onclick="checkBtn(this,'${o.indonesian.replace(/'/g,"\\'")}','${w.indonesian.replace(/'/g,"\\'")}' )" style="padding:1.25rem;background:white;border:2px solid #f1f5f9;border-radius:0.75rem;font-size:1.125rem;font-weight:600;color:#475569;cursor:pointer">${o.indonesian}</button>`).join('')}</div><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
+        html = `<div style="text-align:center;padding:2rem 0"><h2 style="font-size:3.5rem;font-weight:800;color:#2563eb;margin:2rem 0">${w.english}</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0">${opts.map(o => `<button onclick="checkBtn(this,'${o.indonesian.replace(/'/g,"\\'")}','${w.indonesian.replace(/'/g,"\\'")}' )" style="padding:1.25rem;background: var(--bg-secondary);border:2px solid #f1f5f9;border-radius:0.75rem;font-size:1.125rem;font-weight:600;color:#475569;cursor:pointer">${o.indonesian}</button>`).join('')}</div><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
     } else if (ch === 4) {
-        html = `<div style="text-align:center;padding:2rem 0"><button onclick="playAudio('${w.english}')" style="width:150px;height:150px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#3b82f6);border:none;color:white;font-size:3rem;cursor:pointer;margin:2rem auto;display:block"><i class="fas fa-volume-up"></i></button><p style="color:#64748b;margin-bottom:1.5rem">Listen and type</p><input id="inp" style="width:100%;padding:1rem 1.5rem;border:2px solid #e2e8f0;border-radius:0.75rem;font-size:1.125rem;text-align:center" placeholder="Type word..." onkeypress="if(event.key==='Enter') checkListening('${w.english.replace(/'/g, "\\'")}')"><button onclick="checkListening('${w.english.replace(/'/g, "\\'")}')" style="background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);color:white;border:none;padding:1rem 2rem;border-radius:0.75rem;font-size:1.125rem;font-weight:600;cursor:pointer;margin-top:1.5rem;max-width:300px;width:100%">Check</button><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
+        html = `<div style="text-align:center;padding:2rem 0"><button onclick="playAudio('${w.english}')" style="width:150px;height:150px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#3b82f6);border:none;color:white;font-size:3rem;cursor:pointer;margin:2rem auto;display:block"><i class="fas fa-volume-up"></i></button><p style="color: var(--text-secondary);margin-bottom:1.5rem">Listen and type</p><input id="inp" style="width:100%;padding:1rem 1.5rem;border: 2px solid var(--border-color);border-radius:0.75rem;font-size:1.125rem;text-align:center" placeholder="Type word..." onkeypress="if(event.key==='Enter') checkListening('${w.english.replace(/'/g, "\\'")}')"><button onclick="checkListening('${w.english.replace(/'/g, "\\'")}')" style="background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);color:white;border:none;padding:1rem 2rem;border-radius:0.75rem;font-size:1.125rem;font-weight:600;cursor:pointer;margin-top:1.5rem;max-width:300px;width:100%">Check</button><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
         setTimeout(() => playAudio(w.english), 300);
     } else if (ch === 5) {
-        html = `<div style="text-align:center;padding:2rem 0"><h2 style="font-size:2.5rem;font-weight:700;color:#1e293b;margin:2rem 0">${w.indonesian}</h2><p style="color:#64748b;margin-bottom:1.5rem">Speak the English word</p><button id="mic-btn" onclick="startSpeaking('${w.english.replace(/'/g,"\\'")}','${w.indonesian.replace(/'/g,"\\'")}' )" style="width:150px;height:150px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#8b5cf6);border:none;color:white;font-size:3rem;cursor:pointer;margin:2rem auto;display:block"><i class="fas fa-microphone"></i></button><p id="transcript" style="color:#64748b;min-height:30px;font-style:italic"></p><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
+        html = `<div style="text-align:center;padding:2rem 0"><h2 style="font-size:2.5rem;font-weight:700;color: var(--text-primary);margin:2rem 0">${w.indonesian}</h2><p style="color: var(--text-secondary);margin-bottom:1.5rem">Speak the English word</p><button id="mic-btn" onclick="startSpeaking('${w.english.replace(/'/g,"\\'")}','${w.indonesian.replace(/'/g,"\\'")}' )" style="width:150px;height:150px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#8b5cf6);border:none;color:white;font-size:3rem;cursor:pointer;margin:2rem auto;display:block"><i class="fas fa-microphone"></i></button><p id="transcript" style="color: var(--text-secondary);min-height:30px;font-style:italic"></p><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
     } else if (ch === 7) {
         const dist = shuffle(userData.vocabulary.filter(x => x.english !== w.english)).slice(0, 3);
         const opts = shuffle([w, ...dist]);
-        html = `<div style="text-align:center;padding:2rem 0"><h1 id="timer" style="color:#ef4444;font-size:5rem;margin:0">5</h1><h2 style="font-size:3rem;font-weight:800;color:#2563eb;margin:2rem 0">${w.english}</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0">${opts.map(o => `<button onclick="checkBtn(this,'${o.indonesian.replace(/'/g,"\\'")}','${w.indonesian.replace(/'/g,"\\'")}' )" style="padding:1.25rem;background:white;border:2px solid #f1f5f9;border-radius:0.75rem;font-size:1.125rem;font-weight:600;color:#475569;cursor:pointer">${o.indonesian}</button>`).join('')}</div><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
+        html = `<div style="text-align:center;padding:2rem 0"><h1 id="timer" style="color:#ef4444;font-size:5rem;margin:0">5</h1><h2 style="font-size:3rem;font-weight:800;color:#2563eb;margin:2rem 0">${w.english}</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0">${opts.map(o => `<button onclick="checkBtn(this,'${o.indonesian.replace(/'/g,"\\'")}','${w.indonesian.replace(/'/g,"\\'")}' )" style="padding:1.25rem;background: var(--bg-secondary);border:2px solid #f1f5f9;border-radius:0.75rem;font-size:1.125rem;font-weight:600;color:#475569;cursor:pointer">${o.indonesian}</button>`).join('')}</div><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
         startTimer(5);
     }
     
@@ -2447,7 +2447,7 @@ async function showResult() {
     
     const resultHTML = '<div style="text-align:center;padding:2rem 0">' +
         '<h1 style="color:#2563eb;font-size:3rem;margin-bottom:1rem">Completed!</h1>' +
-        '<p style="font-size:2rem;color:#64748b;margin-bottom:2rem">' + score + ' / ' + currentQueue.length + ' correct</p>' +
+        '<p style="font-size:2rem;color: var(--text-secondary);margin-bottom:2rem">' + score + ' / ' + currentQueue.length + ' correct</p>' +
         '<button onclick="goHome()" style="background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);color:white;border:none;padding:1rem 2rem;border-radius:0.75rem;font-size:1.125rem;font-weight:600;cursor:pointer;max-width:200px;width:100%">' +
         '<i class="fas fa-home"></i> Home</button>' +
         '</div>';
