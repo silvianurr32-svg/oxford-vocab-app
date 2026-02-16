@@ -2159,7 +2159,7 @@ function startTimer(s) {
 }
 
 function smartCheck(userInput, correctAnswer, isRetry = false) {
-    // Support multiple correct answers (comma-separated: "mati, lepas, padam")
+    // Support multiple correct answers (comma-separated)
     const possibleAnswers = correctAnswer.split(',').map(a => a.trim());
     
     const normalize = (str) => str.toLowerCase().replace(/[\s\-_]+/g, '').trim();
@@ -2173,53 +2173,79 @@ function smartCheck(userInput, correctAnswer, isRetry = false) {
         
         // 1. EXACT MATCH
         if (userNorm === correctNorm) {
-            return { correct: true, isClose: false };
+            return { 
+                correct: true, 
+                matchType: 'exact',
+                bestMatch: answer 
+            };
         }
         
-        // 2. TYPO TOLERANCE (Levenshtein distance)
+        // 2. TYPO TOLERANCE (1-2 characters difference)
         if (userNorm.length >= 2) {
             const distance = getLevenshteinDistance(userNorm, correctNorm);
-            const maxDistance = Math.floor(correctNorm.length / 4);
+            const maxDistance = Math.min(2, Math.floor(correctNorm.length / 4));
             
             if (distance <= maxDistance && distance > 0) {
-                // Give second chance on first attempt
-                return { correct: false, isClose: !isRetry, reason: 'typo' };
+                // Still correct! Just show proper spelling
+                return { 
+                    correct: true, 
+                    matchType: 'typo',
+                    bestMatch: answer 
+                };
             }
         }
         
-        // 3. PARTIAL WORD MATCH (e.g., "siang" for "siang hari")
+        // 3. PARTIAL WORD MATCH (e.g., "seberang" for "di seberang")
         const answerWords = answerLower.split(/\s+/);
         const userWords = userLower.split(/\s+/);
         
         if (answerWords.length > 1 && userWords.length > 0) {
-            // Count how many words match
+            // Count matching words
             const matchCount = userWords.filter(uw => 
                 answerWords.some(aw => aw === uw || aw.includes(uw) || uw.includes(aw))
             ).length;
             
             const matchPercentage = matchCount / answerWords.length;
             
-            // If 50%+ words match (like "terima kasih" for "berterima kasih")
-            if (matchPercentage >= 0.5 && matchPercentage < 1.0 && matchCount > 0) {
-                return { correct: false, isClose: !isRetry, reason: 'partial' };
+            // If 50%+ words match → Still correct!
+            if (matchPercentage >= 0.5 && matchCount > 0) {
+                return { 
+                    correct: true, 
+                    matchType: 'partial',
+                    bestMatch: answer 
+                };
             }
         }
         
-        // 4. SUBSTRING MATCH (user input is part of answer, e.g., "siang" in "siang hari")
-        if (userNorm.length >= 3 && correctNorm.includes(userNorm)) {
-            // User input is at least 50% of correct answer
-            if (userNorm.length >= correctNorm.length * 0.4) {
-                return { correct: false, isClose: !isRetry, reason: 'subset' };
+        // 4. SUBSTRING MATCH (user answer is part of correct answer)
+        // e.g., "matikan" for "mematikan" OR "dia" for "dia perempuan"
+        if (userNorm.length >= 3) {
+            if (correctNorm.includes(userNorm) && userNorm.length >= correctNorm.length * 0.4) {
+                return { 
+                    correct: true, 
+                    matchType: 'subset',
+                    bestMatch: answer 
+                };
             }
         }
         
-        // 5. REVERSE SUBSTRING (answer is part of user input - too much info)
-        if (userNorm.includes(correctNorm) && userNorm.length >= correctNorm.length * 0.7) {
-            return { correct: true, isClose: false };
+        // 5. REVERSE SUBSTRING (answer is part of user input)
+        // User might have added extra words
+        if (userNorm.includes(correctNorm) && correctNorm.length >= userNorm.length * 0.7) {
+            return { 
+                correct: true, 
+                matchType: 'exact',
+                bestMatch: answer 
+            };
         }
     }
     
-    return { correct: false, isClose: false };
+    // No match found
+    return { 
+        correct: false, 
+        matchType: 'none',
+        bestMatch: possibleAnswers[0] // Return first option as "correct answer"
+    };
 }
 
 function getLevenshteinDistance(a, b) {
@@ -2242,58 +2268,32 @@ function getLevenshteinDistance(a, b) {
 
 window.checkType = (c) => {
     const v = document.getElementById('inp').value.trim();
-    const isRetry = retryAttempts > 0;
-    const result = smartCheck(v, c, isRetry);
+    const result = smartCheck(v, c);
     
-    if (result.correct) {
-        showFb(true, c, null, false);
-        retryAttempts = 0;  // Reset
-    } else if (result.isClose && !isRetry) {
-        // First attempt - give second chance
-        retryAttempts = 1;
-        showRetryFeedback();
-    } else {
-        // Second attempt or completely wrong
-        showFb(false, c, null, result.isClose);
-        retryAttempts = 0;  // Reset
-    }
+    showFb(result.correct, c, null, result.matchType, result.bestMatch);
 }
 
 function showRetryFeedback() {
+    // This function is no longer needed with new system
+    // Keeping for backward compatibility
     const fb = document.getElementById('fb');
     fb.style.display = 'block';
     fb.style.background = '#fffbeb';
     fb.style.color = '#d97706';
     fb.style.border = '2px solid #f59e0b';
-    fb.innerHTML = `⚠️ <b>Almost there!</b><br><small>Try again or check your spelling</small>`;
-    
-    // Clear input for retry
-    const inp = document.getElementById('inp');
-    if (inp) {
-        inp.value = '';
-        inp.focus();
-    }
-    
-    // Don't move to next question - stay on current
+    fb.innerHTML = `⚠️ Almost there!<br><small>Try again or check your spelling</small>`;
 }
 
-window.checkBtn = (b, s, c) => { showFb(s===c, c, b); }
+window.checkBtn = (b, s, c) => { 
+    const isCorrect = s === c;
+    showFb(isCorrect, c, b, isCorrect ? 'exact' : 'none', c); 
+}
 
 window.checkFillBlank = (correctWord) => {
     const userInput = document.getElementById('inp').value.trim();
-    const isRetry = retryAttempts > 0;
-    const result = smartCheck(userInput, correctWord, isRetry);
+    const result = smartCheck(userInput, correctWord);
     
-    if (result.correct) {
-        showFb(true, correctWord);
-        retryAttempts = 0;
-    } else if (result.isClose && !isRetry) {
-        retryAttempts = 1;
-        showRetryFeedback();
-    } else {
-        showFb(false, correctWord, null, result.isClose);
-        retryAttempts = 0;
-    }
+    showFb(result.correct, correctWord, null, result.matchType, result.bestMatch);
 }
 
 window.playAudio = (word) => {
@@ -2306,19 +2306,9 @@ window.playAudio = (word) => {
 
 window.checkListening = (correctWord) => {
     const userInput = document.getElementById('inp').value.trim();
-    const isRetry = retryAttempts > 0;
-    const result = smartCheck(userInput, correctWord, isRetry);
+    const result = smartCheck(userInput, correctWord);
     
-    if (result.correct) {
-        showFb(true, correctWord);
-        retryAttempts = 0;
-    } else if (result.isClose && !isRetry) {
-        retryAttempts = 1;
-        showRetryFeedback();
-    } else {
-        showFb(false, correctWord);
-        retryAttempts = 0;
-    }
+    showFb(result.correct, correctWord, null, result.matchType, result.bestMatch);
 }
 
 let recognition = null;
@@ -2354,33 +2344,43 @@ window.startSpeaking = (correctWord, meaning) => {
     recognition.start();
 }
 
-function showFb(ok, cor, btn, isClose = false) {
+function showFb(ok, cor, btn, matchType = 'none', bestMatch = '') {
     clearInterval(timerInterval);
     const fb = document.getElementById('fb');
     fb.style.display = 'block';
+    
     if (ok) {
         if (btn) btn.style.background = '#10b981';
         fb.style.background = '#ecfdf5';
         fb.style.color = '#059669';
         fb.style.border = '2px solid #10b981';
-        fb.innerHTML = "✅ Correct!";
+        
+        // Check if we need to show additional info
+        if (matchType === 'exact' || !bestMatch) {
+            // Perfect match - no additional info needed
+            fb.innerHTML = "✅ Correct!";
+        } else if (matchType === 'typo') {
+            // Typo - show correct spelling
+            fb.innerHTML = `✅ Correct!<br><small style="color:#0891b2;"><i class="fas fa-info-circle"></i> Correct spelling: <b>${bestMatch}</b></small>`;
+        } else if (matchType === 'partial') {
+            // Partial word match - show complete answer
+            fb.innerHTML = `✅ Correct!<br><small style="color:#0891b2;"><i class="fas fa-info-circle"></i> Complete answer: <b>${bestMatch}</b></small>`;
+        } else if (matchType === 'subset') {
+            // Subset match - show full meaning
+            fb.innerHTML = `✅ Correct!<br><small style="color:#0891b2;"><i class="fas fa-info-circle"></i> Full meaning: <b>${bestMatch}</b></small>`;
+        }
+        
         score++;
         sessionMastered.push(currentQueue[qIndex]);
     } else {
         if (btn) btn.style.background = '#ef4444';
-        if (isClose) {
-            fb.style.background = '#fffbeb';
-            fb.style.color = '#d97706';
-            fb.style.border = '2px solid #f59e0b';
-            fb.innerHTML = `⚠️ Almost!<br><small>Answer: <b>${cor}</b></small>`;
-        } else {
-            fb.style.background = '#fef2f2';
-            fb.style.color = '#dc2626';
-            fb.style.border = '2px solid #ef4444';
-            fb.innerHTML = `❌ Wrong!<br><small>Answer: <b>${cor}</b></small>`;
-        }
+        fb.style.background = '#fef2f2';
+        fb.style.color = '#dc2626';
+        fb.style.border = '2px solid #ef4444';
+        fb.innerHTML = `❌ Wrong!<br><small>Answer: <b>${cor}</b></small>`;
     }
-    setTimeout(() => { qIndex++; renderQ(); }, 1500);
+    
+    setTimeout(() => { qIndex++; retryAttempts = 0; renderQ(); }, 2000);
 }
 
 async function showResult() {
