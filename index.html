@@ -2307,7 +2307,7 @@ function renderQ() {
             console.error('FILL BLANK FAILED:', { original: w.english, cleaned: cleanWord, example: w.example });
         }
         
-        html = `<div style="text-align:center;padding:2rem 0"><h3 style="color: var(--text-secondary);margin-bottom:1.5rem">Complete the sentence:</h3><div style="background: var(--bg-tertiary);padding:2rem;border-radius:1rem;font-size:1.5rem;color:#334155;margin:2rem 0;font-style:italic">"${masked}"</div><div style="background:#eff6ff;border:2px solid #bfdbfe;padding:1rem 1.5rem;border-radius:0.75rem;margin:1.5rem 0;display:inline-block"><i class="fas fa-lightbulb" style="color:#2563eb"></i> <b>${w.pos}</b> - ${w.indonesian}</div><input id="inp" style="width:100%;padding:1rem 1.5rem;border: 2px solid var(--border-color);border-radius:0.75rem;font-size:1.125rem;text-align:center" placeholder="Type word..." onkeypress="if(event.key==='Enter') checkFillBlank('${cleanWord.replace(/'/g, "\\'")}')"><button onclick="checkFillBlank('${cleanWord.replace(/'/g, "\\'")}' )" style="background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);color:white;border:none;padding:1rem 2rem;border-radius:0.75rem;font-size:1.125rem;font-weight:600;cursor:pointer;margin-top:1.5rem;max-width:300px;width:100%">Check</button><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
+        html = `<div style="text-align:center;padding:2rem 0"><h3 style="color: var(--text-secondary);margin-bottom:1.5rem">Complete the sentence:</h3><div style="background: var(--bg-tertiary);padding:2rem;border-radius:1rem;font-size:1.5rem;color:var(--text-primary);margin:2rem 0;font-style:italic">"${masked}"</div>
     } else if (ch === 3) {
         const dist = shuffle(userData.vocabulary.filter(x => x.english !== w.english)).slice(0, 3);
         const opts = shuffle([w, ...dist]);
@@ -2602,6 +2602,7 @@ themeToggle.addEventListener('click', () => {
     </script>
 </body>
 </html>
+
 
 
 
