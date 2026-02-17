@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CEFRix - English Mastery</title>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#2563eb">
+    <title>CEFRix - Master Your Vocabulary</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/logo.png">
@@ -1242,7 +1246,142 @@
                 grid-template-columns: 1fr;
             }
         }
-    </style>
+
+        /* ========== MOBILE PORTRAIT OPTIMIZATION ========== */
+        @media (max-width: 768px) {
+            /* Force single column layout */
+            .current-status {
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* Stack main layout vertically */
+            .dashboard-grid > div[style*="grid-template-columns"] {
+                display: block !important;
+            }
+            
+            .dashboard-grid > div > div {
+                width: 100% !important;
+                margin-bottom: 2rem;
+            }
+            
+            /* Optimize stats grid */
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* Optimize modes grid */
+            .modes-grid {
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* Make logo smaller on mobile */
+            .logo-container {
+                width: 140px !important;
+                height: 140px !important;
+            }
+            
+            .logo-icon {
+                width: 48px !important;
+                height: 48px !important;
+            }
+            
+            /* Smaller text for mobile */
+            .brand-name .cefr,
+            .brand-name .ix {
+                font-size: 2.5rem !important;
+            }
+            
+            .welcome-header h2 {
+                font-size: 1.5rem !important;
+            }
+            
+            /* Optimize header for mobile */
+            .header-content {
+                padding: 0 1rem !important;
+                flex-wrap: wrap;
+            }
+            
+            .header-logo {
+                flex: 1;
+                min-width: 150px;
+            }
+            
+            .header-user {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            
+            .user-info {
+                display: none;
+            }
+            
+            /* Optimize padding */
+            .container {
+                padding: 1rem !important;
+            }
+            
+            .welcome-section {
+                padding: 1.5rem !important;
+            }
+            
+            .stat-card,
+            .goals-section,
+            .cefr-journey {
+                padding: 1.5rem !important;
+            }
+            
+            /* Game screen optimization */
+            #game-screen {
+                padding: 2rem 1rem !important;
+            }
+            
+            #game-screen h2 {
+                font-size: 2.5rem !important;
+            }
+            
+            #game-screen button {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 576px) {
+            .header-user .btn-icon span {
+                display: none;
+            }
+            
+            .mode-card {
+                padding: 1.5rem !important;
+            }
+            
+            .goal-item {
+                padding: 1rem !important;
+            }
+        }
+
+        /* Landscape mode warning */
+        @media (max-width: 896px) and (orientation: landscape) {
+            body::before {
+                content: "For better experience, please use portrait mode";
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: #fbbf24;
+                color: #78350f;
+                text-align: center;
+                padding: 0.5rem;
+                font-weight: 600;
+                font-size: 0.875rem;
+                z-index: 9999;
+            }
+            
+            .app-header {
+                margin-top: 2.5rem;
+            }
+        }
+    </style>  /* ← Tutup tag style */
 </head>
 <body>
     <!-- Landing Page -->
@@ -2455,6 +2594,7 @@ themeToggle.addEventListener('click', () => {
     </script>
 </body>
 </html>
+
 
 
 
