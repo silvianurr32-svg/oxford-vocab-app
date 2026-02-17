@@ -6,7 +6,7 @@
     <title>CEFRix - English Mastery</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/jpeg" href="/logo.png">
+    <link rel="icon" type="image/png" href="/logo.png">
     <link rel="apple-touch-icon" href="/logo.png">
     
     <!-- Fonts -->
@@ -187,6 +187,7 @@
             cursor: pointer;
         }
         
+        /* ========== UPDATED LOGO ICON ========== */
         .logo-icon {
             width: 48px;
             height: 48px;
@@ -195,9 +196,34 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 1.5rem;
+            overflow: hidden;
+            position: relative;
         }
+        
+        .logo-icon img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+        
+        /* Fallback icon if image doesn't load */
+        .logo-icon::before {
+            content: '📚';
+            font-size: 24px;
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .logo-icon img:not([src]), 
+        .logo-icon img[src=""] {
+            display: none;
+        }
+        
+        .logo-icon img:not([src]) ~ ::before,
+        .logo-icon img[src=""] ~ ::before {
+            opacity: 1;
+        }
+        /* ========== END LOGO UPDATE ========== */
         
         .logo-text h1 {
             font-size: 1.5rem;
@@ -1245,7 +1271,7 @@
         <div class="header-content">
             <div class="header-logo" onclick="goToDashboard()">
                 <div class="logo-icon">
-                    <span style="font-size: 1.75rem; font-weight: 800; color: white;">C</span>
+                    <img src="/logo.png" alt="CEFRix" onerror="this.style.display='none'">
                 </div>
                 <div class="logo-text">
                     <h1><span style="color: var(--text-primary);">CEFR</span><span style="color: #3b82f6;">ix</span></h1>
@@ -1452,7 +1478,9 @@
     <div class="app-header">
         <div class="header-content">
             <div class="header-logo">
-                <div class="logo-icon"><span style="font-size: 1.75rem; font-weight: 800; color: white;">C</span></div>
+                <div class="logo-icon">
+                    <img src="/logo.png" alt="CEFRix" onerror="this.style.display='none'">
+                </div>
                 <div class="logo-text">
                     <h1><span style="color: var(--text-primary);">CEFR</span><span style="color: #3b82f6;">ix</span></h1>
                     <p>Vocabulary Mastery</p>
@@ -1527,7 +1555,7 @@
         let sessionStartTime = null;
         let currentQueue = [], sessionMastered = [], qIndex = 0, score = 0, mistakes = 0;
         let timerInterval, activeChapId = 1;
-        let retryAttempts = 0;  // Track retry attempts for "almost correct"
+        let retryAttempts = 0;
 
         function shuffle(a) { return a.sort(() => Math.random() - 0.5); }
         const ADMIN_EMAIL = "silvianurr32@gmail.com";
@@ -1582,29 +1610,26 @@
 
         // Load all data
         async function loadData() {
-            // Load shared vocabulary
             const vocabRef = doc(db, "shared_vocabulary", "cefrix_data");
             const vocabSnap = await getDoc(vocabRef);
             
             if (vocabSnap.exists()) {
                 userData.vocabulary = vocabSnap.data().words || [];
                 
-                // CRITICAL FIX: Clean vocabulary data AGGRESSIVELY
                 userData.vocabulary = userData.vocabulary.map(word => ({
                     ...word,
                     english: word.english
-                        .replace(/^[^a-zA-Z]+/g, '')         // Remove ANY non-letter at start
-                        .replace(/^HIGHLIG\s*/i, '')         // Remove HIGHLIG prefix
-                        .replace(/^[A-Z]{5,}\s+/g, '')       // Remove 5+ uppercase prefix
-                        .replace(/^[A-Z]{2,}\s+n\.\s*/g, '') // Remove "XX n." pattern
-                        .replace(/[^a-zA-Z\s'-]/g, '')       // Keep only letters, space, hyphen, apostrophe
+                        .replace(/^[^a-zA-Z]+/g, '')
+                        .replace(/^HIGHLIG\s*/i, '')
+                        .replace(/^[A-Z]{5,}\s+/g, '')
+                        .replace(/^[A-Z]{2,}\s+n\.\s*/g, '')
+                        .replace(/[^a-zA-Z\s'-]/g, '')
                         .trim()
                 }));
             } else {
                 userData.vocabulary = [];
             }
             
-            // Load user progress
             const userRef = doc(db, "user_progress", currentUser.uid);
             const userSnap = await getDoc(userRef);
             
@@ -1627,7 +1652,6 @@
                 });
             }
             
-            // Load or initialize user stats
             const statsRef = doc(db, "user_stats", currentUser.uid);
             const statsSnap = await getDoc(statsRef);
             
@@ -1644,7 +1668,6 @@
                 await setDoc(statsRef, userStats);
             }
             
-            // Load today's goals
             const today = new Date().toISOString().split('T')[0];
             const goalsRef = doc(db, "daily_activities", `${currentUser.uid}_${today}`);
             const goalsSnap = await getDoc(goalsRef);
@@ -1656,13 +1679,11 @@
             }
         }
 
-        // Update streak
         async function updateStreak() {
             const today = new Date().toISOString().split('T')[0];
             const lastActivity = userStats.streak.lastActivity;
             
             if (lastActivity === today) {
-                // Already logged in today
                 return;
             }
             
@@ -1671,23 +1692,19 @@
             const yesterdayStr = yesterday.toISOString().split('T')[0];
             
             if (lastActivity === yesterdayStr) {
-                // Streak continues
                 userStats.streak.current++;
                 if (userStats.streak.current > userStats.streak.longest) {
                     userStats.streak.longest = userStats.streak.current;
                 }
             } else if (lastActivity === null) {
-                // First login
                 userStats.streak.current = 1;
                 userStats.streak.longest = 1;
             } else {
-                // Streak broken
                 userStats.streak.current = 1;
             }
             
             userStats.streak.lastActivity = today;
             
-            // Save to Firestore
             const statsRef = doc(db, "user_stats", currentUser.uid);
             await updateDoc(statsRef, {
                 'streak.current': userStats.streak.current,
@@ -1696,9 +1713,8 @@
             });
         }
 
-        // Generate daily goals
         async function generateDailyGoals() {
-            if (dailyGoals) return; // Already have goals for today
+            if (dailyGoals) return;
             
             const today = new Date().toISOString().split('T')[0];
             const unmastered = userData.vocabulary.filter(v => !v.mastered);
@@ -1719,11 +1735,10 @@
             await setDoc(goalsRef, dailyGoals);
         }
 
-        // Track session end
         async function trackSessionEnd() {
             if (!sessionStartTime) return;
             
-            const sessionDuration = Math.floor((Date.now() - sessionStartTime) / 60000); // minutes
+            const sessionDuration = Math.floor((Date.now() - sessionStartTime) / 60000);
             if (sessionDuration < 1) return;
             
             const today = new Date().toISOString().split('T')[0];
@@ -1739,7 +1754,6 @@
                 totalStudyMinutes: increment(sessionDuration)
             });
             
-            // Update goal completion
             if (dailyGoals.goals.practice.progress + sessionDuration >= dailyGoals.goals.practice.target) {
                 await updateDoc(goalsRef, {
                     'goals.practice.completed': true
@@ -1747,7 +1761,6 @@
             }
         }
 
-        // Update goals after quiz
         async function updateGoalsAfterQuiz(wordsLearned) {
             const today = new Date().toISOString().split('T')[0];
             const goalsRef = doc(db, "daily_activities", `${currentUser.uid}_${today}`);
@@ -1758,7 +1771,6 @@
                 'goals.completeQuiz.progress': increment(1)
             });
             
-            // Check completion
             if (dailyGoals.goals.learnWords.progress + wordsLearned >= dailyGoals.goals.learnWords.target) {
                 await updateDoc(goalsRef, { 'goals.learnWords.completed': true });
             }
@@ -1766,19 +1778,16 @@
                 await updateDoc(goalsRef, { 'goals.completeQuiz.completed': true });
             }
             
-            // Update monthly count
             const statsRef = doc(db, "user_stats", currentUser.uid);
             await updateDoc(statsRef, {
                 wordsLearnedThisMonth: increment(wordsLearned)
             });
             
-            // Reload data and refresh
             await loadData();
             await generateDailyGoals();
             renderDashboard();
         }
 
-        // Render dashboard
         function renderDashboard() {
             calculateAndRenderStats();
             renderDailyGoals();
@@ -1786,22 +1795,18 @@
         }
 
         function calculateAndRenderStats() {
-            // Calculate stats
             const masteredCount = userData.vocabulary.filter(v => v.mastered).length;
             const totalWords = userData.vocabulary.length;
             const percentage = totalWords > 0 ? Math.round((masteredCount / totalWords) * 100) : 0;
             
-            // Current level
             const currentLevel = getCurrentLevel();
             const levelWords = userData.vocabulary.filter(v => v.level === currentLevel);
             const levelMastered = levelWords.filter(v => v.mastered).length;
             const levelProgress = levelWords.length > 0 ? Math.round((levelMastered / levelWords.length) * 100) : 0;
             
-            // Next level
             const nextLevelIdx = LEVELS.indexOf(currentLevel) + 1;
             const nextLevel = nextLevelIdx < LEVELS.length ? LEVELS[nextLevelIdx] : 'Mastery';
             
-            // Update UI - Words Mastered
             document.getElementById('words-count').textContent = masteredCount;
             document.getElementById('total-words').textContent = `${totalWords} total words`;
             document.getElementById('words-percentage').textContent = `${percentage}%`;
@@ -1810,7 +1815,6 @@
             const offset = circumference - (percentage / 100) * circumference;
             document.getElementById('words-progress-circle').style.strokeDashoffset = offset;
             
-            // Monthly growth
             const monthlyGrowth = userStats.wordsLearnedThisMonth || 0;
             const growthPercent = totalWords > 0 ? Math.round((monthlyGrowth / totalWords) * 100) : 0;
             document.getElementById('words-change').innerHTML = `
@@ -1818,20 +1822,17 @@
                 <span>+${growthPercent}%</span>
             `;
             
-            // Update UI - Streak
             document.getElementById('streak-days').innerHTML = `${userStats.streak.current} <span style="font-size: 1.25rem; color: var(--text-secondary);">days</span>`;
             renderWeekCalendar();
             
-            // Update UI - Study Time
             const studyHours = (userStats.totalStudyMinutes / 60).toFixed(1);
-            const studyGoal = 15; // 15 hours per month
+            const studyGoal = 15;
             const studyPercent = Math.min(100, Math.round((studyHours / studyGoal) * 100));
             
             document.getElementById('study-hours').innerHTML = `${studyHours} <span style="font-size: 1.25rem; color: var(--text-secondary);">hours</span>`;
             document.getElementById('study-progress-fill').style.width = `${studyPercent}%`;
             document.getElementById('study-percentage').textContent = `${studyPercent}%`;
             
-            // Update header
             document.getElementById('user-level-display').textContent = `Level ${currentLevel}`;
             document.getElementById('current-level-text').textContent = `${currentLevel} - ${getLevelName(currentLevel)}`;
             document.getElementById('progress-text').textContent = `You're ${levelProgress}% toward ${nextLevel}`;
@@ -1864,7 +1865,6 @@
             const container = document.getElementById('week-calendar');
             const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
             
-            // Get this week's dates
             const today = new Date();
             const dayOfWeek = today.getDay();
             const monday = new Date(today);
@@ -1878,7 +1878,6 @@
                 const dateStr = date.toISOString().split('T')[0];
                 const lastActivity = userStats.streak.lastActivity;
                 
-                // Check if this date is within the streak
                 const isActive = lastActivity && dateStr <= lastActivity && 
                     (new Date(lastActivity) - date) / (1000 * 60 * 60 * 24) < userStats.streak.current;
                 
@@ -1959,7 +1958,6 @@
             
             container.innerHTML = html;
             
-            // Update journey progress label
             const currentLevelWords = userData.vocabulary.filter(v => v.level === currentLevel);
             const currentLevelMastered = currentLevelWords.filter(v => v.mastered).length;
             const progressPercent = currentLevelWords.length > 0 ? 
@@ -1969,31 +1967,30 @@
             document.getElementById('journey-progress').textContent = `Progress: ${progressPercent}% to ${nextLevel}`;
         }
 
-        // Navigation
         window.goToDashboard = () => {
             document.getElementById('main-dashboard').classList.remove('hidden');
             renderDashboard();
         };
 
         window.startMode = (chapterId) => {
-        activeChapId = chapterId;
-        const currentLevel = getCurrentLevel();
-        let pool = userData.vocabulary.filter(v => v.level === currentLevel && !v.mastered);
-    
-        if (pool.length < 5) {
-        alert("Not enough words! Please upload vocabulary first.");
-        return;
-        }
-    
-        currentQueue = shuffle(pool).slice(0, 10);
-        sessionMastered = [];
-        qIndex = 0;
-        score = 0;
-        mistakes = 0;
-    
-        document.getElementById('main-dashboard').classList.add('hidden');
-        document.getElementById('game-container').classList.remove('hidden');
-        renderQ();
+            activeChapId = chapterId;
+            const currentLevel = getCurrentLevel();
+            let pool = userData.vocabulary.filter(v => v.level === currentLevel && !v.mastered);
+        
+            if (pool.length < 5) {
+                alert("Not enough words! Please upload vocabulary first.");
+                return;
+            }
+        
+            currentQueue = shuffle(pool).slice(0, 10);
+            sessionMastered = [];
+            qIndex = 0;
+            score = 0;
+            mistakes = 0;
+        
+            document.getElementById('main-dashboard').classList.add('hidden');
+            document.getElementById('game-container').classList.remove('hidden');
+            renderQ();
         };
 
         window.toggleAdmin = () => {
@@ -2004,7 +2001,6 @@
             document.getElementById('admin-panel').classList.toggle('hidden');
         };
 
-        // DOCX Upload
         window.handleDOCX = async (input) => {
             if (!isAdmin()) {
                 alert("⛔ Admin access required");
@@ -2083,7 +2079,6 @@
                 if (count > 0) {
                     userData.vocabulary = [...userData.vocabulary, ...newVocab];
                     
-                    // Save to Firestore
                     const vocabRef = doc(db, "shared_vocabulary", "cefrix_data");
                     const cleanVocab = userData.vocabulary.map(v => ({
                         english: v.english,
@@ -2097,7 +2092,6 @@
                     log.innerHTML += `<b style="color:#10b981">SUCCESS! ${count} words added. Total: ${userData.vocabulary.length}</b>`;
                     alert(`Success! ${count} words added.`);
                     
-                    // Refresh dashboard
                     await loadData();
                     renderDashboard();
                 } else {
@@ -2131,18 +2125,16 @@
             }
         };
 
-        // Track session end on page unload
         window.addEventListener('beforeunload', () => {
             trackSessionEnd();
         });
 
         // ========== GAME FUNCTIONS ==========
 
-// Render Question
 function renderQ() {
     if (qIndex >= currentQueue.length) return showResult();
     
-    retryAttempts = 0;  // Reset retry counter for new question
+    retryAttempts = 0;
     
     const w = currentQueue[qIndex];
     const ch = activeChapId;
@@ -2153,24 +2145,20 @@ function renderQ() {
     if (ch === 1) {
         html = `<div style="text-align:center;padding:2rem 0"><h2 style="font-size:3.5rem;font-weight:800;color:#2563eb;margin:2rem 0">${w.english}</h2><input id="inp" style="width:100%;padding:1rem 1.5rem;border: 2px solid var(--border-color);border-radius:0.75rem;font-size:1.125rem;text-align:center" placeholder="Type meaning..." onkeypress="if(event.key==='Enter') checkType('${w.indonesian.replace(/'/g, "\\'")}')"><button onclick="checkType('${w.indonesian.replace(/'/g, "\\'")}')" style="background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);color:white;border:none;padding:1rem 2rem;border-radius:0.75rem;font-size:1.125rem;font-weight:600;cursor:pointer;margin-top:1.5rem;max-width:300px;width:100%">Check</button><div id="fb" style="margin-top:1.5rem;padding:1.25rem;border-radius:0.75rem;font-weight:600;display:none"></div></div>`;
     } else if (ch === 2) {
-        // CRITICAL FIX: Clean word AGGRESSIVELY - remove ANY non-letter prefix
         const cleanWord = w.english
-            .replace(/^[^a-zA-Z]+/g, '')          // Remove ANY non-letter at start
-            .replace(/^HIGHLIG\s*/i, '')          // Remove HIGHLIG
-            .replace(/^[A-Z]{5,}\s+/g, '')        // Remove 5+ uppercase
-            .replace(/^[A-Z]{2,}\s+[a-z]\.\s*/g, '') // Remove "XX n."
-            .replace(/[^a-zA-Z\s-]/g, '')         // Remove special chars (keep letters, space, hyphen)
+            .replace(/^[^a-zA-Z]+/g, '')
+            .replace(/^HIGHLIG\s*/i, '')
+            .replace(/^[A-Z]{5,}\s+/g, '')
+            .replace(/^[A-Z]{2,}\s+[a-z]\.\s*/g, '')
+            .replace(/[^a-zA-Z\s-]/g, '')
             .trim();
         
-        // Try to mask with word boundary
         let masked = w.example.replace(new RegExp('\\b' + cleanWord + '\\b', 'gi'), '_____');
         
-        // Fallback: if no blank created, try without word boundary
         if (!masked.includes('_____')) {
             masked = w.example.replace(new RegExp(cleanWord, 'gi'), '_____');
         }
         
-        // Debug log if still fails
         if (!masked.includes('_____')) {
             console.error('FILL BLANK FAILED:', { original: w.english, cleaned: cleanWord, example: w.example });
         }
@@ -2209,19 +2197,16 @@ function startTimer(s) {
 }
 
 function smartCheck(userInput, correctAnswer, isRetry = false) {
-    // Support multiple correct answers (comma-separated)
     const possibleAnswers = correctAnswer.split(',').map(a => a.trim());
     
     const normalize = (str) => str.toLowerCase().replace(/[\s\-_]+/g, '').trim();
     const userNorm = normalize(userInput);
     const userLower = userInput.toLowerCase().trim();
     
-    // Check against ALL possible answers
     for (const answer of possibleAnswers) {
         const correctNorm = normalize(answer);
         const answerLower = answer.toLowerCase().trim();
         
-        // 1. EXACT MATCH
         if (userNorm === correctNorm) {
             return { 
                 correct: true, 
@@ -2230,13 +2215,11 @@ function smartCheck(userInput, correctAnswer, isRetry = false) {
             };
         }
         
-        // 2. TYPO TOLERANCE (1-2 characters difference)
         if (userNorm.length >= 2) {
             const distance = getLevenshteinDistance(userNorm, correctNorm);
             const maxDistance = Math.min(2, Math.floor(correctNorm.length / 4));
             
             if (distance <= maxDistance && distance > 0) {
-                // Still correct! Just show proper spelling
                 return { 
                     correct: true, 
                     matchType: 'typo',
@@ -2245,19 +2228,16 @@ function smartCheck(userInput, correctAnswer, isRetry = false) {
             }
         }
         
-        // 3. PARTIAL WORD MATCH (e.g., "seberang" for "di seberang")
         const answerWords = answerLower.split(/\s+/);
         const userWords = userLower.split(/\s+/);
         
         if (answerWords.length > 1 && userWords.length > 0) {
-            // Count matching words
             const matchCount = userWords.filter(uw => 
                 answerWords.some(aw => aw === uw || aw.includes(uw) || uw.includes(aw))
             ).length;
             
             const matchPercentage = matchCount / answerWords.length;
             
-            // If 50%+ words match → Still correct!
             if (matchPercentage >= 0.5 && matchCount > 0) {
                 return { 
                     correct: true, 
@@ -2267,8 +2247,6 @@ function smartCheck(userInput, correctAnswer, isRetry = false) {
             }
         }
         
-        // 4. SUBSTRING MATCH (user answer is part of correct answer)
-        // e.g., "matikan" for "mematikan" OR "dia" for "dia perempuan"
         if (userNorm.length >= 3) {
             if (correctNorm.includes(userNorm) && userNorm.length >= correctNorm.length * 0.4) {
                 return { 
@@ -2279,8 +2257,6 @@ function smartCheck(userInput, correctAnswer, isRetry = false) {
             }
         }
         
-        // 5. REVERSE SUBSTRING (answer is part of user input)
-        // User might have added extra words
         if (userNorm.includes(correctNorm) && correctNorm.length >= userNorm.length * 0.7) {
             return { 
                 correct: true, 
@@ -2290,11 +2266,10 @@ function smartCheck(userInput, correctAnswer, isRetry = false) {
         }
     }
     
-    // No match found
     return { 
         correct: false, 
         matchType: 'none',
-        bestMatch: possibleAnswers[0] // Return first option as "correct answer"
+        bestMatch: possibleAnswers[0]
     };
 }
 
@@ -2324,8 +2299,6 @@ window.checkType = (c) => {
 }
 
 function showRetryFeedback() {
-    // This function is no longer needed with new system
-    // Keeping for backward compatibility
     const fb = document.getElementById('fb');
     fb.style.display = 'block';
     fb.style.background = '#fffbeb';
@@ -2405,18 +2378,13 @@ function showFb(ok, cor, btn, matchType = 'none', bestMatch = '') {
         fb.style.color = '#059669';
         fb.style.border = '2px solid #10b981';
         
-        // Check if we need to show additional info
         if (matchType === 'exact' || !bestMatch) {
-            // Perfect match - no additional info needed
             fb.innerHTML = "✅ Correct!";
         } else if (matchType === 'typo') {
-            // Typo - show correct spelling
             fb.innerHTML = `✅ Correct!<br><small style="color:#0891b2;"><i class="fas fa-info-circle"></i> Correct spelling: <b>${bestMatch}</b></small>`;
         } else if (matchType === 'partial') {
-            // Partial word match - show complete answer
             fb.innerHTML = `✅ Correct!<br><small style="color:#0891b2;"><i class="fas fa-info-circle"></i> Complete answer: <b>${bestMatch}</b></small>`;
         } else if (matchType === 'subset') {
-            // Subset match - show full meaning
             fb.innerHTML = `✅ Correct!<br><small style="color:#0891b2;"><i class="fas fa-info-circle"></i> Full meaning: <b>${bestMatch}</b></small>`;
         }
         
@@ -2464,21 +2432,18 @@ window.goHome = async () => {
     renderDashboard();
 };
 
-// ========== DARK MODE TOGGLE ==========
 const themeToggle = document.createElement('button');
 themeToggle.className = 'theme-toggle';
 themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
 themeToggle.setAttribute('aria-label', 'Toggle dark mode');
 document.body.appendChild(themeToggle);
 
-// Load saved theme
 const savedTheme = localStorage.getItem('theme') || 'light';
 document.documentElement.setAttribute('data-theme', savedTheme);
 if (savedTheme === 'dark') {
     themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
 }
 
-// Toggle theme
 themeToggle.addEventListener('click', () => {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -2490,9 +2455,6 @@ themeToggle.addEventListener('click', () => {
         ? '<i class="fas fa-sun"></i>' 
         : '<i class="fas fa-moon"></i>';
 });
-
-// ========== END GAME FUNCTIONS ==========
     </script>
 </body>
 </html>
-
