@@ -191,13 +191,12 @@
         .logo-icon {
             width: 48px;
             height: 48px;
-            background: linear-gradient(135deg, #2563eb, #3b82f6);
-            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             position: relative;
+            background: transparent; /* ← UBAH INI dari gradient */
         }
         
         .logo-icon img {
@@ -327,12 +326,10 @@
             width: 160px;
             height: 160px;
             margin: 0 auto 2rem;
-            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2);
+            /* ← HAPUS semua baris background dan box-shadow */
         }
         
         .logo-container img {
@@ -2458,3 +2455,4 @@ themeToggle.addEventListener('click', () => {
     </script>
 </body>
 </html>
+
